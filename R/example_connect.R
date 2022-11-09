@@ -15,17 +15,17 @@ source("creer_temp_isa.R")
 # ecriture de la table dans le schema temp
 DBI::dbExecute(con, "CREATE SCHEMA temp AUTHORIZATION grp_eptbv_planif_dba")
 
-# par defaut dbWriteTable écrit dans public ici une astuce pour écrire dans le schema temp il faut créer un id
+# par defaut dbWriteTable ï¿½crit dans public ici une astuce pour ï¿½crire dans le schema temp il faut crï¿½er un id
 table_isa_id<-DBI::Id(
-    schema=temp,
+    schema= "temp",
     table="temp_isa"
 )
-# écriture de la table
+# ï¿½criture de la table
 DBI::dbWriteTable(con, table_isa_id, temp_isa)
 
 # il vaut mieux faire la suite dans postgres
 
-DBI::dbGetQuery(con, statement= "SELECT * FROM ....")
+DBI::dbGetQuery(con, statement= "SELECT * FROM temp.temp_isa")
 
 
 

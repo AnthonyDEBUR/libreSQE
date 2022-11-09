@@ -6,7 +6,7 @@ library(downloader) # pour télécharger gros fichiers en https dont paramètres
 
 
 # Intervenants
-
+chemin_out <- tempfile()
 download(
   "https://api.sandre.eaufrance.fr/referentiels/v1/int.csv?outputSchema=SANDREv2&compress=true",
   chemin_out,
@@ -49,4 +49,4 @@ names(temp_isa)<-c("isa_codesandre",
                        "drop_3",
                        "drop_4")
 
-temp_isa<-temp_isa%>%select(starts_with("isa_"))
+temp_isa <- temp_isa%>%dplyr::select(starts_with("isa_"))
