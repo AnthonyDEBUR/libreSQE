@@ -1,1 +1,6 @@
 /.project
+.Rproj.user
+.Rhistory
+.dbeaver
+.settings
+libreSQE.Rproj
