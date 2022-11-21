@@ -20,12 +20,12 @@
 ##
 golem::fill_desc(
   pkg_name = "LibreSQE", # The Name of the package containing the App
-  pkg_title = "PKG_TITLE", # The Title of the package containing the App
-  pkg_description = "PKG_DESC.", # The Description of the package containing the App
-  author_first_name = "AUTHOR_FIRST", # Your First Name
-  author_last_name = "AUTHOR_LAST", # Your Last Name
-  author_email = "AUTHOR@MAIL.COM", # Your Email
-  repo_url = NULL # The URL of the GitHub Repo (optional)
+  pkg_title = "LibreSQE", # The Title of the package containing the App
+  pkg_description = "Interface shiny pour l'applicatif de gestion de marchés de suivi qualité d'eau libreSQE.", # The Description of the package containing the App
+  author_first_name = "Anthony", # Your First Name
+  author_last_name = "DE BURGHRAVE", # Your Last Name
+  author_email = "anthony.deburghrave@eaux-et-vilaine.bzh", # Your Email
+  repo_url = "https://github.com/AnthonyDEBUR/libreSQE" # The URL of the GitHub Repo (optional)
 )
 
 ## Set {golem} options ----
@@ -33,7 +33,7 @@ golem::set_golem_options()
 
 ## Create Common Files ----
 ## See ?usethis for more information
-usethis::use_mit_license("Golem User") # You can set another license here
+usethis::use_mit_license("Anthony DE BURGHRAVE") # You can set another license here
 usethis::use_readme_rmd(open = FALSE)
 # Note that `contact` is required since usethis version 2.1.5
 # If your {usethis} version is older, you can remove that param
