@@ -25,8 +25,10 @@ golem::add_module(name = "name_of_module2", with_test = TRUE) # Name of the modu
 
 ## Add helper functions ----
 ## Creates fct_* and utils_*
-golem::add_fct("helpers", with_test = TRUE)
+golem::add_fct("func_charge_ref_sandre_parametres", with_test = TRUE)
 golem::add_utils("helpers", with_test = TRUE)
+
+
 
 ## External resources
 ## Creates .js and .css files at inst/app/www
@@ -52,6 +54,10 @@ devtools::build_vignettes()
 ## Code Coverage----
 ## Set the code coverage service ("codecov" or "coveralls")
 usethis::use_coverage()
+
+
+## pour pouvoir utiliser opérateur %>%
+usethis::use_pipe()
 
 # Create a summary readme for the testthat subdirectory
 covrpage::covrpage()

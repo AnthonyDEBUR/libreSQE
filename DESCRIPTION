@@ -1,15 +1,26 @@
 Package: LibreSQE
 Title: LibreSQE
 Version: 0.0.0.9000
-Authors@R: person('Anthony', 'DE BURGHRAVE', email = 'anthony.deburghrave@eaux-et-vilaine.bzh', role = c('cre', 'aut'))
-Description: Interface shiny pour l'applicatif de gestion de marchés de suivi qualité d'eau libreSQE.
+Authors@R: 
+    person("Anthony", "DE BURGHRAVE", , "anthony.deburghrave@eaux-et-vilaine.bzh", role = c("cre", "aut"))
+Description: Interface shiny pour l'applicatif de gestion de marchés de
+    suivi qualité d'eau libreSQE.
 License: MIT + file LICENSE
-Imports: 
-    config (>= 0.3.1),
-    golem (>= 0.3.5),
-    shiny (>= 1.7.3)
-Encoding: UTF-8
-LazyData: true
-RoxygenNote: 7.1.1
 URL: https://github.com/AnthonyDEBUR/libreSQE
 BugReports: https://github.com/AnthonyDEBUR/libreSQE/issues
+Imports: 
+    config (>= 0.3.1),
+    DBI,
+    downloader,
+    golem (>= 0.3.5),
+    magrittr,
+    shiny (>= 1.7.3),
+    xml2
+Suggests: 
+    spelling,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Encoding: UTF-8
+Language: fr_FR
+LazyData: true
+RoxygenNote: 7.2.2
