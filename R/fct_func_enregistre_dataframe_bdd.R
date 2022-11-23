@@ -18,7 +18,7 @@
 func_enregistre_dataframe_bdd <- function(dataframe_a_enr,
                                           table_destination,
                                           schema_destination,
-                                          connexion = con)
+                                          connexion)
 {
   table_isa_id <- DBI::Id(schema = "temp",
                           table = paste0(table_destination, "_temp"))
@@ -28,7 +28,7 @@ func_enregistre_dataframe_bdd <- function(dataframe_a_enr,
                  paste0("DROP TABLE if exists temp.", table_destination, "_temp"))
   DBI::dbWriteTable(connexion, table_isa_id, dataframe_a_enr)
   tryCatch(
-    DBI::dbExecute(
+    {DBI::dbExecute(
       connexion,
       paste0(
         "INSERT INTO ",
@@ -44,7 +44,9 @@ func_enregistre_dataframe_bdd <- function(dataframe_a_enr,
         table_destination,
         "_temp;"
       )
-    ),
+    )
+    DBI::dbCommit(connexion)}
+    ,
     error = function(e) {
       print(e$message)
       DBI::dbRollback(connexion)

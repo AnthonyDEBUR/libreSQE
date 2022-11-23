@@ -12,9 +12,12 @@ Imports:
     config (>= 0.3.1),
     DBI,
     downloader,
+    dplyr,
     golem (>= 0.3.5),
     magrittr,
+    readr,
     shiny (>= 1.7.3),
+    stringi,
     xml2
 Suggests: 
     spelling,
