@@ -12,7 +12,6 @@
 #'@param connexion : connexion vers la base postgreSQL
 #'
 #'
-#' @noRd
 #'
 #' Les noms de colonnes doivent correspondre aux noms de champs dans la base.
 #'
@@ -20,7 +19,7 @@
 #'
 #' @return résultat de l'exéctution de la requête.
 #'
-#' @noRd
+
 func_update_table <- function(dataframe_a_enr,
                               cle,
                               table_destination,

@@ -25,7 +25,7 @@ golem::add_module(name = "name_of_module2", with_test = TRUE) # Name of the modu
 
 ## Add helper functions ----
 ## Creates fct_* and utils_*
-golem::add_fct("func_update_table", with_test = TRUE)
+golem::add_fct("func_maj_referentiels_sandre", with_test = TRUE)
 golem::add_utils("helpers", with_test = TRUE)
 
 

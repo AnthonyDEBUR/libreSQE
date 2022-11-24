@@ -2,11 +2,10 @@
 #'
 #' @description Charge le référentiel SANDRE des paramètres
 #'
-#'@param date_maj : date à partir de laquelle telecharger les mises à jour
+#' @param date_maj : date à partir de laquelle telecharger les mises à jour
 #'
 #' @return The return value, if any, from executing the function.
 #'
-#' @noRd
 func_charge_referentiel_SANDRE_parametres <-function(date_maj = "1950-01-01")
   {
     param.xml.gz <- tempfile()
