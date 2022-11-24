@@ -6,7 +6,7 @@
 #'
 #' @return Met à jour la bdd postgreSQL associée à libre SQE en actualisant les tables liées au référentiel SANDRE.
 #'
-
+# func_maj_referentiels_sandre(connexion)
 func_maj_referentiels_sandre<-function(connexion)
 {
 
@@ -27,12 +27,12 @@ func_maj_referentiels_sandre<-function(connexion)
   date_maj_table<-dates_maj[dates_maj$ts_table=="tr_parametre_par",]$ts_date-1
 
   table_sandre<-func_charge_referentiel_SANDRE_parametres(date_maj=date_maj_table)
-
-  func_update_table(table_sandre,
+if(!is.null(table_sandre))
+ { func_update_table(table_sandre,
                     "par_cdparametre",
                     "tr_parametre_par",
                     "refer",
-                    connexion)
+                    connexion)}
 
 
   # Mise à jour table référentiel fractions SANDRE
@@ -40,11 +40,12 @@ func_maj_referentiels_sandre<-function(connexion)
 
   table_sandre<-func_charge_ref_sandre_fractions(date_maj=date_maj_table)
 
-  func_update_table(table_sandre,
+  if(!is.null(table_sandre))
+ { func_update_table(table_sandre,
                     "fra_codefraction",
                     "tr_fraction_fra",
                     "refer",
-                    connexion)
+                    connexion)}
 
 
 
@@ -52,14 +53,23 @@ func_maj_referentiels_sandre<-function(connexion)
   date_maj_table<-dates_maj[dates_maj$ts_table=="tr_intervenantsandre_isa",]$ts_date-1
 
   table_sandre<-func_charge_ref_sandre_intervenants(date_maj=date_maj_table)
-
+  if(!is.null(table_sandre)){
   func_update_table(table_sandre,
-                    "isa_",
+                    "isa_codesandre",
                     "tr_intervenantsandre_isa",
                     "refer",
-                    connexion)
+                    connexion)}
 
+  # Mise à jour table référentiel unités SANDRE
+  date_maj_table<-dates_maj[dates_maj$ts_table=="tr_uniteparametre_uni",]$ts_date-1
 
+  table_sandre<-func_charge_ref_sandre_intervenants(date_maj=date_maj_table)
+  if(!is.null(table_sandre)){
+    func_update_table(table_sandre,
+                      "uni_codesandreunite",
+                      "tr_uniteparametre_uni",
+                      "refer",
+                      connexion)}
 
 
   # Mise à jour table référentiel méthodes SANDRE
