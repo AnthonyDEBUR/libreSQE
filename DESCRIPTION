@@ -8,6 +8,8 @@ Description: Interface shiny pour l'applicatif de gestion de marchés de
 License: MIT + file LICENSE
 URL: https://github.com/AnthonyDEBUR/libreSQE
 BugReports: https://github.com/AnthonyDEBUR/libreSQE/issues
+Depends: 
+    R (>= 2.10)
 Imports: 
     config (>= 0.3.1),
     DBI,
@@ -16,6 +18,7 @@ Imports:
     golem (>= 0.3.5),
     magrittr,
     readr,
+    readxl,
     shiny (>= 1.7.3),
     stringi,
     xml2

@@ -7,7 +7,6 @@
 #'
 #' @return The return value, if any, from executing the function.
 #'
-#' @noRd
 func_charge_ref_sandre_unites <- function(date_maj = "1950-01-01")
 {
   unites.csv.gz <- tempfile()
@@ -41,6 +40,9 @@ func_charge_ref_sandre_unites <- function(date_maj = "1950-01-01")
         "uni_symbole" = "Symbole de l'unite de reference",
         "uni_lblsandreunite" = "Libelle de l'unite de reference"
       ) %>% dplyr::select(uni_codesandreunite, uni_symbole, uni_lblsandreunite)
+
+    unites_sandre$uni_codesandreunite<-as.character(unites_sandre$uni_codesandreunite)
+
   } else{
     unites_sandre <- NULL
   }

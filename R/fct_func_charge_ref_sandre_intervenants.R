@@ -83,7 +83,8 @@ func_charge_ref_sandre_intervenants <-  function(date_maj = "1950-01-01")
       "isa_codepostal"
     )
     intervenants_sandre$isa_datecreation<-as.Date(intervenants_sandre$isa_datecreation)
-    intervenants_sandre$isa_datemaj<-as.Date(intervenants$isa_datemaj)
+    intervenants_sandre$isa_datemaj<-as.Date(intervenants_sandre$isa_datemaj)
+    intervenants_sandre$isa_codepostal<-as.numeric(intervenants_sandre$isa_codepostal)
 
     intervenants_sandre<-intervenants_sandre%>%subset(as.Date(isa_datemaj)>=as.Date(date_maj))
 

@@ -27,7 +27,7 @@ func_update_table <- function(dataframe_a_enr,
                               connexion)
 {
   if(!("character"%in%class(cle))){stop("le paramètre cle doit être de classe character")}
-  if(!all(cle%in%names(dataframe_a_enr))){stop("la dataframe à enregistrer doit avoir parmi ses colonens la cle de mise à jour.")}
+  if(!all(cle%in%names(dataframe_a_enr))){stop("la dataframe à enregistrer doit avoir parmi ses colonnes la cle de mise à jour.")}
 
   # cle<-"par_cdparametre"
   # dataframe_a_enr<-func_charge_referentiel_SANDRE_parametres(date_maj="2022-03-01")
