@@ -41,16 +41,16 @@ func_charge_marche <- function(fichier_prog, connexion, mar_id)
                                       "pru_datedebut"="date_debut_validite_prix",
                                       "pru_datefin"="date_fin_validite_prix")
 
-    t_prixunitairerunanalytique_prr <-
-    cout_run_analytiques %>% dplyr::select(run_analytique,
-                                           code_methode_sandre,
-                                           prix_unitaire_ht,
-                                           date_debut_validite_prix,
-                                           date_fin_validite_prix)
-  t_prixunitairerunanalytique_prr$prr_mar_id <- mar_id
-  table_runanalytique <-
-    cout_run_analytiques %>% dplyr::select(run_analytique, code_methode_sandre)
-  names(table_runanalytique) <- c("run_nom", "run_met_code")
+  #   t_prixunitairerunanalytique_prr <-
+  #   cout_run_analytiques %>% dplyr::select(run_analytique,
+  #                                          code_methode_sandre,
+  #                                          prix_unitaire_ht,
+  #                                          date_debut_validite_prix,
+  #                                          date_fin_validite_prix)
+  # t_prixunitairerunanalytique_prr$prr_mar_id <- mar_id
+  # table_runanalytique <-
+  #   cout_run_analytiques %>% dplyr::select(run_analytique, code_methode_sandre)
+  # names(table_runanalytique) <- c("run_nom", "run_met_code")
 
 
 }
