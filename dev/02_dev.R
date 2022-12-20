@@ -25,7 +25,7 @@ golem::add_module(name = "name_of_module2", with_test = TRUE) # Name of the modu
 
 ## Add helper functions ----
 ## Creates fct_* and utils_*
-golem::add_fct("func_lit_le_fichier", with_test = TRUE)
+golem::add_fct("func_charge_prog_annuelle", with_test = TRUE)
 golem::add_utils("helpers", with_test = TRUE)
 
 

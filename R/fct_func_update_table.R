@@ -41,9 +41,7 @@ func_update_table <- function(dataframe_a_enr,
   #                             password= "postgres")
 
   # chargement de la table à mettre à jour
-  tbl_a_maj<-DBI::dbReadTable(connexion, DBI::Id(schema=schema_destination,
-                                      table=table_destination))
-
+  tbl_a_maj<-DBI::dbGetQuery(connexion, paste0("SELECT * FROM ",schema_destination,".",table_destination,";"))
 
   # identificationdes lignes à insérer
   lignes_a_inserer<-dataframe_a_enr[!(dataframe_a_enr[[cle]]%in%tbl_a_maj[[cle]]),]
@@ -53,7 +51,9 @@ func_update_table <- function(dataframe_a_enr,
   table_isa_id <- DBI::Id(schema = "temp",
                           table = paste0(table_destination, "_temp"))
   # ecriture de la table
-  DBI::dbBegin(connexion) # commence transaction SQL
+  conn<-  pool::poolCheckout(connexion)
+  on.exit(pool::poolReturn(conn))
+  pool::dbBegin(conn) # commence transaction SQL
   DBI::dbExecute(connexion,
                  paste0("DROP TABLE if exists temp.", table_destination, "_temp"))
   DBI::dbWriteTable(connexion, table_isa_id, lignes_a_inserer)
@@ -79,7 +79,7 @@ func_update_table <- function(dataframe_a_enr,
       },
     error = function(e) {
       print(e$message)
-      DBI::dbRollback(connexion)
+      pool::dbRollback(conn)
     }
   )}
 
@@ -91,7 +91,9 @@ func_update_table <- function(dataframe_a_enr,
     table_isa_id <- DBI::Id(schema = "temp",
                             table = paste0(table_destination, "_temp"))
     # ecriture de la table
-    DBI::dbBegin(connexion) # commence transaction SQL
+    conn<-  pool::poolCheckout(connexion)
+    on.exit(pool::poolReturn(conn))
+    pool::dbBegin(conn) # commence transaction SQL
     DBI::dbExecute(connexion,
                    paste0("DROP TABLE if exists temp.", table_destination, "_temp"))
     DBI::dbWriteTable(connexion, table_isa_id, lignes_a_inserer)
@@ -123,14 +125,14 @@ func_update_table <- function(dataframe_a_enr,
            table_destination,".",cle,";"
         )
       )
-        DBI::dbCommit(connexion)
+        pool::dbCommit(conn)
       },
       error = function(e) {
         print(e$message)
-        DBI::dbRollback(connexion)
+        pool::dbRollback(conn)
       }
     )
-
+    pool::poolReturn(conn)
 
   }
 

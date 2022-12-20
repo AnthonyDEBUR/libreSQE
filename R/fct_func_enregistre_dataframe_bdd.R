@@ -20,10 +20,15 @@ func_enregistre_dataframe_bdd <- function(dataframe_a_enr,
                                           schema_destination,
                                           connexion)
 {
+
+  conn<-  pool::poolCheckout(connexion)
+  on.exit(pool::poolReturn(conn))
+  pool::dbBegin(conn)
+
   table_isa_id <- DBI::Id(schema = "temp",
                           table = paste0(table_destination, "_temp"))
   # ecriture de la table
-  DBI::dbBegin(connexion) # commence transaction SQL
+  # DBI::dbBegin(connexion) # commence transaction SQL
   DBI::dbExecute(connexion,
                  paste0("DROP TABLE if exists temp.", table_destination, "_temp"))
   DBI::dbWriteTable(connexion, table_isa_id, dataframe_a_enr)
@@ -45,11 +50,11 @@ func_enregistre_dataframe_bdd <- function(dataframe_a_enr,
         "_temp;"
       )
     )
-    DBI::dbCommit(connexion)}
+    pool::dbCommit(conn)}
     ,
     error = function(e) {
       print(e$message)
-      DBI::dbRollback(connexion)
+      pool::dbRollback(conn)
     }
   )
 }

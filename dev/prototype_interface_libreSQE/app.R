@@ -5,6 +5,13 @@ library(shiny)
 library(shinipsum)
 library(DT)
 library(tidyverse)
+library(shinybusy)
+library(tools4DCE)
+library(readxl)
+
+# limite fichier uploadable 120 Mo
+options(shiny.maxRequestSize = 120*1024^2)
+
 
 connexion <- DBI::dbConnect(
   RPostgres::Postgres(),
@@ -23,25 +30,13 @@ tableau_per_gest <-
   DBI::dbReadTable(connexion, DBI::Id(schema = "refer",
                                       table = "tr_perimetre_per"))
 
-library(tools4DCE)
-# pluie UGVE aout
-fichier <-
-  "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2022\\marché et commande\\05_livrables\\QUESU3_EPTB_VILAINE-CAB_2022-08-02_0400003224\\QUESU3_EPTB_VILAINE-CAB_2022-08-17_0400003223.xml"
-if (!exists("fichier_xml")) {
-  fichier_xml <- import_QESU_PHY_v3(fichier)
-}
-analyses_xml <- fichier_xml$analyses
-cond_environ_xml <- fichier_xml$cond_env
-operations_xml <- fichier_xml$operations
-
-library(readxl)
 
 fichier_prog <-
   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\R_Anthony\\libreSQE\\dev\\v2 prog EPTB Est_Ouest 2022 - commande_3 derniers trimestres_ajout suivis Captages_version dev libreSQE.xlsx"
 
-param_perimetre_facturation <- "UGVE"
-param_rattachement_bdc <- "pluie"
-param_mois <- "aout"
+# param_perimetre_facturation <- "UGVE"
+# param_rattachement_bdc <- "pluie"
+# param_mois <- "aout"
 
 prog_annuelle <- read_xlsx(fichier_prog,
                            sheet = "programme_annuel",
@@ -79,145 +74,176 @@ prog_previsionnelle <-
   prog_previsionnelle %>% subset(quantite_commandee > 0)
 
 
-bdc <-
-  prog_previsionnelle %>% subset(
-    perimetre_facturation == param_perimetre_facturation &
-      rattachement_devis == param_rattachement_bdc &
-      mois == param_mois
+table_stat_analyses <-
+  readRDS(
+    "C:/workspace/LibreSQE/dev/prototype_interface_libreSQE/data/table_stat_analyses.rds"
+  )
+table_stat_analyses_toutes_staq <-
+  readRDS(
+    "C:/workspace/LibreSQE/dev/prototype_interface_libreSQE/data/table_stat_analyses_toutes_staq.rds"
   )
 
-analyses_attendues_bdc <-
-  left_join(bdc, programmes_types, by = c("programme" = "PROGRAMME"))
 
-analyses_attendues_bdc <-
-  left_join(analyses_attendues_bdc,
-            cout_run_analytiques,
-            by = c("RUN ANALYTIQUE"))
 
 # Define UI for application that draws a histogram
 ui <- navbarPage(
-  "Prototype de l'interface de libreSQE",
+ title=div(img(src="favicon.ico"), "Prototype de l'interface de libreSQE"),
+  theme = bslib::bs_theme(
+    version = 5,
+    primary = "#00218f",
+    success = "#33b5ff",
+    info = "#00C9C4",
+    warning = "#ffb428",
+    base_font = "Segoe UI Symbol",
+    heading_font = "Georgia",
+    font_scale = NULL,
+    `enable-gradients` = TRUE,
+    bootswatch = "cerulean"
+  ),
   tabPanel("Synthèse"),
   navbarMenu(
+    ##### UI ANALYSES #####
     "Analyses",
-    tabPanel(
-      "Mes analyses à qualifier",
-      fluidRow(
-        column(2,
-          "Sélection du jeu de données",
-          selectInput(
-            "select_marche_prog_annuelle_a_importer",
-            "Sélectionnez le marché concerné",
-            choices = c(
-              "Marché labo n°1 - 2022",
-              "Marché labo n°2 - 2022",
-              "Marché labo n°1 - 2023-2025",
-              "Marché labo n°3 - 2023"
-            )
-          ),
-          selectInput(
-            "select_bdc",
-            "Sélectionnez le bon de commande concerné",
-            choices = c(
-              "2022-3_UGVO_pluie_avril_2022",
-              "2022-3_UGVO_calendaire_avril_2022"
-            )
-          ),
-          selectInput(
-            "select_depot",
-            "Sélectionnez le dépôt concerné",
-            choices = c("2022-12-01_dépôt1_carso")
-          ),
-          checkboxGroupInput(
-            "check_statut_depot_a_afficher",
-            label = "Statut des dépôts à afficher",
-            choices = c("en cours", "clôs"),
-            selected = 'en cours'
-          ),
-          checkboxGroupInput(
-            "check_qualification_analyses_a_afficher",
-            label = "Qualification des analyses à afficher",
-            choices = c("Correcte",
-                        "Incorrecte",
-                        "Incertaine",
-                        "Non qualifié"),
-            selected = c("Incorrecte", "Incertaine")
-          ),
-          checkboxGroupInput(
-            "check_statut_analyses_a_afficher",
-            label = "Statut des analyses à afficher",
-            choices = c("Donnée brute",
-                        "Niveau 1",
-                        "Niveau 2")
-          )
-        ),
-        column(8,
-        DTOutput("dt_analyses_a_qualifier"),
-        actionButton(
-          "btn_valide_selection",
-          "Valider l'ensemble des données affichées"
-        ),
-        actionButton(
-          "btn_invalide_selection",
-          "Invalider l'ensemble des données affichées"
-        ),
-        p("On sélectionne les lignes à requalifier à l'aide des filtres du tableau dt_analyses_a_qualifier.
+    tabPanel("Mes analyses à qualifier",
+             fluidRow(
+               column(
+                 2,
+                 "Sélection du jeu de données",
+                 selectInput(
+                   "select_marche_prog_annuelle_a_importer",
+                   "Sélectionnez le marché concerné",
+                   choices = c(
+                     "Marché labo n°1 - 2022",
+                     "Marché labo n°2 - 2022",
+                     "Marché labo n°1 - 2023-2025",
+                     "Marché labo n°3 - 2023"
+                   )
+                 ),
+                 selectInput(
+                   "select_bdc",
+                   "Sélectionnez le bon de commande concerné",
+                   choices = c(
+                     "2022-3_UGVO_pluie_avril_2022",
+                     "2022-3_UGVO_calendaire_avril_2022"
+                   )
+                 ),
+                 selectInput(
+                   "select_depot",
+                   "Sélectionnez le dépôt concerné",
+                   choices = c("2022-12-01_dépôt1_carso")
+                 ),
+                 checkboxGroupInput(
+                   "check_statut_depot_a_afficher",
+                   label = "Statut des dépôts à afficher",
+                   choices = c("en cours", "clôs"),
+                   selected = 'en cours'
+                 ),
+                 checkboxGroupInput(
+                   "check_qualification_analyses_a_afficher",
+                   label = "Qualification des analyses à afficher",
+                   choices = c("Correcte",
+                               "Incorrecte",
+                               "Incertaine",
+                               "Non qualifié"),
+                   selected = c("Incorrecte", "Incertaine")
+                 ),
+                 checkboxGroupInput(
+                   "check_statut_analyses_a_afficher",
+                   label = "Statut des analyses à afficher",
+                   choices = c("Donnée brute",
+                               "Niveau 1",
+                               "Niveau 2")
+                 )
+               ),
+               column(
+                 8,
+                 DTOutput("dt_analyses_a_qualifier"),
+                 actionButton(
+                   "btn_valide_selection",
+                   "Valider l'ensemble des données affichées"
+                 ),
+                 actionButton(
+                   "btn_invalide_selection",
+                   "Invalider l'ensemble des données affichées"
+                 ),
+                 p(
+                   "On sélectionne les lignes à requalifier à l'aide des filtres du tableau dt_analyses_a_qualifier.
           Si on clique sur une ligne alors bouton apparait pour affichage d'un graph avec le paramètre et son historique sur la station,
           un graph (boite à moustache avec ligne verticale ccorrespondant à la valeur d'analyse)
           avec la situation du résultat d'analyse dans la distribution à la station,
           à la station pour le même mois +/-1,
           pour toutes les stations,
           pour toutes les stations sur le même mois +/-1,
-          "),
-        p("S'affiche également un bouton pour affichage du % de quantif pour le
-          paramètre dans le dépôt vs reste des données (avec des classes par taux de quantif)"),
-        p("bouton pour afficher également les débits et données météo entre j-5 et j+2 par rapport à l'analyse
-          (données geosas https://geosas.fr/geonetwork/srv/fre/catalog.search#/metadata/643fcbf3-d890-4836-bf62-1204c043bc81 et https://geosas.fr/simfen/"),
-        p("boutons pour accéder aux graphs précompilés de la station concernée de vilaine explorer
-          sur PC, pesticides (1 et 2), autres polluants PC, polluants spé")
+          "
+                 ),
+                 p(
+                   "S'affiche également un bouton pour affichage du % de quantif pour le
+          paramètre dans le dépôt vs reste des données (avec des classes par taux de quantif)"
+                 ),
+                 p(
+                   "bouton pour afficher également les débits et données météo entre j-5 et j+2 par rapport à l'analyse
+          (données geosas https://geosas.fr/geonetwork/srv/fre/catalog.search#/metadata/643fcbf3-d890-4836-bf62-1204c043bc81 et https://geosas.fr/simfen/"
+                 ),
+                 p(
+                   "boutons pour accéder aux graphs précompilés de la station concernée de vilaine explorer
+          sur PC, pesticides (1 et 2), autres polluants PC, polluants spé"
+                 )
 
-        )
-      )
-
-    ),
+               )
+             )),
     tabPanel("Rechercher / éditer des analyses",
              fluidRow(
-               column(2,
-                      "Sélection du jeu de données",
-                      p("Constructeur de requête SQL avec choix (ou pas si non renseigné)
+               column(
+                 2,
+                 "Sélection du jeu de données",
+                 p(
+                   "Constructeur de requête SQL avec choix (ou pas si non renseigné)
                         sur code station, code paramètre, code fraction, code unité,
                         date début, date fin prélèvement, dispositif de collecte, laboratoire,
-                        préleveur, qualification, ...")
+                        préleveur, qualification, ..."
+                 )
                ),
-               column(8,
-                      DTOutput("dt_analyses_a_qualifier2"),
-                      p("possibilité d'éditer certaines valeurs (résultat d'analyses, LQ, LD, code unité, ... dans le DT)"),
-                      actionButton(
-                        "btn_valide_selection",
-                        "Valider l'ensemble des données affichées"
-                      ),
-                      actionButton(
-                        "btn_invalide_selection",
-                        "Invalider l'ensemble des données affichées"
-                      ),
-                      p("On sélectionne les lignes à requalifier à l'aide des filtres du tableau dt_analyses_a_qualifier.
+               column(
+                 8,
+                 DTOutput("dt_analyses_a_qualifier2"),
+                 p(
+                   "possibilité d'éditer certaines valeurs (résultat d'analyses, LQ, LD, code unité, ... dans le DT)"
+                 ),
+                 actionButton(
+                   "btn_valide_selection",
+                   "Valider l'ensemble des données affichées"
+                 ),
+                 actionButton(
+                   "btn_invalide_selection",
+                   "Invalider l'ensemble des données affichées"
+                 ),
+                 p(
+                   "On sélectionne les lignes à requalifier à l'aide des filtres du tableau dt_analyses_a_qualifier.
           Si on clique sur une ligne alors bouton apparait pour affichage d'un graph avec le paramètre et son historique sur la station,
           un graph (boite à moustache avec ligne verticale ccorrespondant à la valeur d'analyse)
           avec la situation du résultat d'analyse dans la distribution à la station,
           à la station pour le même mois +/-1,
           pour toutes les stations,
           pour toutes les stations sur le même mois +/-1,
-          "),
-                      p("S'affiche également un bouton pour affichage du % de quantif pour le
-          paramètre dans le dépôt vs reste des données (avec des classes par taux de quantif)"),
-                      p("bouton pour afficher également les débits et données météo entre j-5 et j+2 par rapport à l'analyse
-          (données geosas https://geosas.fr/geonetwork/srv/fre/catalog.search#/metadata/643fcbf3-d890-4836-bf62-1204c043bc81 et https://geosas.fr/simfen/"),
-                      p("boutons pour accéder aux graphs précompilés de la station concernée de vilaine explorer
-          sur PC, pesticides (1 et 2), autres polluants PC, polluants spé")
+          "
+                 ),
+                 p(
+                   "S'affiche également un bouton pour affichage du % de quantif pour le
+          paramètre dans le dépôt vs reste des données (avec des classes par taux de quantif)"
+                 ),
+                 p(
+                   "bouton pour afficher également les débits et données météo entre j-5 et j+2 par rapport à l'analyse
+          (données geosas https://geosas.fr/geonetwork/srv/fre/catalog.search#/metadata/643fcbf3-d890-4836-bf62-1204c043bc81 et https://geosas.fr/simfen/"
+                 ),
+                 p(
+                   "boutons pour accéder aux graphs précompilés de la station concernée de vilaine explorer
+          sur PC, pesticides (1 et 2), autres polluants PC, polluants spé"
+                 )
 
                )
              ))
   ),
+  ##### UI LIVRABLES #####
   navbarMenu(
     "Livrables",
     tabPanel(
@@ -237,6 +263,23 @@ ui <- navbarPage(
           "Prestataire en charge du marché 1",
           "Prestataire en charge du marché 2"
         )
+      ),
+      selectInput("select_mois",
+                  "provisoire : mois à afficher",
+                  choices = c(unique(
+                    prog_previsionnelle$mois
+                  ))),
+      selectInput(
+        "select_rattachement",
+        "provisoire : rattachement devis",
+        choices = c(unique(prog_previsionnelle$rattachement_devis))
+      ),
+      selectInput(
+        "select_perimetre_fact",
+        "provisoire : perimetre facturation",
+        choices = c(unique(
+          prog_previsionnelle$perimetre_facturation
+        ))
       ),
       fileInput("import_xml",
                 label = "Sélectionner fichier xml de résultats"),
@@ -277,10 +320,42 @@ ui <- navbarPage(
                dépôt toutes les analyses qualifiée en niveau 1 (automatique)
                basculent en niveau 2. S'il reste des analyses incertaines,
                fenêtre d'alerte demandant de confirmer la clôture"
+      ),
+      tabsetPanel(
+        tabPanel("stations manquantes",
+                 DTOutput("tbl_staq_missing")),
+        tabPanel(
+          "stations manquantes (cond env)",
+          DTOutput("tbl_staq_missing_cond_env")
+        ),
+        tabPanel(
+          "stations manquantes (opér)",
+          DTOutput("tbl_staq_missing_oper")
+        ),
+
+        tabPanel(
+          "Résultats analyses manquants",
+          DTOutput("tbl_result_missing")
+        ),
+        tabPanel("Résultats analyses en +",
+                 DTOutput("tbl_result_en_trop")),
+        tabPanel(
+          "Vérif du code dispositif de collecte",
+          DTOutput("tbl_verif_rdd")
+        ),
+        tabPanel("Vérif du respect des LQ",
+                 DTOutput("tbl_LQ_ko")),
+        tabPanel("Vérif des accréditations",
+                 DTOutput("tbl_accred_ko")),
+        tabPanel("Vérif des incertitudes",
+                 DTOutput("tbl_incert_ko")),
+        tabPanel("Vérif des méthodes",
+                 DTOutput("tbl_methode_ko"))
       )
 
     )
   ),
+  ###### UI BDC #####
   navbarMenu(
     "Commandes",
     tabPanel(
@@ -296,7 +371,7 @@ ui <- navbarPage(
         )
       ),
       selectInput(
-        "select_perimetre_facturation",
+        "select_perimetre_fact",
         "Sélectionnez le périmètre de facturation concerné",
         choices = c("UGVO",
                     "UGVE",
@@ -419,6 +494,7 @@ ui <- navbarPage(
 
     )
   ),
+  ###### UI Marchés #######
   navbarMenu(
     "Marchés",
     tabPanel(
@@ -769,10 +845,6 @@ ui <- navbarPage(
 
 # Define server logic required to draw a histogram
 server <- function(input, output) {
-  # qualif analyses
-
-  output$dt_analyses_a_qualifier <- renderDT(analyses_xml)
-
 
 
   # bon de commande
@@ -794,7 +866,7 @@ server <- function(input, output) {
   output$DT_bpu_run_analytiques <- renderDT(cout_run_analytiques)
 
   output$DT_prog_types <-
-    renderDT(programmes_types %>% select(-`LIMITE DE QUANTIFICATION PRECONISEE`,-STATUT))
+    renderDT(programmes_types %>% select(-`LIMITE DE QUANTIFICATION PRECONISEE`, -STATUT))
 
 
   # prog annuelle
@@ -814,6 +886,709 @@ server <- function(input, output) {
     renderDT(calendrier %>% dplyr::mutate(total = rowSums(across(janvier:décembre)),
                                           .before =
                                             janvier))
+
+
+  ##### LIVRABLES #####
+
+  fichier_xml <- reactiveValues(
+    analyses_xml = data.frame(),
+    cond_environ_xml = data.frame(),
+    operations_xml = data.frame(),
+    tbl_staq_missing = data.frame(),
+    tbl_staq_missing_cond_env = data.frame(),
+    tbl_staq_missing_oper = data.frame(),
+    tbl_result_missing = data.frame(),
+    tbl_result_en_trop = data.frame(),
+    tbl_verif_rdd = character(0),
+    tbl_LQ_ko = data.frame(),
+    tbl_accred_ko = data.frame(),
+    tbl_incert_ko = data.frame(),
+    tbl_methode_ko = data.frame(),
+    tbl_rs_anal = data.frame()
+  )
+
+  output$tbl_staq_missing <-
+    renderDT({
+      datatable(
+        req(fichier_xml$tbl_staq_missing),
+        options = list(pageLength = 5, rownames = FALSE),
+        filter = 'top'
+      )
+    })
+
+  output$tbl_result_missing <-
+    renderDT({
+      datatable(
+        req(fichier_xml$tbl_result_missing),
+        options = list(pageLength = 5, rownames = FALSE),
+        filter = 'top'
+      )
+    })
+  output$tbl_result_en_trop <-
+    renderDT({
+      datatable(
+        req(fichier_xml$tbl_result_en_trop),
+        options = list(pageLength = 5, rownames = FALSE),
+        filter = 'top'
+      )
+    })
+  output$tbl_LQ_ko <- renderDT({
+    datatable(
+      req(fichier_xml$tbl_LQ_ko),
+      options = list(pageLength = 5, rownames = FALSE),
+      filter = 'top'
+    )
+  })
+  output$tbl_accred_ko <-
+    renderDT({
+      datatable(
+        req(fichier_xml$tbl_accred_ko),
+        options = list(pageLength = 5, rownames = FALSE),
+        filter = 'top'
+      )
+    })
+  output$tbl_incert_ko <-
+    renderDT({
+      datatable(
+        req(fichier_xml$tbl_incert_ko),
+        options = list(pageLength = 5, rownames = FALSE),
+        filter = 'top'
+      )
+    })
+  output$tbl_methode_ko <-
+    renderDT({
+      datatable(
+        req(fichier_xml$tbl_methode_ko),
+        options = list(pageLength = 5, rownames = FALSE),
+        filter = 'top'
+      )
+    })
+  output$tbl_staq_missing_cond_env <-
+    renderDT({
+      datatable(
+        req(fichier_xml$tbl_staq_missing_cond_env),
+        options = list(pageLength = 5, rownames = FALSE),
+        filter = 'top'
+      )
+    })
+  output$tbl_staq_missing_oper <-
+    renderDT({
+      datatable(
+        req(fichier_xml$tbl_staq_missing_oper),
+        options = list(pageLength = 5, rownames = FALSE),
+        filter = 'top'
+      )
+    })
+  output$tbl_verif_rdd <-
+    renderDT({
+      datatable(
+        req(fichier_xml$tbl_verif_rdd),
+        options = list(pageLength = 5, rownames = FALSE),
+        filter = 'top'
+      )
+    })
+
+  output$dt_analyses_a_qualifier <-
+    renderDT({
+      datatable(
+        req(fichier_xml$tbl_rs_anal),
+        options = list(pageLength = 5, rownames = FALSE),
+        filter = 'top'
+      )
+    })
+
+  observeEvent(input$btn_import_xml,
+               {
+                 if (!is.null(input$import_xml$datapath)) {
+                   show_modal_spinner(text = "Import du fichier en cours")
+                   tmp <- import_QESU_PHY_v3(input$import_xml$datapath)
+                   fichier_xml$analyses_xml <- tmp$analyses
+                   fichier_xml$cond_environ_xml <- tmp$cond_env
+                   fichier_xml$operations_xml <- tmp$operations
+
+                   update_modal_spinner(text = "Traitement du fichier en cours")
+                   analyses_xml <- fichier_xml$analyses_xml
+                   cond_environ_xml <- fichier_xml$cond_environ_xml
+                   operations_xml <- fichier_xml$operations_xml
+
+                   devis <-
+                     prog_previsionnelle %>% subset(
+                       perimetre_facturation == input$select_perimetre_fact &
+                         rattachement_devis == input$select_rattachement &
+                         mois == input$select_mois
+                     )
+
+                   analyses_attendues_devis <-
+                     left_join(devis, programmes_types, by = c("programme" = "PROGRAMME"))
+
+                   analyses_attendues_devis <-
+                     left_join(analyses_attendues_devis,
+                               cout_run_analytiques,
+                               by = c("RUN ANALYTIQUE"))
+
+                   ##### Stations manquantes dans analyses #####
+                   liste_cd_station_abs_analyses <-
+                     analyses_attendues_devis$`CODE SANDRE STATION`[!(
+                       analyses_attendues_devis$`CODE SANDRE STATION` %in% analyses_xml$CdStationMesureEauxSurface
+                     )] %>% unique()
+
+                   station_manquant <-
+                     data.frame(CdStationMesureEauxSurface = liste_cd_station_abs_analyses)
+                   station_manquant <- ajoute_nom_station(station_manquant)
+
+                   fichier_xml$tbl_staq_missing <- station_manquant
+
+                   ##### Stations manquantes dans cond env #####
+                   liste_cd_station_abs_analyses <-
+                     analyses_attendues_devis$`CODE SANDRE STATION`[!analyses_attendues_devis$`CODE SANDRE STATION` %in%
+                                                                      cond_environ_xml$CdStationMesureEauxSurface] %>% unique()
+
+                   manquant <-
+                     data.frame(CdStationMesureEauxSurface = liste_cd_station_abs_analyses)
+                   manquant <- ajoute_nom_station(manquant)
+
+                   fichier_xml$tbl_staq_missing_cond_env <- manquant
+
+                   ##### Stations manquantes dans opérations #####
+                   liste_cd_station_abs_analyses <-
+                     analyses_attendues_devis$`CODE SANDRE STATION`[!analyses_attendues_devis$`CODE SANDRE STATION` %in%
+                                                                      operations_xml$CdStationMesureEauxSurface] %>% unique()
+
+                   manquant <-
+                     data.frame(CdStationMesureEauxSurface = liste_cd_station_abs_analyses)
+                   manquant <- ajoute_nom_station(manquant)
+
+                   fichier_xml$tbl_staq_missing_oper <- manquant
+
+                   ##### Analyses en + / en - #####
+                   analyses_attendues_devis$cle <-
+                     paste0(
+                       analyses_attendues_devis$`CODE SANDRE STATION`,
+                       "_",
+                       analyses_attendues_devis$`CODE SANDRE FRACTION`,
+                       "_",
+                       analyses_attendues_devis$`CODE SANDRE PARAMETRE`,
+                       "_",
+                       analyses_attendues_devis$`CODE SANDRE UNITE`,
+                       "_",
+                       ifelse(
+                         tolower(analyses_attendues_devis$`ANALYSES IN-SITU`) == "oui",
+                         "1",
+                         "2"
+                       )
+                     )
+
+                   synthese_analyses_attendues <-
+                     analyses_attendues_devis %>% group_by(cle) %>% dplyr::count(name = "n_prog")
+
+
+                   analyses_xml <-
+                     analyses_xml %>% ajoute_nom_fraction() %>% ajoute_nom_unite()
+                   analyses_xml$cle <- paste0(
+                     analyses_xml$CdStationMesureEauxSurface,
+                     "_",
+                     analyses_xml$CdFractionAnalysee,
+                     "_",
+                     analyses_xml$CdParametre,
+                     "_",
+                     analyses_xml$CdUniteMesure,
+                     "_",
+                     analyses_xml$CdInsituAna
+                   )
+
+                   cle_analyses_xml <-
+                     analyses_xml %>% group_by(cle) %>% dplyr::count(name = "n_xml")
+
+                   delta_rendu <- full_join(synthese_analyses_attendues,
+                                            cle_analyses_xml,
+                                            by = "cle")
+
+                   delta_rendu <- delta_rendu %>% replace_na(list(n_xml = 0,
+                                                                  n_prog = 0))
+                   delta_rendu$manquant <-
+                     delta_rendu$n_prog - delta_rendu$n_xml
+
+                   # analyses attendues et absentes du rendu (hors station manquante)
+                   delta_manquant <- delta_rendu %>% subset(manquant > 0)
+
+                   fichier_xml$tbl_result_missing <-
+                     analyses_attendues_devis %>%
+                     subset(cle %in% delta_manquant$cle) %>%
+                     subset(!(
+                       `CODE SANDRE STATION` %in% station_manquant$CdStationMesureEauxSurface
+                     ))
+
+                   # analyses rendues et non attendues
+                   delta_enplus <- delta_rendu %>% subset(manquant < 0)
+
+                   analyses_enplus <-
+                     analyses_xml %>%
+                     subset(cle %in% delta_enplus$cle) %>%
+                     subset(
+                       !(
+                         CdStationMesureEauxSurface %in% station_manquant$CdStationMesureEauxSurface
+                       )
+                     )
+
+                   fichier_xml$tbl_result_en_trop <-
+                     ajoute_nom_param(analyses_enplus)
+
+                   ##### Verif code Rdd #####
+                   # ajout nom reseaux
+                   anal_reseaux <-
+                     analyses_xml %>% select(CdStationMesureEauxSurface, CdRdd)
+
+                   # on détermine le nb max de codes réseaux pour une même analyse
+                   tmp <-
+                     gsub("[^//]+", "", anal_reseaux$CdRdd %>%
+                            unique()) %>%
+                     nchar() %>%
+                     max(na.rm = T) + 1
+
+                   # on split la colonne des codes reseaux pour séparer les codes multiples
+                   anal_reseaux <-
+                     separate(
+                       anal_reseaux,
+                       col = CdRdd,
+                       sep = "[//]",
+                       into = paste0("CdRdd", seq(1:tmp)),
+                       extra = "drop"
+                     )
+
+                   # on transforme le resultat en format long
+                   anal_reseaux <-
+                     anal_reseaux %>% pivot_longer(
+                       cols = paste0("CdRdd", seq(1:tmp)),
+                       names_to = "numero",
+                       values_to = "CdRdd",
+                       values_drop_na = TRUE
+                     )
+
+                   # ajout des noms de reseaux
+                   anal_reseaux <- anal_reseaux %>% ajoute_nom_cdreseaumesure()
+                   fichier_xml$tbl_verif_rdd <-
+                     anal_reseaux %>% group_by(NomRdd) %>% dplyr::count()
+
+
+
+                   ##### Vérif LQ #####
+
+                   analyses_attendues_devis$`LIMITE DE QUANTIFICATION GARANTIE PAR PRESTATAIRE` <-
+                     analyses_attendues_devis$`LIMITE DE QUANTIFICATION GARANTIE PAR PRESTATAIRE` %>%
+                     as.numeric()
+
+                   analyses_attendues_devis$`ACCREDITATION (oui / non)` <-
+                     tolower(analyses_attendues_devis$`ACCREDITATION (oui / non)`)
+
+                   analyses_attendues_devis$INCERTITUDE <-
+                     analyses_attendues_devis$INCERTITUDE %>% as.numeric()
+
+                   # creation d'un tableau qui joint les analyses attendues avec celles rendues
+
+                   comparatif <-
+                     left_join(analyses_attendues_devis, analyses_xml, by = "cle") %>%
+                     subset(!(
+                       `CODE SANDRE STATION` %in% station_manquant$CdStationMesureEauxSurface
+                     ))
+
+                   # on extrait du tableau les analyses dont les limites de quantification sont non conformes aux engagements du prestataire
+                   LQ_insuffisante <-
+                     comparatif %>% subset(`LIMITE DE QUANTIFICATION GARANTIE PAR PRESTATAIRE` <
+                                             LqAna) %>%
+                     select(
+                       UG,
+                       perimetre_facturation,
+                       `CODE SANDRE STATION`,
+                       `CODE INTERNE STATION`,
+                       `NOM STATION`,
+                       programme,
+                       `RUN ANALYTIQUE`,
+                       CdSupport,
+                       CdFractionAnalysee,
+                       CdPrelevement,
+                       DatePrel,
+                       HeurePrel,
+                       DateAna,
+                       HeureAna,
+                       CdParametre,
+                       CdUniteMesure,
+                       `LIMITE DE QUANTIFICATION GARANTIE PAR PRESTATAIRE`,
+                       LqAna
+                     )
+
+                   fichier_xml$tbl_LQ_ko <- LQ_insuffisante %>%
+                     ajoute_nom_param() %>%
+                     ajoute_nom_support() %>%
+                     ajoute_nom_fraction() %>%
+                     ajoute_nom_unite()
+
+
+                   ##### Vérif Accreditation #####
+                   # on extrait du tableau les analyses dont les accréditations sont non conformes aux engagements du prestataire
+
+                   Accreditation_manquante <- comparatif %>%
+                     subset(`ACCREDITATION (oui / non)` == "oui" &
+                              CdAccreAna != 1) %>%
+                     select(
+                       UG,
+                       perimetre_facturation,
+                       `CODE SANDRE STATION`,
+                       `CODE INTERNE STATION`,
+                       `NOM STATION`,
+                       programme,
+                       `RUN ANALYTIQUE`,
+                       CdSupport,
+                       CdFractionAnalysee,
+                       CdPrelevement,
+                       DatePrel,
+                       HeurePrel,
+                       DateAna,
+                       HeureAna,
+                       CdParametre,
+                       CdUniteMesure,
+                       CommentairesAna
+                     )
+
+                   fichier_xml$tbl_accred_ko <- Accreditation_manquante %>%
+                     ajoute_nom_param() %>%
+                     ajoute_nom_support() %>%
+                     ajoute_nom_fraction() %>%
+                     ajoute_nom_unite()
+
+
+                   ##### Vérif incertitude #####
+                   # on extrait du tableau les analyses dont les incertitudes sont non conformes aux engagements du prestataire
+
+                   Incertitude_non_conforme <- comparatif %>%
+                     select(
+                       UG,
+                       perimetre_facturation,
+                       `CODE SANDRE STATION`,
+                       `CODE INTERNE STATION`,
+                       `NOM STATION`,
+                       programme,
+                       `RUN ANALYTIQUE`,
+                       CdSupport,
+                       CdFractionAnalysee,
+                       CdPrelevement,
+                       DatePrel,
+                       HeurePrel,
+                       DateAna,
+                       HeureAna,
+                       CdParametre,
+                       CdUniteMesure,
+                       RsAna,
+                       INCERTITUDE,
+                       IncertAna,
+                       CommentairesAna
+                     ) %>% subset(IncertAna > INCERTITUDE)
+
+
+                   fichier_xml$tbl_incert_ko <- Incertitude_non_conforme %>%
+                     ajoute_nom_param() %>%
+                     ajoute_nom_support() %>%
+                     ajoute_nom_fraction() %>%
+                     ajoute_nom_unite()
+
+
+                   ##### Vérif méthodes #####
+                   # on extrait du tableau les analyses dont les méthodes sont non conformes aux engagements du prestataire
+
+                   Methode_non_conforme <- comparatif %>%
+                     select(
+                       UG,
+                       perimetre_facturation,
+                       `CODE SANDRE STATION`,
+                       `CODE INTERNE STATION`,
+                       `NOM STATION`,
+                       programme,
+                       `RUN ANALYTIQUE`,
+                       CdSupport,
+                       CdFractionAnalysee,
+                       CdPrelevement,
+                       DatePrel,
+                       HeurePrel,
+                       DateAna,
+                       HeureAna,
+                       CdParametre,
+                       CdUniteMesure,
+                       `Code méthode SANDRE`,
+                       Méthode,
+                       CdMethode,
+                       CommentairesAna
+                     ) %>% subset(`Code méthode SANDRE` != CdMethode)
+
+                   fichier_xml$tbl_methode_ko <- Methode_non_conforme %>%
+                     ajoute_nom_param() %>%
+                     ajoute_nom_support() %>%
+                     ajoute_nom_fraction() %>%
+                     ajoute_nom_unite() %>%
+                     ajoute_nom_methode()
+
+
+                   ##### Qualification analyses #####
+                   analyses_xml$cle_frac_unit <- paste0(
+                     analyses_xml$CdParametre,
+                     "_",
+                     analyses_xml$CdFractionAnalysee,
+                     "_",
+                     analyses_xml$CdUniteMesure
+                   )
+
+                   analyses_xml$cle_staq_frac_unit <-
+                     paste0(
+                       analyses_xml$CdStationMesureEauxSurface,
+                       "_",
+                       analyses_xml$CdParametre,
+                       "_",
+                       analyses_xml$CdFractionAnalysee,
+                       "_",
+                       analyses_xml$CdUniteMesure
+                     )
+                   verif <- analyses_xml %>%
+                     left_join(table_stat_analyses, by = "cle_staq_frac_unit") %>%
+                     left_join(table_stat_analyses_toutes_staq, by = "cle_frac_unit") %>%
+                     subset(CdRqAna == "1")
+
+                   ##### qualif par station
+                   verif$classement_par_station <- 99
+
+                   # classe 1
+                   verif$classement_par_station <-
+                     ifelse(
+                       verif$RsAna >= verif$Q10ST &
+                         verif$RsAna <= verif$Q90ST,
+                       1,
+                       verif$classement_par_station
+                     )
+
+                   # classe 2
+                   verif$classement_par_station <- ifelse(
+                     (verif$RsAna >= verif$Q5ST & verif$RsAna < verif$Q10ST) |
+                       (verif$RsAna <= verif$Q95ST &
+                          verif$RsAna > verif$Q90ST),
+                     2,
+                     verif$classement_par_station
+                   )
+
+                   # classe 3
+                   verif$classement_par_station <- ifelse(
+                     (verif$RsAna >= verif$minST & verif$RsAna < verif$Q5ST) |
+                       (verif$RsAna <= verif$maxST &
+                          verif$RsAna > verif$Q95ST),
+                     3,
+                     verif$classement_par_station
+                   )
+
+                   # classe 7
+                   verif$classement_par_station <- ifelse(
+                     (
+                       verif$RsAna >= (verif$minST - verif$sdST) &
+                         verif$RsAna < verif$minST
+                     ) |
+                       (
+                         verif$RsAna <= (verif$maxST + verif$sdST) &
+                           verif$RsAna > verif$maxST
+                       ),
+                     7,
+                     verif$classement_par_station
+                   )
+
+                   # classe 9
+                   verif$classement_par_station <- ifelse(
+                     (
+                       verif$RsAna >= (verif$minST - 2 * verif$sdST) &
+                         verif$RsAna < (verif$minST - verif$sdST)
+                     ) |
+                       (
+                         verif$RsAna <= (verif$maxST + 2 * verif$sdST) &
+                           verif$RsAna > (verif$maxST + verif$sdST)
+                       ),
+                     9,
+                     verif$classement_par_station
+                   )
+
+                   # classe 10
+                   verif$classement_par_station <-
+                     ifelse((verif$RsAna <= (verif$minST - 2 *
+                                               verif$sdST)) |
+                              (verif$RsAna >= (verif$maxST + 2 * verif$sdST)),
+                            10,
+                            verif$classement_par_station)
+
+                   # classe 0
+                   verif$classement_par_station <-
+                     ifelse(is.na(verif$classement_par_station),
+                            0,
+                            verif$classement_par_station)
+
+
+                   ##### qualif toutes stations
+
+                   verif$classement_toutes_station <- 99
+
+                   # classe 2
+                   verif$classement_toutes_station <-
+                     ifelse(
+                       verif$RsAna >= verif$Q10 &
+                         verif$RsAna <= verif$Q90,
+                       2,
+                       verif$classement_toutes_station
+                     )
+
+                   # classe 3
+                   verif$classement_toutes_station <- ifelse(
+                     (verif$RsAna >= verif$Q5 & verif$RsAna < verif$Q10) |
+                       (verif$RsAna <= verif$Q95 &
+                          verif$RsAna > verif$Q90),
+                     3,
+                     verif$classement_toutes_station
+                   )
+
+                   # classe 4
+                   verif$classement_toutes_station <- ifelse(
+                     (verif$RsAna >= verif$Q1 & verif$RsAna < verif$Q5) |
+                       (verif$RsAna <= verif$Q99 &
+                          verif$RsAna > verif$Q95),
+                     4,
+                     verif$classement_toutes_station
+                   )
+
+                   # classe 6
+                   verif$classement_toutes_station <- ifelse(
+                     (verif$RsAna >= verif$min & verif$RsAna < verif$Q1) |
+                       (verif$RsAna <= verif$max &
+                          verif$RsAna > verif$Q99),
+                     6,
+                     verif$classement_toutes_station
+                   )
+
+                   # classe 8
+                   verif$classement_toutes_station <- ifelse(
+                     (
+                       verif$RsAna >= (verif$min - verif$sd) &
+                         verif$RsAna < verif$min
+                     ) |
+                       (
+                         verif$RsAna <= (verif$max + verif$sd) &
+                           verif$RsAna > verif$max
+                       ),
+                     8,
+                     verif$classement_toutes_station
+                   )
+
+
+                   # classe 10
+                   verif$classement_toutes_station <-
+                     ifelse((verif$RsAna <= (verif$min -
+                                               verif$sd)) |
+                              (verif$RsAna >= (verif$max + verif$sd)),
+                            10,
+                            verif$classement_toutes_station)
+
+                   # classe 0
+                   verif$classement_toutes_station <-
+                     ifelse(is.na(verif$classement_toutes_station),
+                            0,
+                            verif$classement_toutes_station)
+
+                   ##### agrégation des vérifications
+                   verif$classement <-
+                     ifelse(verif$classement_toutes_station == 0 &
+                              verif$classement_par_station == 0,
+                            3,
+                            4)
+
+                   verif$classement <-
+                     ifelse(
+                       verif$classement_toutes_station %in% c(2, 3, 4) &
+                         verif$classement_par_station %in% c(0, 1, 2),
+                       1,
+                       verif$classement
+                     )
+
+                   verif$classement <-
+                     ifelse(
+                       verif$classement_toutes_station %in% c(2, 3) &
+                         verif$classement_par_station %in% c(3),
+                       1,
+                       verif$classement
+                     )
+
+                   verif$classement <-
+                     ifelse(
+                       verif$classement_toutes_station %in% c(6) &
+                         verif$classement_par_station %in% c(3),
+                       1,
+                       verif$classement
+                     )
+
+                   verif$classement <-
+                     ifelse(
+                       verif$classement_toutes_station %in% c(6) &
+                         verif$classement_par_station %in% c(0, 1, 2, 3, 7),
+                       3,
+                       verif$classement
+                     )
+
+                   verif$classement <-
+                     ifelse(
+                       verif$classement_toutes_station %in% c(4) &
+                         verif$classement_par_station %in% c(3, 7),
+                       3,
+                       verif$classement
+                     )
+
+                   verif$classement <-
+                     ifelse(
+                       verif$classement_toutes_station %in% c(3) &
+                         verif$classement_par_station %in% c(7),
+                       3,
+                       verif$classement
+                     )
+
+                   verif$classement <-
+                     ifelse(
+                       verif$classement_toutes_station %in% c(2) &
+                         verif$classement_par_station %in% c(7, 9),
+                       3,
+                       verif$classement
+                     )
+
+                   verif$classement <-
+                     ifelse(verif$classement_toutes_station %in% c(8, 10),
+                            2,
+                            verif$classement)
+
+                   verif$classement <-
+                     ifelse(
+                       verif$classement_toutes_station %in% c(3, 4, 6) &
+                         verif$classement_par_station %in% c(9, 10),
+                       2,
+                       verif$classement
+                     )
+
+                   verif$classement <-
+                     ifelse(
+                       verif$classement_toutes_station %in% c(2) &
+                         verif$classement_par_station %in% c(10),
+                       2,
+                       verif$classement
+                     )
+
+
+                   verif$classement <- as.character(verif$classement)
+
+                   fichier_xml$tbl_rs_anal <-
+                     verif %>% select(
+                       CdStationMesureEauxSurface:CdParametre,
+                       RsAna,
+                       classement_par_station:last_col()
+                     ) %>% ajoute_nom_param() %>% ajoute_nom_station() %>% ajoute_nom_cdqualana(col_qualif = "classement")
+
+                   remove_modal_spinner()
+                 }
+               })
 
 
 
