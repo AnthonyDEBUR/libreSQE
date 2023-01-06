@@ -13,9 +13,7 @@ Ces onglets ont a minima les colonnes prévues au dictionnaire de données}
 
 \item{connexion}{: connexion à la BDD}
 
-\item{mar_id}{: identifiant du marché concerné par la programmation dans la table marché
-
-func_charge_marche(fichier_prog, connexion, mar_id)}
+\item{mar_id}{: identifiant du marché concerné par la programmation dans la table marché}
 }
 \value{
 Un programme prévisionnel

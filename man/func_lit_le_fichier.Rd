@@ -9,7 +9,9 @@ func_lit_le_fichier(fichier_prog, onglet)
 \arguments{
 \item{fichier_prog}{: fichier xlsx définissant le marché.
 Le fichier contient les onglets programmes_types, BPU, cout_run_analytiques
-Ces onglets ont a minima les colonnes prévues au dictionnaire de données}
+Ces onglets ont a minima les colonnes prévues au dictionnaire de données
+
+fonction lecture du fichier}
 
 \item{onglet}{: fichier xlsx définissant le marché.}
 }

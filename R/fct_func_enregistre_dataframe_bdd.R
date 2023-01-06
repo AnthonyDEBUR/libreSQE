@@ -13,7 +13,7 @@
 #'
 #' @return résultat de l'exéctution de la requête.
 #'
-#' @noRd
+#' @export
 
 func_enregistre_dataframe_bdd <- function(dataframe_a_enr,
                                           table_destination,

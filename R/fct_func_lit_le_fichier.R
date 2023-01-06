@@ -10,7 +10,8 @@
 #' Le fichier contient les onglets programmes_types, BPU, cout_run_analytiques
 #' Ces onglets ont a minima les colonnes prévues au dictionnaire de données
 #'
-# fonction lecture du fichier
+#' fonction lecture du fichier
+#' @export
 func_lit_le_fichier<-function(fichier_prog, onglet){
 
 # chargement du dico de données

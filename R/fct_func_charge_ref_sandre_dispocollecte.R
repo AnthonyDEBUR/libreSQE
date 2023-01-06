@@ -7,6 +7,7 @@
 #'
 #' @return The return value, if any, from executing the function.
 #'
+#' @export
 func_charge_ref_sandre_dispocollecte <- function(date_maj = "1950-01-01")
 {
   dispo_collecte.csv.gz <- tempfile()

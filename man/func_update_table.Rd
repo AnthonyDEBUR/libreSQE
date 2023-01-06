@@ -31,7 +31,7 @@ Les noms de colonnes doivent correspondre aux noms de champs dans la base.}
 \value{
 The return value, if any, from executing the function.
 
-résultat de l'exéctution de la requête.
+résultat de l'exécution de la requête.
 }
 \description{
 Fonction pour mettre à jour dans la base postgresql une table

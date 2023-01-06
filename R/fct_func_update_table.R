@@ -17,8 +17,8 @@
 #'
 
 #'
-#' @return résultat de l'exéctution de la requête.
-#'
+#' @return résultat de l'exécution de la requête.
+#' @export
 
 func_update_table <- function(dataframe_a_enr,
                               cle,

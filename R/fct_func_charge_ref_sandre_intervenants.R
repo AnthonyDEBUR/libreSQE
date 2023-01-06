@@ -6,7 +6,7 @@
 #'@param date_maj date à partir de laquelle telecharger les mises à jour
 #'
 #' @return The return value, if any, from executing the function.
-#'
+#' @export
 func_charge_ref_sandre_intervenants <-  function(date_maj = "1950-01-01")
 {
   interv.csv.gz <- tempfile()

@@ -6,6 +6,7 @@
 #'
 #' @return Met à jour la bdd postgreSQL associée à libre SQE en actualisant les tables liées au référentiel SANDRE.
 #'
+#'@export
 # connexion <- pool::dbPool(RPostgres::Postgres(),
 #                           dbname="libresqe",
 #                           host="localhost",
@@ -13,6 +14,7 @@
 #                           user= "postgres",
 #                           password= "postgres")
 # func_maj_referentiels_sandre(connexion)
+
 func_maj_referentiels_sandre<-function(connexion)
 {
 
