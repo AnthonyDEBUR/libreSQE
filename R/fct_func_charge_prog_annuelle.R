@@ -391,186 +391,77 @@ func_enregistre_dataframe_bdd(
 ##### création d'une table commande annuelle qui liste les r\u00e9sultats attendus annuellement (et leur attribue une r\u00e9f\u00e9rence d'analyse) #####
 prog_annuelle$res_codeprel<-paste0(prog_annuelle$bco_id,"*",prog_annuelle$cal_date,"*",prog_annuelle$pga_stm_cdstationmesureinterne)
 tmp<-prog_annuelle%>%dplyr::select(pga_stm_cdstationmesureinterne,
+                                   res_codeprel,
+                                   cal_date,
+                                   bco_id,
+                                   cal_prs_id
                                    )
 
-names(prog_annuelle)
+names(tmp)<-c("res_stm_cdstationmesureinterne",
+              "res_codeprel",
+              "res_dateprel",
+              "res_bco_id",
+              "cal_prs_id"
+              )
 
 
-    #
-    #
-    #   # ecriture dans table t_prixunitairerunanalytique_prr
-    #   conn<-  pool::poolCheckout(connexion)
-    #   on.exit(pool::poolReturn(conn))
-    #   pool::dbBegin(conn) # commence transaction SQL
-    #
-    #
-    #   schema_destination<-"SQE"
-    #   schema_destination2<-"SQE"
-    #   table_destination<-"t_runanalytique_run"
-    #   table_destination2<-"t_prixunitairerunanalytique_prr"
-    #   dataframe_a_enr<-cout_run_analytiques%>%dplyr::select(run_nom,
-    #                                                         run_met_code)
-    #
-    #   variables_a_retourner<-c("run_id", "run_nom")
-    #
-    #   DBI::dbExecute(connexion,
-    #                  paste0("DROP TABLE if exists temp.", table_destination, "_temp"))
-    #
-    #   table_isa_id <- DBI::Id(schema = "temp",
-    #                           table = paste0(table_destination, "_temp"))
-    #
-    #   DBI::dbWriteTable(connexion, table_isa_id, dataframe_a_enr)
-    #   tryCatch(
-    #     {
-    #       retour<-DBI::dbGetQuery(
-    #         connexion,
-    #         paste0(
-    #           "INSERT INTO ",
-    #           schema_destination,
-    #           ".",
-    #           table_destination,
-    #           " (",
-    #           paste(names(dataframe_a_enr), collapse = ","),
-    #           ") SELECT ",
-    #           paste(names(dataframe_a_enr), collapse = ","),
-    #           " FROM temp.",
-    #           table_destination,
-    #           "_temp RETURNING ",
-    #           paste(variables_a_retourner, collapse = ","),
-    #           ";"
-    #         )
-    #       )
-    #
-    #       cout_run_analytiques<-dplyr::inner_join(retour, cout_run_analytiques, by=c("run_nom"))
-    #       dataframe_a_enr<-cout_run_analytiques%>%dplyr::select(prr_mar_id,
-    #                                                             run_id,
-    #                                                             pru_datedebut,
-    #                                                             pru_datefin,
-    #                                                             pru_valeur)
-    #
-    #       dataframe_a_enr<-dataframe_a_enr%>%dplyr::rename("prr_run_id"="run_id")
-    #
-    #       DBI::dbExecute(connexion,
-    #                      paste0("DROP TABLE if exists temp.", table_destination2, "_temp"))
-    #
-    #       table_isa_id <- DBI::Id(schema = "temp",
-    #                               table = paste0(table_destination2, "_temp"))
-    #
-    #       DBI::dbWriteTable(connexion, table_isa_id, dataframe_a_enr)
-    #
-    #       DBI::dbExecute(
-    #         connexion,
-    #         paste0(
-    #           "INSERT INTO ",
-    #           schema_destination2,
-    #           ".",
-    #           table_destination2,
-    #           " (",
-    #           paste(names(dataframe_a_enr), collapse = ","),
-    #           ") SELECT ",
-    #           paste(names(dataframe_a_enr), collapse = ","),
-    #           " FROM temp.",
-    #           table_destination2,
-    #           "_temp;"
-    #         )
-    #       )
-    #
-    #
-    #       pool::dbCommit(conn)
-    #     },
-    #     error = function(e) {
-    #       print(e$message)
-    #       pool::dbRollback(conn)
-    #     }
-    #   )
-    #
-    #   ##### ENREGISTREMENT DE LA TABLE DES PROGRAMMES ANNUELS #####
-    #
-    #   func_lit_le_fichier(fichier_prog=fichier_prog,"programme_annuel")
-    #
-    #   # récupération de la table des prestataires
-    #   conn<-  pool::poolCheckout(connexion)
-    #   on.exit(pool::poolReturn(conn))
-    #   pool::dbBegin(conn) # commence transaction SQL
-    #
-    #   prestataires<-DBI::dbGetQuery(connexion,
-    #                                 "SELECT * FROM refer.tr_prestataire_pre;"
-    #   )
-    #
-    #   BPU<-dplyr::left_join(BPU, prestataires, by=c("siret_prestataire"="pre_siret"))
-    #   BPU$prs_mar_id<-mar_id
-    #
-    #   table_a_enregistrer<-data.frame(
-    #     prs_mar_id=mar_id,
-    #     prs_pre_id=BPU$pre_id,
-    #     prs_nomprestation=BPU$nom_complet_prestation,
-    #     prs_label_prestation=BPU$label_prestation,
-    #     prs_natureprestation=BPU$nature_prestation,
-    #     prm_unitedoeuvre=BPU$unite_facturation)
-    #
-    #   func_enregistre_dataframe_bdd(dataframe_a_enr=table_a_enregistrer,
-    #                                 table_destination="t_prestation_prs",
-    #                                 schema_destination="sqe",
-    #                                 connexion=connexion)
-    #
-    #
-    #   # enregistrement des prix BPU
-    #
-    #   # on récupère les prs_id
-    #   t_prestation_prs<-DBI::dbGetQuery(connexion, paste0("SELECT * FROM sqe.t_prestation_prs WHERE prs_mar_id=",mar_id,";"))
-    #
-    #   BPU<-dplyr::left_join(BPU, t_prestation_prs, by=c("prs_mar_id",
-    #                                                     "pre_id"="prs_pre_id",
-    #                                                     "nom_complet_prestation"="prs_nomprestation"))
-    #
-    #
-    #   table_a_enregistrer<-data.frame(
-    #     pru_datedebut=BPU$date_debut_validite_prix,
-    #     pru_datefin=BPU$date_fin_validite_prix,
-    #     pru_valeur=BPU$prix_unitaire_HT,
-    #     prp_prs_id=BPU$prs_id
-    #   )
-    #
-    #
-    #   func_enregistre_dataframe_bdd(dataframe_a_enr=table_a_enregistrer,
-    #                                 table_destination="t_prixunitaireprestation_prp",
-    #                                 schema_destination="sqe",
-    #                                 connexion=connexion)
-    #
-    #
-    #   ##### ENREGISTREMENT INITIAL DE LA TABLE PROGRAMMES TYPES #####
-    #   func_lit_le_fichier(fichier_prog=fichier_prog,
-    #                       onglet="programmes_types")
-    #
-    #   # ajout de l'info run_id
-    #   programmes_types<-dplyr::left_join(programmes_types, retour, by=c("run_analytique"="run_nom"))
-    #
-    #   # ajout de l'info prs_id
-    #   programmes_types<-dplyr::left_join(programmes_types, t_prestation_prs, by=c("programme"="prs_label_prestation"))
-    #
-    #   table_a_enregistrer<-data.frame(
-    #     ppt_prs_id=programmes_types$prs_id,
-    #     ppt_mar_id=mar_id,
-    #     ppt_run_id=programmes_types$run_id,
-    #     ppt_par_cdparametre=programmes_types$code_parametre_sandre,
-    #     ppt_codetemporaireparametre=programmes_types$code_parametre_sandre,
-    #     ppt_fra_codefraction=programmes_types$code_fraction_sandre,
-    #     ppt_nomparametre=programmes_types$nom_parametre_sandre,
-    #     ppt_uni_codesandreunite=programmes_types$code_unite_sandre,
-    #     ppt_analyseinsitu=ifelse(tolower(programmes_types$analyse_in_situ)=="oui", TRUE, FALSE),
-    #     ppt_limitedetec=programmes_types$limite_detection_garantie,
-    #     ppt_limitequantif=programmes_types$limite_quantification_garantie,
-    #     ppt_incertitude=programmes_types$incertitude_garantie,
-    #     ppt_accreditation=ifelse(tolower(programmes_types$accreditation)=="oui", TRUE, FALSE),
-    #     ppt_commentaireparametre=programmes_types$commentaires_parametre)
-    #
-    #   func_enregistre_dataframe_bdd(dataframe_a_enr=table_a_enregistrer,
-    #                                 table_destination="t_parametreprogrammetype_ppt",
-    #                                 schema_destination="sqe",
-    #                                 connexion=connexion)
-    #
-    #
-    #
+# récupération de la table des bdc
+conn <-  pool::poolCheckout(connexion)
+on.exit(pool::poolReturn(conn))
+pool::dbBegin(conn) # commence transaction SQL
 
+liste_pgm_types <- pool::dbGetQuery(
+  conn,
+  paste0(
+    "SELECT ppt_prs_id,
+    ppt_par_cdparametre,
+    ppt_fra_codefraction,
+    ppt_uni_codesandreunite,
+    ppt_met_codesandremethode,
+    ppt_pre_id,
+    ppt_analyseinsitu
+    FROM sqe.t_parametreprogrammetype_ppt WHERE ppt_mar_id=",
+    mar_id,
+    ";"
+  )
+)
+
+tmp<-dplyr::left_join(tmp, liste_pgm_types, by=c("cal_prs_id"="ppt_prs_id"))
+
+# récupération de la table des prestataires
+conn <-  pool::poolCheckout(connexion)
+on.exit(pool::poolReturn(conn))
+pool::dbBegin(conn) # commence transaction SQL
+
+prestataires <- pool::dbGetQuery(
+  conn,
+  paste0(
+    "SELECT pre_id, pre_siret
+    FROM refer.tr_prestataire_pre;"
+  )
+)
+
+tmp<-dplyr::left_join(tmp, prestataires, by=c("ppt_pre_id"="pre_id"))
+
+
+tmp <- dplyr::rename(
+  tmp,
+  "rea_par_cdparametre" = "ppt_par_cdparametre",
+  "rea_cdfractionanalysee" = "ppt_fra_codefraction",
+  "rea_cdunitemesure" = "ppt_uni_codesandreunite",
+  "rea_cdmethode" = "ppt_met_codesandremethode",
+  "rea_cdproducteur" = "pre_siret"
+)
+
+tmp$rea_cdinsituana<-ifelse(tmp$ppt_analyseinsitu=="TRUE", "1", "2")
+tmp<-tmp%>%dplyr::select(-cal_prs_id, -ppt_pre_id, -ppt_analyseinsitu)
+
+# Insertion dans la bdd
+func_enregistre_dataframe_bdd(
+  dataframe_a_enr = tmp,
+  table_destination = "t_resultatanalyse_rea",
+  schema_destination = "sqe",
+  connexion = connexion
+)
 
   }

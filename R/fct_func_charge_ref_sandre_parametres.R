@@ -107,6 +107,7 @@ func_charge_referentiel_SANDRE_parametres <-function(date_maj = "1950-01-01")
           par_nomcourt,
           par_codecas
         )
+        parametres_sandre$par_codesandre<-parametres_sandre$par_cdparametre
     } else{
       parametres_sandre <- NULL
     }
