@@ -118,11 +118,11 @@ if(!is.null(table_sandre))
   date_maj_table<-dates_maj[dates_maj$ts_table=="tr_intervenantsandre_isa",]$ts_date-1
    table_sandre<-func_charge_ref_sandre_intervenants(date_maj=date_maj_table)
   if(!is.null(table_sandre)){
-    func_update_table(table_sandre,
-                      "isa_codesandre",
-                      "tr_intervenantsandre_isa",
-                      "refer",
-                      connexion)}
+    func_update_table(dataframe_a_enr=table_sandre,
+                      cle="isa_codesandre",
+                      table_destination="tr_intervenantsandre_isa",
+                      schema_destination="refer",
+                      connexion=connexion)}
 
 
 

@@ -17,7 +17,7 @@
 #' @param prefixe : character à ajouter en début de la référence de chaque bon de commande ("" par défaut)
 #'
 #' @export
-#' func_charge_marche(fichier_prog, connexion, mar_id, frequence_bdc="mensuelle")
+#' func_charge_prog_annuelle(fichier_prog, connexion, mar_id, frequence_bdc="mensuelle", prefixe="SQE2023")
 func_charge_prog_annuelle <-
   function(fichier_prog, connexion, mar_id, annee, frequence_bdc="mensuelle", prefixe="")
   {
