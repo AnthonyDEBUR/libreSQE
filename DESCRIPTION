@@ -17,12 +17,15 @@ Imports:
     dplyr,
     golem (>= 0.3.5),
     magrittr,
+    openxlsx,
     pool,
     readr,
     readxl,
+    rlang,
     RPostgres,
     shiny (>= 1.7.3),
     stringi,
+    stringr,
     tidyr,
     xml2
 Suggests: 

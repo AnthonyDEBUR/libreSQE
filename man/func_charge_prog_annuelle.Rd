@@ -4,7 +4,14 @@
 \alias{func_charge_prog_annuelle}
 \title{func_charge_prog_annuelle}
 \usage{
-func_charge_prog_annuelle(fichier_prog, connexion, mar_id, annee)
+func_charge_prog_annuelle(
+  fichier_prog,
+  connexion,
+  mar_id,
+  annee,
+  frequence_bdc = "mensuelle",
+  prefixe = ""
+)
 }
 \arguments{
 \item{fichier_prog}{: fichier xlsx définissant le marché.
@@ -16,6 +23,11 @@ Ces onglets ont a minima les colonnes prévues au dictionnaire de données}
 \item{mar_id}{: identifiant du marché concerné par la programmation dans la table marché}
 
 \item{annee}{: année civile de la programmation saisie}
+
+\item{frequence_bdc}{: fréquence d'émission des bons de commandes.
+Peut prendre les valeurs suivantes : mensuelle (défaut), bimestrielle, trimestrielle, semestrielle, annuelle}
+
+\item{prefixe}{: character à ajouter en début de la référence de chaque bon de commande ("" par défaut)}
 }
 \value{
 Un programme prévisionnel

@@ -285,6 +285,7 @@ ui <- navbarPage(
       fileInput("import_xml",
                 label = "Sélectionner fichier xml de résultats"),
       actionButton("btn_import_xml", "Déposer le fichier sélectionné sur le serveur"),
+      actionButton("btn_actualise_bdc", "Actualiser traitement avec nlle réference bon de commande"),
       p(
         "formats acceptés : EDILABO, QUESU v2, QUESU v3, QUESU v3.1.
                Une fois importé le fichier fait l'objet des scripts de tests"
@@ -1088,6 +1089,623 @@ server <- function(input, output) {
 
                    update_modal_spinner(text = "Traitement du fichier en cours")
                    analyses_xml <- fichier_xml$analyses_xml
+                   analyses_xml<-analyses_xml%>%subset(!is.na(RsAna))
+                   cond_environ_xml <- fichier_xml$cond_environ_xml
+                   operations_xml <- fichier_xml$operations_xml
+
+                   devis <-
+                     prog_previsionnelle %>% subset(
+                       perimetre_facturation == input$select_perimetre_fact &
+                         rattachement_devis == input$select_rattachement &
+                         mois == input$select_mois
+                     )
+
+                   analyses_attendues_devis <-
+                     left_join(devis, programmes_types, by = c("programme" = "PROGRAMME"))
+
+                   analyses_attendues_devis <-
+                     left_join(analyses_attendues_devis,
+                               cout_run_analytiques,
+                               by = c("RUN ANALYTIQUE"))
+
+
+                   ##### Stations manquantes dans analyses #####
+                   liste_cd_station_abs_analyses <-
+                     analyses_attendues_devis$`CODE SANDRE STATION`[!(
+                       analyses_attendues_devis$`CODE SANDRE STATION` %in% analyses_xml$CdStationMesureEauxSurface
+                     )] %>% unique()
+
+                   station_manquant <-
+                     data.frame(CdStationMesureEauxSurface = liste_cd_station_abs_analyses)
+                   station_manquant <- ajoute_nom_station(station_manquant)
+
+                   fichier_xml$tbl_staq_missing <- station_manquant
+
+                   ##### Stations manquantes dans cond env #####
+                   liste_cd_station_abs_analyses <-
+                     analyses_attendues_devis$`CODE SANDRE STATION`[!analyses_attendues_devis$`CODE SANDRE STATION` %in%
+                                                                      cond_environ_xml$CdStationMesureEauxSurface] %>% unique()
+
+                   manquant <-
+                     data.frame(CdStationMesureEauxSurface = liste_cd_station_abs_analyses)
+                   manquant <- ajoute_nom_station(manquant)
+
+                   fichier_xml$tbl_staq_missing_cond_env <- manquant
+
+                   ##### Stations manquantes dans opérations #####
+                   liste_cd_station_abs_analyses <-
+                     analyses_attendues_devis$`CODE SANDRE STATION`[!analyses_attendues_devis$`CODE SANDRE STATION` %in%
+                                                                      operations_xml$CdStationMesureEauxSurface] %>% unique()
+
+                   manquant <-
+                     data.frame(CdStationMesureEauxSurface = liste_cd_station_abs_analyses)
+                   manquant <- ajoute_nom_station(manquant)
+
+                   fichier_xml$tbl_staq_missing_oper <- manquant
+
+                   ##### Analyses en + / en - #####
+                   analyses_attendues_devis$cle <-
+                     paste0(
+                       analyses_attendues_devis$`CODE SANDRE STATION`,
+                       "_",
+                       analyses_attendues_devis$`CODE SANDRE FRACTION`,
+                       "_",
+                       analyses_attendues_devis$`CODE SANDRE PARAMETRE`,
+                       "_",
+                       analyses_attendues_devis$`CODE SANDRE UNITE`,
+                       "_",
+                       ifelse(
+                         tolower(analyses_attendues_devis$`ANALYSES IN-SITU`) == "oui",
+                         "1",
+                         "2"
+                       )
+                     )
+
+                   synthese_analyses_attendues <-
+                     analyses_attendues_devis %>% group_by(cle) %>% dplyr::count(name = "n_prog")
+
+                   analyses_xml <-
+                     analyses_xml %>% ajoute_nom_fraction() %>% ajoute_nom_unite()
+                   analyses_xml$cle <- paste0(
+                     analyses_xml$CdStationMesureEauxSurface,
+                     "_",
+                     analyses_xml$CdFractionAnalysee,
+                     "_",
+                     analyses_xml$CdParametre,
+                     "_",
+                     analyses_xml$CdUniteMesure,
+                     "_",
+                     analyses_xml$CdInsituAna
+                   )
+
+                   cle_analyses_xml <-
+                     analyses_xml %>% group_by(cle) %>% dplyr::count(name = "n_xml")
+
+
+                   delta_rendu <- full_join(synthese_analyses_attendues,
+                                            cle_analyses_xml,
+                                            by = "cle")
+
+                   delta_rendu <- delta_rendu %>% replace_na(list(n_xml = 0,
+                                                                  n_prog = 0))
+                   delta_rendu$manquant <-
+                     delta_rendu$n_prog - delta_rendu$n_xml
+
+
+                   # analyses attendues et absentes du rendu (hors station manquante)
+                   delta_manquant <- delta_rendu %>% subset(manquant > 0)
+
+                   fichier_xml$tbl_result_missing <-
+                     analyses_attendues_devis %>%
+                     subset(cle %in% delta_manquant$cle) %>%
+                     subset(!(
+                       `CODE SANDRE STATION` %in% station_manquant$CdStationMesureEauxSurface
+                     ))%>%select(-COMMUNE, -`Coord_X (L93)`,
+                                 -`Coord_Y (L93)`,
+                                 -COMMENTAIRES,
+                                 -`PT INSITU`,
+                                 -`PT PC BASE`,
+                                 -`PT PESTICIDES ET EROSION`,
+                                 -`LIEU DIT`,
+                                 -`PREL PRELEVEMENT TPS DE PLUIE REGIE`,
+                                 -`PREL PRELEVEMENT TPS DE PLUIE EXTERNALISE`,
+                                 -`PREL PRELEVEMENT CALENDAIRE EXTERNALISE`,
+                                 -`Type station`,
+                                 -`LIMITE DE QUANTIFICATION GARANTIE PAR PRESTATAIRE`,
+                                 -`LIMITE DE QUANTIFICATION PRECONISEE`,
+                                 -INCERTITUDE,
+                                 -`TYPE D'INCERTITUDE (relative ou absolue)`,
+                                 -`ACCREDITATION (oui / non)`,
+                                 -`renseignements que le candidat souhaite porter à la connaissance du pouvoir adjudicateur pour ce paramètre (optionnel)`,
+                                 -`Prix unitaire € HT`, -cle)
+
+                   # analyses rendues et non attendues
+                   delta_enplus <- delta_rendu %>% subset(manquant < 0)
+
+                   analyses_enplus <-
+                     analyses_xml %>%
+                     subset(cle %in% delta_enplus$cle) %>%
+                     subset(
+                       !(
+                         CdStationMesureEauxSurface %in% station_manquant$CdStationMesureEauxSurface
+                       )
+                     )
+
+                   fichier_xml$tbl_result_en_trop <-
+                     ajoute_nom_param(analyses_enplus)
+
+                   #####nb données par station #####
+                   nb_anal_par_station<-analyses_xml%>%dplyr::group_by(CdStationMesureEauxSurface)%>%dplyr::count()
+                   nb_anal_par_station<-ajoute_nom_station(nb_anal_par_station)
+                   fichier_xml$tbl_data_par_staq<-nb_anal_par_station
+
+                   ##### Verif code Rdd #####
+                   # ajout nom reseaux
+                   anal_reseaux <-
+                     analyses_xml %>% select(CdStationMesureEauxSurface, CdRdd)
+
+                   # on détermine le nb max de codes réseaux pour une même analyse
+                   tmp <-
+                     gsub("[^//]+", "", anal_reseaux$CdRdd %>%
+                            unique()) %>%
+                     nchar() %>%
+                     max(na.rm = T) + 1
+
+                   # on split la colonne des codes reseaux pour séparer les codes multiples
+                   anal_reseaux <-
+                     separate(
+                       anal_reseaux,
+                       col = CdRdd,
+                       sep = "[//]",
+                       into = paste0("CdRdd", seq(1:tmp)),
+                       extra = "drop"
+                     )
+
+                   # on transforme le resultat en format long
+                   anal_reseaux <-
+                     anal_reseaux %>% pivot_longer(
+                       cols = paste0("CdRdd", seq(1:tmp)),
+                       names_to = "numero",
+                       values_to = "CdRdd",
+                       values_drop_na = TRUE
+                     )
+
+                   # ajout des noms de reseaux
+                   anal_reseaux <- anal_reseaux %>% ajoute_nom_cdreseaumesure()
+                   fichier_xml$tbl_verif_rdd <-
+                     anal_reseaux %>% group_by(NomRdd) %>% dplyr::count()
+
+
+
+                   ##### Vérif LQ #####
+
+                   analyses_attendues_devis$`LIMITE DE QUANTIFICATION GARANTIE PAR PRESTATAIRE` <-
+                     analyses_attendues_devis$`LIMITE DE QUANTIFICATION GARANTIE PAR PRESTATAIRE` %>%
+                     as.numeric()
+
+                   analyses_attendues_devis$`ACCREDITATION (oui / non)` <-
+                     tolower(analyses_attendues_devis$`ACCREDITATION (oui / non)`)
+
+                   analyses_attendues_devis$INCERTITUDE <-
+                     analyses_attendues_devis$INCERTITUDE %>% as.numeric()
+
+                   # creation d'un tableau qui joint les analyses attendues avec celles rendues
+
+                   comparatif <-
+                     left_join(analyses_attendues_devis, analyses_xml, by = "cle") %>%
+                     subset(!(
+                       `CODE SANDRE STATION` %in% station_manquant$CdStationMesureEauxSurface
+                     ))
+
+                   # on extrait du tableau les analyses dont les limites de quantification sont non conformes aux engagements du prestataire
+                   LQ_insuffisante <-
+                     comparatif %>% subset(`LIMITE DE QUANTIFICATION GARANTIE PAR PRESTATAIRE` <
+                                             LqAna) %>%
+                     select(
+                       UG,
+                       perimetre_facturation,
+                       `CODE SANDRE STATION`,
+                       `CODE INTERNE STATION`,
+                       `NOM STATION`,
+                       programme,
+                       `RUN ANALYTIQUE`,
+                       CdSupport,
+                       CdFractionAnalysee,
+                       CdPrelevement,
+                       DatePrel,
+                       HeurePrel,
+                       DateAna,
+                       HeureAna,
+                       CdParametre,
+                       CdUniteMesure,
+                       `LIMITE DE QUANTIFICATION GARANTIE PAR PRESTATAIRE`,
+                       LqAna
+                     )
+
+                   fichier_xml$tbl_LQ_ko <- LQ_insuffisante %>%
+                     ajoute_nom_param() %>%
+                     ajoute_nom_support() %>%
+                     ajoute_nom_fraction() %>%
+                     ajoute_nom_unite()
+
+
+                   ##### Vérif Accreditation #####
+                   # on extrait du tableau les analyses dont les accréditations sont non conformes aux engagements du prestataire
+
+                   Accreditation_manquante <- comparatif %>%
+                     subset(`ACCREDITATION (oui / non)` == "oui" &
+                              CdAccreAna != 1) %>%
+                     select(
+                       UG,
+                       perimetre_facturation,
+                       `CODE SANDRE STATION`,
+                       `CODE INTERNE STATION`,
+                       `NOM STATION`,
+                       programme,
+                       `RUN ANALYTIQUE`,
+                       CdSupport,
+                       CdFractionAnalysee,
+                       CdPrelevement,
+                       DatePrel,
+                       HeurePrel,
+                       DateAna,
+                       HeureAna,
+                       CdParametre,
+                       CdUniteMesure,
+                       CommentairesAna
+                     )
+
+                   fichier_xml$tbl_accred_ko <- Accreditation_manquante %>%
+                     ajoute_nom_param() %>%
+                     ajoute_nom_support() %>%
+                     ajoute_nom_fraction() %>%
+                     ajoute_nom_unite()
+
+
+                   ##### Vérif incertitude #####
+                   # on extrait du tableau les analyses dont les incertitudes sont non conformes aux engagements du prestataire
+
+                   Incertitude_non_conforme <- comparatif %>%
+                     select(
+                       UG,
+                       perimetre_facturation,
+                       `CODE SANDRE STATION`,
+                       `CODE INTERNE STATION`,
+                       `NOM STATION`,
+                       programme,
+                       `RUN ANALYTIQUE`,
+                       CdSupport,
+                       CdFractionAnalysee,
+                       CdPrelevement,
+                       DatePrel,
+                       HeurePrel,
+                       DateAna,
+                       HeureAna,
+                       CdParametre,
+                       CdUniteMesure,
+                       RsAna,
+                       INCERTITUDE,
+                       IncertAna,
+                       CommentairesAna
+                     ) %>% subset(IncertAna > INCERTITUDE)
+
+
+                   fichier_xml$tbl_incert_ko <- Incertitude_non_conforme %>%
+                     ajoute_nom_param() %>%
+                     ajoute_nom_support() %>%
+                     ajoute_nom_fraction() %>%
+                     ajoute_nom_unite()
+
+
+                   ##### Vérif méthodes #####
+                   # on extrait du tableau les analyses dont les méthodes sont non conformes aux engagements du prestataire
+
+                   Methode_non_conforme <- comparatif %>%
+                     select(
+                       UG,
+                       perimetre_facturation,
+                       `CODE SANDRE STATION`,
+                       `CODE INTERNE STATION`,
+                       `NOM STATION`,
+                       programme,
+                       `RUN ANALYTIQUE`,
+                       CdSupport,
+                       CdFractionAnalysee,
+                       CdPrelevement,
+                       DatePrel,
+                       HeurePrel,
+                       DateAna,
+                       HeureAna,
+                       CdParametre,
+                       CdUniteMesure,
+                       `Code méthode SANDRE`,
+                       Méthode,
+                       CdMethode,
+                       CommentairesAna
+                     ) %>% subset(`Code méthode SANDRE` != CdMethode)
+
+                   fichier_xml$tbl_methode_ko <- Methode_non_conforme %>%
+                     ajoute_nom_param() %>%
+                     ajoute_nom_support() %>%
+                     ajoute_nom_fraction() %>%
+                     ajoute_nom_unite() %>%
+                     ajoute_nom_methode()
+
+
+                   ##### Qualification analyses #####
+                   analyses_xml$cle_frac_unit <- paste0(
+                     analyses_xml$CdParametre,
+                     "_",
+                     analyses_xml$CdFractionAnalysee,
+                     "_",
+                     analyses_xml$CdUniteMesure
+                   )
+
+                   analyses_xml$cle_staq_frac_unit <-
+                     paste0(
+                       analyses_xml$CdStationMesureEauxSurface,
+                       "_",
+                       analyses_xml$CdParametre,
+                       "_",
+                       analyses_xml$CdFractionAnalysee,
+                       "_",
+                       analyses_xml$CdUniteMesure
+                     )
+                   verif <- analyses_xml %>%
+                     left_join(table_stat_analyses, by = "cle_staq_frac_unit") %>%
+                     left_join(table_stat_analyses_toutes_staq, by = "cle_frac_unit") %>%
+                     subset(CdRqAna == "1")
+
+                   ##### qualif par station
+                   verif$classement_par_station <- 99
+
+                   # classe 1
+                   verif$classement_par_station <-
+                     ifelse(
+                       verif$RsAna >= verif$Q10ST &
+                         verif$RsAna <= verif$Q90ST,
+                       1,
+                       verif$classement_par_station
+                     )
+
+                   # classe 2
+                   verif$classement_par_station <- ifelse(
+                     (verif$RsAna >= verif$Q5ST & verif$RsAna < verif$Q10ST) |
+                       (verif$RsAna <= verif$Q95ST &
+                          verif$RsAna > verif$Q90ST),
+                     2,
+                     verif$classement_par_station
+                   )
+
+                   # classe 3
+                   verif$classement_par_station <- ifelse(
+                     (verif$RsAna >= verif$minST & verif$RsAna < verif$Q5ST) |
+                       (verif$RsAna <= verif$maxST &
+                          verif$RsAna > verif$Q95ST),
+                     3,
+                     verif$classement_par_station
+                   )
+
+                   # classe 7
+                   verif$classement_par_station <- ifelse(
+                     (
+                       verif$RsAna >= (verif$minST - verif$sdST) &
+                         verif$RsAna < verif$minST
+                     ) |
+                       (
+                         verif$RsAna <= (verif$maxST + verif$sdST) &
+                           verif$RsAna > verif$maxST
+                       ),
+                     7,
+                     verif$classement_par_station
+                   )
+
+                   # classe 9
+                   verif$classement_par_station <- ifelse(
+                     (
+                       verif$RsAna >= (verif$minST - 2 * verif$sdST) &
+                         verif$RsAna < (verif$minST - verif$sdST)
+                     ) |
+                       (
+                         verif$RsAna <= (verif$maxST + 2 * verif$sdST) &
+                           verif$RsAna > (verif$maxST + verif$sdST)
+                       ),
+                     9,
+                     verif$classement_par_station
+                   )
+
+                   # classe 10
+                   verif$classement_par_station <-
+                     ifelse((verif$RsAna <= (verif$minST - 2 *
+                                               verif$sdST)) |
+                              (verif$RsAna >= (verif$maxST + 2 * verif$sdST)),
+                            10,
+                            verif$classement_par_station)
+
+                   # classe 0
+                   verif$classement_par_station <-
+                     ifelse(is.na(verif$classement_par_station),
+                            0,
+                            verif$classement_par_station)
+
+
+                   ##### qualif toutes stations
+
+                   verif$classement_toutes_station <- 99
+
+                   # classe 2
+                   verif$classement_toutes_station <-
+                     ifelse(
+                       verif$RsAna >= verif$Q10 &
+                         verif$RsAna <= verif$Q90,
+                       2,
+                       verif$classement_toutes_station
+                     )
+
+                   # classe 3
+                   verif$classement_toutes_station <- ifelse(
+                     (verif$RsAna >= verif$Q5 & verif$RsAna < verif$Q10) |
+                       (verif$RsAna <= verif$Q95 &
+                          verif$RsAna > verif$Q90),
+                     3,
+                     verif$classement_toutes_station
+                   )
+
+                   # classe 4
+                   verif$classement_toutes_station <- ifelse(
+                     (verif$RsAna >= verif$Q1 & verif$RsAna < verif$Q5) |
+                       (verif$RsAna <= verif$Q99 &
+                          verif$RsAna > verif$Q95),
+                     4,
+                     verif$classement_toutes_station
+                   )
+
+                   # classe 6
+                   verif$classement_toutes_station <- ifelse(
+                     (verif$RsAna >= verif$min & verif$RsAna < verif$Q1) |
+                       (verif$RsAna <= verif$max &
+                          verif$RsAna > verif$Q99),
+                     6,
+                     verif$classement_toutes_station
+                   )
+
+                   # classe 8
+                   verif$classement_toutes_station <- ifelse(
+                     (
+                       verif$RsAna >= (verif$min - verif$sd) &
+                         verif$RsAna < verif$min
+                     ) |
+                       (
+                         verif$RsAna <= (verif$max + verif$sd) &
+                           verif$RsAna > verif$max
+                       ),
+                     8,
+                     verif$classement_toutes_station
+                   )
+
+
+                   # classe 10
+                   verif$classement_toutes_station <-
+                     ifelse((verif$RsAna <= (verif$min -
+                                               verif$sd)) |
+                              (verif$RsAna >= (verif$max + verif$sd)),
+                            10,
+                            verif$classement_toutes_station)
+
+                   # classe 0
+                   verif$classement_toutes_station <-
+                     ifelse(is.na(verif$classement_toutes_station),
+                            0,
+                            verif$classement_toutes_station)
+
+                   ##### agrégation des vérifications
+                   verif$classement <-
+                     ifelse(verif$classement_toutes_station == 0 &
+                              verif$classement_par_station == 0,
+                            3,
+                            4)
+
+                   verif$classement <-
+                     ifelse(
+                       verif$classement_toutes_station %in% c(2, 3, 4) &
+                         verif$classement_par_station %in% c(0, 1, 2),
+                       1,
+                       verif$classement
+                     )
+
+                   verif$classement <-
+                     ifelse(
+                       verif$classement_toutes_station %in% c(2, 3) &
+                         verif$classement_par_station %in% c(3),
+                       1,
+                       verif$classement
+                     )
+
+                   verif$classement <-
+                     ifelse(
+                       verif$classement_toutes_station %in% c(6) &
+                         verif$classement_par_station %in% c(3),
+                       1,
+                       verif$classement
+                     )
+
+                   verif$classement <-
+                     ifelse(
+                       verif$classement_toutes_station %in% c(6) &
+                         verif$classement_par_station %in% c(0, 1, 2, 3, 7),
+                       3,
+                       verif$classement
+                     )
+
+                   verif$classement <-
+                     ifelse(
+                       verif$classement_toutes_station %in% c(4) &
+                         verif$classement_par_station %in% c(3, 7),
+                       3,
+                       verif$classement
+                     )
+
+                   verif$classement <-
+                     ifelse(
+                       verif$classement_toutes_station %in% c(3) &
+                         verif$classement_par_station %in% c(7),
+                       3,
+                       verif$classement
+                     )
+
+                   verif$classement <-
+                     ifelse(
+                       verif$classement_toutes_station %in% c(2) &
+                         verif$classement_par_station %in% c(7, 9),
+                       3,
+                       verif$classement
+                     )
+
+                   verif$classement <-
+                     ifelse(verif$classement_toutes_station %in% c(8, 10),
+                            2,
+                            verif$classement)
+
+                   verif$classement <-
+                     ifelse(
+                       verif$classement_toutes_station %in% c(3, 4, 6) &
+                         verif$classement_par_station %in% c(9, 10),
+                       2,
+                       verif$classement
+                     )
+
+                   verif$classement <-
+                     ifelse(
+                       verif$classement_toutes_station %in% c(2) &
+                         verif$classement_par_station %in% c(10),
+                       2,
+                       verif$classement
+                     )
+
+
+                   verif$classement <- as.character(verif$classement)
+
+                   fichier_xml$tbl_rs_anal <-
+                     verif %>% select(
+                       CdStationMesureEauxSurface:CdParametre,
+                       RsAna,
+                       classement_par_station:last_col()
+                     ) %>% ajoute_nom_param() %>% ajoute_nom_station() %>% ajoute_nom_cdqualana(col_qualif = "classement")
+
+                   remove_modal_spinner()
+                 }
+               })
+
+  observeEvent(input$btn_actualise_bdc,
+               {
+                 gc()
+
+                 if (!is.null(input$import_xml$datapath)) {
+                   show_modal_spinner(text = "Import du fichier en cours")
+
+                   update_modal_spinner(text = "Traitement du fichier en cours")
+                   analyses_xml <- fichier_xml$analyses_xml
+                   analyses_xml<-analyses_xml%>%subset(!is.na(RsAna))
                    cond_environ_xml <- fichier_xml$cond_environ_xml
                    operations_xml <- fichier_xml$operations_xml
 

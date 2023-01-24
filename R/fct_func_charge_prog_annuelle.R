@@ -17,10 +17,22 @@
 #' @param prefixe : character à ajouter en début de la référence de chaque bon de commande ("" par défaut)
 #'
 #' @export
-#' func_charge_prog_annuelle(fichier_prog, connexion, mar_id, frequence_bdc="mensuelle", prefixe="SQE2023")
 func_charge_prog_annuelle <-
   function(fichier_prog, connexion, mar_id, annee, frequence_bdc="mensuelle", prefixe="")
   {
+
+    # tables à mettre à jour si changement
+    # sqe.t_resultat_res (cascade) --> t_resultatanalyse_rea
+    # t_boncommande_pgm_bcp
+    # t_boncommande_quantitatif_bcq (cascade) -> view_bdc_quantitatif et view_bdc_quantif_par_staq
+    # t_boncommande_bco
+    # t_progannuelle_pga
+    # t_calendrierprog_cal
+    #
+
+
+
+    # func_charge_prog_annuelle(fichier_prog, connexion, mar_id, frequence_bdc="mensuelle", prefixe="SQE2023")
 
     frequence_bdc="mensuelle"
     prefixe<-"SQE2023"
@@ -45,11 +57,11 @@ func_charge_prog_annuelle <-
                               "semestrielle",
                               "annuelle")) {
       stop(
-        "La fréquence du bon de commande (frequence_bdc) doit avoir une des valeurs suivantes mensuelle, bimestrielle, trimestrielle, semestrielle, annuelle"
+        "La fr\u00e9quence du bon de commande (frequence_bdc) doit avoir une des valeurs suivantes mensuelle, bimestrielle, trimestrielle, semestrielle, annuelle"
       )
     }
 
-    if(!"character"%in%class(prefixe)){stop("chargement prog annuelle : prefixe doit être de classe character")}
+    if(!"character"%in%class(prefixe)){stop("chargement prog annuelle : prefixe doit \u00eatre de classe character")}
 
 
     ##### ENREGISTREMENT INITIAL DE LA TABLE calendrier (type de station et date de mise en oeuvre de chaque prestatation) #####
@@ -245,7 +257,7 @@ prog_annuelle<-dplyr::left_join(programme_annuel, calendrier, by=c("pga_cal_type
 
     prog_annuelle$mois1<-as.factor(prog_annuelle$mois)%>%dplyr::recode_factor(
       "janvier"="1",
-      "février"="2",
+      "f\u00e9vrier"="2",
       "mars"="3",
       "avril"="4",
       "mai"="5",
@@ -255,7 +267,7 @@ prog_annuelle<-dplyr::left_join(programme_annuel, calendrier, by=c("pga_cal_type
       "septembre"="9",
       "octobre"="10",
       "novembre"="11",
-      "décembre"="12")%>%as.numeric
+      "d\u00e9cembre"="12")%>%as.numeric
 
 
 

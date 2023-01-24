@@ -52,8 +52,8 @@ func_charge_ref_sandre_staq <- function(date_maj = "1950-01-01")
   # suppression de 1ère ligne qui décrit les colonnes
   staq<-staq[2:nrow(staq),]
 
-  # on ne conserve que les stations du bassin AELB
-  staq<-staq[substr(staq$CdStationMesureEauxSurface,1,2)=="04",]
+  # on ne conserve que les stations du bassin AELB et les stations plan d'eau
+  staq<-staq[substr(staq$CdStationMesureEauxSurface,1,2)=="04" | substr(staq$CdStationMesureEauxSurface,1,1)!="0" ,]
 
   staq <- staq %>%
     dplyr::select(CdStationMesureEauxSurface,

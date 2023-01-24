@@ -2,6 +2,7 @@
 
 export("%>%")
 export(func_charge_marche)
+export(func_charge_prog_annuelle)
 export(func_charge_ref_sandre_dispocollecte)
 export(func_charge_ref_sandre_fractions)
 export(func_charge_ref_sandre_intervenants)

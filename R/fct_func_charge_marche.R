@@ -257,7 +257,6 @@ func_enregistre_dataframe_bdd(dataframe_a_enr=table_a_enregistrer,
 
 ##### ENREGISTREMENT INITIAL DE LA TABLE PROGRAMMES TYPES #####
 
-
 # ajout de l'info run_id
   programmes_types<-dplyr::left_join(programmes_types, retour, by=c("run_analytique"="run_nom"))
 
