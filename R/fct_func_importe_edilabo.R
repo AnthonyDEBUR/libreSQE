@@ -640,7 +640,8 @@ func_importe_edilabo <- function(fichier, stations_a_traiter = NULL) {
       if(!is.null(stations_a_traiter))
       {df_out_stations<-df_out_stations%>%subset(CdStationPrelevement %in% stations_a_traiter)}
 
-    }
+  }
+  }
 
   return(
     list(
