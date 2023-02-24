@@ -22,6 +22,10 @@ func_importe_quesu <- function(fichier, stations_a_traiter = NULL) {
   if (substr(fichier, nchar(fichier) - 3, nchar(fichier)) != ".xml") {
     stop("func_importe_quesu : le fichier \u00e0 importer doit \u00eatre au format xml")
   }
+if(!(is.null(stations_a_traiter) |
+     is.character(stations_a_traiter) |
+     is.factor(stations_a_traiter))){stop("func_importe_quesu : stations_a_traiter
+                                          doit être de type character ou factor")}
 
   n_lines <- 50000  # nombre de lignes à traiter à chaque itération
   file_in <-

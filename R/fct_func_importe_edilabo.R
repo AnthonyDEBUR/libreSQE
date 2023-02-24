@@ -10,12 +10,8 @@
 #' Res_env qui contient les informations environnementales du prélèvement,
 #  Operation qui détaille le contenu des opérations
 #'
-#' @noRd
-#
+#' @export
 func_importe_edilabo <- function(fichier, stations_a_traiter = NULL) {
-
-  # fichier<-"C:\\workspace\\LibreSQE\\dev\\fichier exemple EDILABO\\RA_LABOCEAQ_EPTB_230210144022001.xml"
-  # fichier<-"C:\\workspace\\LibreSQE\\dev\\fichier exemple EDILABO\\EDILABO2.xml"
 
   if (!("character" %in% class(fichier))) {
     stop(
@@ -26,7 +22,10 @@ func_importe_edilabo <- function(fichier, stations_a_traiter = NULL) {
   if (substr(fichier, nchar(fichier) - 3, nchar(fichier)) != ".xml") {
     stop("func_importe_edilabo : le fichier \u00e0 importer doit \u00eatre au format xml")
   }
-
+  if(!(is.null(stations_a_traiter) |
+       is.character(stations_a_traiter) |
+       is.factor(stations_a_traiter))){stop("func_importe_quesu : stations_a_traiter
+                                          doit être de type character ou factor")}
   n_lines <- 50000  # nombre de lignes à traiter à chaque itération
   file_in <-
     file(fichier, "r")  # ouverture du fichier en lecture
@@ -34,11 +33,17 @@ func_importe_edilabo <- function(fichier, stations_a_traiter = NULL) {
   ##### Initialisation des variables et tableaux de sortie #####
   bloc <- character(0)
   first_passage <- TRUE
-
+  df_out_analyses0<-data.frame()
+  df_out_echant0<-data.frame()
+  df_out_mesureenv0<-data.frame()
+  df_out_intervenant0<-data.frame()
+  df_out_prelevement0<-data.frame()
+  df_out_commemoratif0<-data.frame()
+  df_out_demande0<-data.frame()
 
 #####sous fonctions #####
   ss_func_ajoute_colonne<-function(df, nom_colonne_valeur, nom_colonne_nb){
-    sapply(seq_along(df[[nom_colonne_valeur]]),
+    lapply(seq_along(df[[nom_colonne_valeur]]),
            function(x){rep(df[[nom_colonne_valeur]][x],
                            df[[nom_colonne_nb]][x])})%>%unlist()
   }
@@ -135,6 +140,55 @@ func_importe_edilabo <- function(fichier, stations_a_traiter = NULL) {
 
     }
 
+    #####Traitement des balises demande #####
+    # servira à affecter les commémoratifs liés à demande
+
+    if (!all(is.na(stringr::str_locate(bloc, "</Demande>")[, 1])))
+    {
+      # on extrait le bloc à traiter
+      indice_debut <- grep("<Demande>", bloc)[1]
+      indice_fin <- grep("</Demande>", bloc)[length(grep("</Demande>", bloc))]
+
+      bloc_intervenant <- bloc[indice_debut:indice_fin]
+
+      # Lecture du contenu XML
+      xml_content <- '<Root>'  # On doit ajouter une racine au contenu XML pour pouvoir le lire
+      xml_content <- paste(xml_content, paste(bloc_intervenant, collapse=""), sep='')
+      xml_content <- paste(xml_content, '</Root>', sep = '')  # On ferme la balise racine
+      doc <- xml2::read_xml(xml_content)
+
+      # extraire les balises Demande
+      intervenants <- xml2::xml_find_all(doc, "//Demande")
+
+      df_out_demande<-ss_func_extrat_from_xml(xml_nodes=intervenants,
+                                              values=list("CdDemandeCommanditaire",
+                                                          c("Commanditaire", "CdIntervenant"),
+                                                          "CdDemandePrestataire",
+                                                          c("Prestataire", "CdIntervenant"),
+                                                          "TypeDemande",
+                                                          "DateDemande",
+                                                          "LbDemande",
+                                                          "ReferenceMarche",
+                                                          "CommentairesCommanditaire",
+                                                          c("DestinataireRsAna","CdIntervenant"),
+                                                          c("Commemoratif", "CdCommemoratif")),
+                                                  count=list("Commemoratif")
+      )
+
+      # recupération des résultats de Commemoratif directement sous demande
+
+      # extraire les noeuds <Commemoratif> directement sous les noeuds <Demande>
+      b1_nodes <- xml2::xml_find_all(doc, "//Demande/Commemoratif")
+      df_out_commemoratif<-ss_func_extrat_from_xml(xml_nodes=b1_nodes,
+                                                   values=list("CdCommemoratif",
+                                                               "LbCommemoratif",
+                                                               "DsCommemoratif",
+                                                               "ValCommemoratif"))
+
+      }
+
+
+
 
     #####Traitement des balises <Prelevement> #####
     # servira à affecter un nom d'intervenant face à un code intervenant et à vérifier la cohérence entre les 2 informations
@@ -160,6 +214,11 @@ func_importe_edilabo <- function(fichier, stations_a_traiter = NULL) {
       if(length(intervenants)>0){
       df_out_prelevement<-ss_func_extrat_from_xml(xml_nodes=intervenants,
                                                   values=list(c("StationPrelevement","CdStationPrelevement"),
+                                                              "CdPrelevement",
+                                                              "ReferencePrel",
+                                                              "DatePrel",
+                                                              "HeurePrel",
+                                                             "DureePrel",
                                                               "LocalExactePrel",
                                                               "ProfondeurPrel",
                                                               "ZoneVerticaleProspectee",
@@ -169,22 +228,40 @@ func_importe_edilabo <- function(fichier, stations_a_traiter = NULL) {
                                                               c("Support", "LbSupport"),
                                                               c("MethodePrel","CdMethode"),
                                                               c("MethodePrel","NomMethode"),
-                                                              "CdPreleveur",
-                                                              "CdPayeur",
+                                                              c("Preleveur","CdIntervenant"),
+                                                             c("Payeur","CdIntervenant"),
                                                               "NumeroOrdrePrelevement",
                                                               "ConformitePrel",
                                                               "AccredPrel",
                                                               "PrelSousReserve",
                                                               "RealisePrel",
-                                                              "AgrePrel"
+                                                              "AgrePrel",
+                                                             "CommentairesPrel",
+                                                             c("Commemoratif", "CdCommemoratif")
                                                               ),
                                                   scheme=list(list(c("CdPrelevement"),
                                                                    "schemeAgencyID"),
                                                               list(c("CdStationPrelevement"),
                                                                    "schemeAgencyID")),
                                                   count=list("MesureEnvironnementale",
-                                                             "Echantillon")
-                                                  )}else{df_out_prelevement<-data.frame()}
+                                                             "Echantillon",
+                                                             "Commemoratif"))
+
+
+      # extraire les noeuds <Commemoratif> directement sous les noeuds <Demande>
+      b1_nodes <- xml2::xml_find_all(doc, "//Prelevement/Commemoratif")
+      df_out_commemoratif_prel<-ss_func_extrat_from_xml(xml_nodes=b1_nodes,
+                                                   values=list("CdCommemoratif",
+                                                               "LbCommemoratif",
+                                                               "DsCommemoratif",
+                                                               "ValCommemoratif"))
+
+
+
+
+      }else{df_out_prelevement<-data.frame()}
+
+
 
       # recupération des mesures environnementales
       mesenv <- xml2::xml_find_all(doc, "//MesureEnvironnementale")
@@ -207,6 +284,15 @@ func_importe_edilabo <- function(fichier, stations_a_traiter = NULL) {
                                                                     "StationPrelevement_CdStationPrelevement",
                                                                     "nb_MesureEnvironnementale")
 
+      df_out_mesureenv$DatePrel<-ss_func_ajoute_colonne(df_out_prelevement,
+                                                                    "DatePrel",
+                                                                    "nb_MesureEnvironnementale")
+
+      df_out_mesureenv$HeurePrel<-ss_func_ajoute_colonne(df_out_prelevement,
+                                                        "HeurePrel",
+                                                        "nb_MesureEnvironnementale")
+
+
       df_out_mesureenv$CdSupport<-ss_func_ajoute_colonne(df_out_prelevement,
                                                          "Support_CdSupport",
                                                          "nb_MesureEnvironnementale")
@@ -224,7 +310,7 @@ func_importe_edilabo <- function(fichier, stations_a_traiter = NULL) {
                                                               "nb_MesureEnvironnementale")
 
       df_out_mesureenv$CdPreleveur<-ss_func_ajoute_colonne(df_out_prelevement,
-                                                                     "CdPreleveur",
+                                                                     "Preleveur_CdIntervenant",
                                                                      "nb_MesureEnvironnementale")
 
       df_out_mesureenv$ConformitePrel<-ss_func_ajoute_colonne(df_out_prelevement,
@@ -269,14 +355,25 @@ func_importe_edilabo <- function(fichier, stations_a_traiter = NULL) {
                                                             c("UniteReference","LbUniteReference"),
                                                             c("UniteReference","SymUniteReference"),
                                                             c("Laboratoire","CdIntervenant"),
-                                                            c("Payeur", "CdIntervenant")
+                                                            c("Payeur", "CdIntervenant"),
+                                                            c("Commemoratif", "CdCommemoratif")
                                                 ),
-                                                count=list("Analyse")
+                                                count=list("Analyse",
+                                                          "Commemoratif")
       )
 
       df_out_echant$CdStationPrelevement<-ss_func_ajoute_colonne(df_out_prelevement,
                                                                    "StationPrelevement_CdStationPrelevement",
                                                                    "nb_Echantillon")
+
+      df_out_echant$DatePrel<-ss_func_ajoute_colonne(df_out_prelevement,
+                                                                 "DatePrel",
+                                                                 "nb_Echantillon")
+
+      df_out_echant$HeurePrel<-ss_func_ajoute_colonne(df_out_prelevement,
+                                                                 "HeurePrel",
+                                                                 "nb_Echantillon")
+
 
       df_out_echant$CdSupport<-ss_func_ajoute_colonne(df_out_prelevement,
                                                          "Support_CdSupport",
@@ -361,15 +458,27 @@ func_importe_edilabo <- function(fichier, stations_a_traiter = NULL) {
                                                             c("MethExtraction", "NomMethode"),
                                                             c("Solvant", "CdParametre"),
                                                             c("Solvant", "NomParametre"),
-                                                            "VolumeFiltre"
+                                                            "VolumeFiltre",
+                                                            c("Commemoratif", "CdCommemoratif")
                                                             ),
                                                 count=list("Commemoratif")
                                                   )
 
 
+
+
      df_out_analyses$CdStationPrelevement<-ss_func_ajoute_colonne(df_out_echant,
                                                                    "CdStationPrelevement",
                                                                    "nb_Analyse")
+
+     df_out_analyses$DatePrel<-ss_func_ajoute_colonne(df_out_echant,
+                                                                  "DatePrel",
+                                                                  "nb_Analyse")
+
+     df_out_analyses$HeurePrel<-ss_func_ajoute_colonne(df_out_echant,
+                                                                  "HeurePrel",
+                                                                  "nb_Analyse")
+
 
      df_out_analyses$CdSupport<-ss_func_ajoute_colonne(df_out_echant,
                                                         "Support_CdSupport",
@@ -453,63 +562,37 @@ func_importe_edilabo <- function(fichier, stations_a_traiter = NULL) {
      } else
                                                   {df_out_analyses<-data.frame()}
 
-      # recupération des résultats de Commemoratif
-      mesenv <- xml2::xml_find_all(doc, "//Commemoratif")
-      if(length(mesenv)>0)
-      {df_out_commemoratif<-ss_func_extrat_from_xml(xml_nodes=mesenv,
-                                                values=list("CdCommemoratif",
-                                                            "LbCommemoratif",
-                                                            "DsCommemoratif",
-                                                            "ValCommoratif"))
 
 
-      df_out_commemoratif$DateAna<-ss_func_ajoute_colonne(df_out_analyses,
-                                                                 "DateAna",
-                                                                 "nb_Commemoratif")
-
-      df_out_commemoratif$HeureAna<-ss_func_ajoute_colonne(df_out_analyses,
-                                                                         "HeureAna",
-                                                                         "nb_Commemoratif")
-
-      df_out_commemoratif$RefAna<-ss_func_ajoute_colonne(df_out_analyses,
-                                                                 "RefAna",
-                                                                 "nb_Commemoratif")
-
-      df_out_commemoratif$Parametre_CdParametre<-ss_func_ajoute_colonne(df_out_analyses,
-                                                                        "Parametre_CdParametre",
-                                                                        "nb_Commemoratif")
-
-      df_out_commemoratif$FractionAnalysee_CdFractionAnalysee<-ss_func_ajoute_colonne(df_out_analyses,
-                                                                        "FractionAnalysee_CdFractionAnalysee",
-                                                                        "nb_Commemoratif")
-      ##
-
-      df_out_commemoratif$CdStationPrelevement<-ss_func_ajoute_colonne(df_out_analyses,
-                                                         "CdStationPrelevement",
-                                                         "nb_Commemoratif")
-
-      df_out_commemoratif$ProfondeurPrel<-ss_func_ajoute_colonne(df_out_analyses,
-                                                                        "ProfondeurPrel",
-                                                                        "nb_Commemoratif")
-
-      df_out_commemoratif$ZoneVerticaleProspectee<-ss_func_ajoute_colonne(df_out_analyses,
-                                                                                      "ZoneVerticaleProspectee",
-                                                                                      "nb_Commemoratif")
-
-      } else
-                                                            {df_out_commemoratif<-data.frame()}
+    # affectation des commemoratifs
 
 
-      }
 
 
       # dans bloc, suppression des lignes traitées
       bloc <- bloc[which(seq(1:length(bloc)) < indice_debut |
                            seq(1:length(bloc)) > indice_fin)]
 
+      if(!is.null(stations_a_traiter))
+      {df_out_analyses<-df_out_analyses%>%subset(CdStationPrelevement%in%stations_a_traiter)
+      df_out_echant<-df_out_echant%>%subset(CdStationPrelevement%in%stations_a_traiter)
+      df_out_mesureenv<-df_out_mesureenv%>%subset(CdStationPrelevement%in%stations_a_traiter)
+      df_out_prelevement<-df_out_prelevement%>%subset(StationPrelevement_CdStationPrelevement%in%stations_a_traiter)
+      }
+
+
+      # on agrege les fichiers
+      df_out_analyses0<-dplyr::bind_rows(df_out_analyses0, df_out_analyses)
+      df_out_echant0<-dplyr::bind_rows(df_out_echant0, df_out_echant)
+      df_out_mesureenv0<-dplyr::bind_rows(df_out_mesureenv0, df_out_mesureenv)
+      df_out_intervenant0<-dplyr::bind_rows(df_out_intervenant0, df_out_intervenant)
+      df_out_prelevement0<-dplyr::bind_rows(df_out_prelevement0, df_out_prelevement)
+      df_out_commemoratif0<-dplyr::bind_rows(df_out_commemoratif0, df_out_commemoratif)
+      df_out_demande0<-dplyr::bind_rows(df_out_demande0, df_out_demande)
+
     }
 
-    gc()
+    gc(verbose=FALSE)
 
 
   #####Traitement des balises stations de prélèvement #####
@@ -554,16 +637,21 @@ func_importe_edilabo <- function(fichier, stations_a_traiter = NULL) {
       bloc <- bloc[which(seq(1:length(bloc)) < indice_debut |
                            seq(1:length(bloc)) > indice_fin)]
 
+      if(!is.null(stations_a_traiter))
+      {df_out_stations<-df_out_stations%>%subset(CdStationPrelevement %in% stations_a_traiter)}
+
     }
 
   return(
     list(
-      Analyses = df_out_analyses,
-      Echantillon = df_out_echant,
-      Res_env = df_out_mesureenv,
-      Operation = df_out_prelevement,
+      Analyses = df_out_analyses0,
+      Echantillon = df_out_echant0,
+      Res_env = df_out_mesureenv0,
+      Operation = df_out_prelevement0,
       Stations = df_out_stations,
-      Intervenants = df_out_intervenant
+      Intervenants = df_out_intervenant0,
+      Commemoratifs = df_out_commemoratif0,
+      Demande = df_out_demande0
 
     )
   )

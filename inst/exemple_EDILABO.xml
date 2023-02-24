@@ -529,6 +529,12 @@
             <UniteReference>
               <CdUniteReference>168</CdUniteReference>
             </UniteReference>
+			<Commemoratif>
+			<CdCommemoratif>23</CdCommemoratif> 
+			<LbCommemoratif>Alerte majeure - seuil inférieur </LbCommemoratif> 
+			<DsCommemoratif>Alerte si paramètre est inférieur à un certain seuil</DsCommemoratif>  
+			<ValCommemoratif>1</ValCommemoratif>
+			</Commemoratif>
           </Analyse>
           <Analyse>
             <DateAna>2020-12-08</DateAna>
@@ -1319,6 +1325,13 @@
         </Echantillon>
       </Prelevement>
       <Prelevement>
+	  <Commemoratif> 
+		<CdCommemoratif> 123</CdCommemoratif> 
+		<LbCommemoratif>Réseaux de mesure concernés par le prélèvement </LbCommemoratif>  
+		<DsCommemoratif> Ensemble des réseaux de mesure concernés par le prélèvement </DsCommemoratif> 
+		<ValCommemoratif>Réseau de suivi piézométrique des eaux souterraines du bassin Adour-Garonne</ValCommemoratif> 
+		<ValCommemoratif>Réseau patrimonial de suivi qualité des eaux souterraines du bassin AdourGaronne</ValCommemoratif> 
+	  </Commemoratif>
         <DatePrel>2020-12-02</DatePrel>
         <HeurePrel>14:30:00</HeurePrel>
         <AccredPrel>1</AccredPrel>
@@ -6168,6 +6181,13 @@
             </UniteReference>
           </Analyse>
         </Echantillon>
+		<Commemoratif> 
+		<CdCommemoratif> 123</CdCommemoratif> 
+		<LbCommemoratif>Réseaux de mesure concernés par le prélèvement </LbCommemoratif>  
+		<DsCommemoratif> Ensemble des réseaux de mesure concernés par le prélèvement </DsCommemoratif> 
+		<ValCommemoratif>Réseau de suivi piézométrique des eaux superficielles du bassin Loire Bretagne</ValCommemoratif> 
+		<ValCommemoratif>Réseau patrimonial de suivi qualité des eaux souterraines du bassin AdourGaronne</ValCommemoratif> 
+		</Commemoratif>
       </Prelevement>
       <Prelevement>
         <DatePrel>2020-12-02</DatePrel>
@@ -13165,6 +13185,19 @@
             </UniteReference>
           </Analyse>
         </Echantillon>
+		<Commemoratif> 
+		<CdCommemoratif> 123</CdCommemoratif> 
+		<LbCommemoratif>Réseaux de mesure concernés par le prélèvement </LbCommemoratif>  
+		<DsCommemoratif> Ensemble des réseaux de mesure concernés par le prélèvement </DsCommemoratif> 
+		<ValCommemoratif>Réseau de suivi de Seine Normandie</ValCommemoratif> 
+		<ValCommemoratif>Réseau patrimonial de suivi qualité des eaux souterraines du bassin Seine-Normandie</ValCommemoratif> 
+		</Commemoratif>
       </Prelevement>
+	  <Commemoratif>
+			<CdCommemoratif>122</CdCommemoratif> 
+			<LbCommemoratif>Coût total de la demande</LbCommemoratif> 
+			<DsCommemoratif>Coût total de la demande exprimée en euros</DsCommemoratif>  
+			<ValCommemoratif> 230 euros</ValCommemoratif> 
+			</Commemoratif>
     </Demande>
   </LABO_DEST>
