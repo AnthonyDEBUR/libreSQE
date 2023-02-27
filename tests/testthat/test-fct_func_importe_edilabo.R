@@ -3,16 +3,17 @@ test_that("Import EDILABO fonctionne", {
   test<-func_importe_edilabo(fichier,
                              stations_a_traiter = c("04304001", "04304000", "04304011"))
 
-  op<-test$Operation
-  ana<-test$Analyses
-  res_env<-test$Res_env
-  commem<-test$Commemoratifs
-  echant<-test$Echantillon
-  test$Stations
-  test$Intervenants
-test$Demande
-
-commem$ValCommemoratif
+#   test<-func_importe_edilabo(fichier)
+#
+#   op<-test$Operation
+#   ana<-test$Analyses
+#   res_env<-test$Res_env
+#   commem<-test$Commemoratifs
+#   echant<-test$Echantillon
+#   test$Stations
+#   test$Intervenants
+# test$Demande
+# test$Commemoratifs
 
   expect_equal(nrow(test$Analyses), 48)
   expect_equal(nrow(test$Echantillon), 3)

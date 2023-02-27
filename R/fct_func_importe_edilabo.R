@@ -33,13 +33,13 @@ func_importe_edilabo <- function(fichier, stations_a_traiter = NULL) {
   ##### Initialisation des variables et tableaux de sortie #####
   bloc <- character(0)
   first_passage <- TRUE
-  df_out_analyses0<-data.frame()
-  df_out_echant0<-data.frame()
-  df_out_mesureenv0<-data.frame()
-  df_out_intervenant0<-data.frame()
-  df_out_prelevement0<-data.frame()
-  df_out_commemoratif0<-data.frame()
-  df_out_demande0<-data.frame()
+  df_out_analyses<-df_out_analyses0<-data.frame()
+  df_out_echant<-df_out_echant0<-data.frame()
+  df_out_mesureenv<-df_out_mesureenv0<-data.frame()
+  df_out_intervenant<-df_out_intervenant0<-data.frame()
+  df_out_prelevement<-df_out_prelevement0<-data.frame()
+  df_out_commemoratif<-df_out_commemoratif0<-data.frame()
+  df_out_demande<-df_out_demande0<-data.frame()
 
 #####sous fonctions #####
   ss_func_ajoute_colonne<-function(df, nom_colonne_valeur, nom_colonne_nb){
@@ -48,6 +48,36 @@ func_importe_edilabo <- function(fichier, stations_a_traiter = NULL) {
                            df[[nom_colonne_nb]][x])})%>%unlist()
   }
 
+
+
+  # fonction pour ajouter les colonnes de chaque commémoratif a df_out_prelevement
+  create_new_cols <- function(df_out_prelevement, df_out_commemoratif_prel) {
+    # obtenir les noms de colonnes distinctes dans df2
+    col_names <- unique(df_out_commemoratif_prel$LbCommemoratif)
+    col_values <- unique(df_out_commemoratif_prel$CdCommemoratif)
+    if(length(col_names)!=length(col_values) | col_names==""){col_names <- unique(paste0("commemo_",df_out_commemoratif_prel$CdCommemoratif))}
+
+
+    # initialiser une liste pour stocker les nouvelles colonnes
+    new_cols <- list()
+
+    # pour chaque nom de colonne, créer une nouvelle colonne dans df
+    for (col in seq_along(col_values)) {
+      # obtenir les valeurs correspondantes de df2
+      values <- df_out_commemoratif_prel$ValCommemoratif[df_out_commemoratif_prel$CdCommemoratif == col_values[col]]
+
+      # créer la nouvelle colonne
+      new_col <- ifelse(df_out_prelevement$nb_Commemoratif == 1, values, NA)
+
+      # ajouter la nouvelle colonne à la liste
+      new_cols[[col_names[col]]] <- new_col
+    }
+
+    # combiner les nouvelles colonnes avec df
+    new_df <- cbind(df_out_prelevement, new_cols)
+
+    return(new_df)
+  }
 
 
   ##### Traitement du fichier #####
@@ -179,11 +209,12 @@ func_importe_edilabo <- function(fichier, stations_a_traiter = NULL) {
 
       # extraire les noeuds <Commemoratif> directement sous les noeuds <Demande>
       b1_nodes <- xml2::xml_find_all(doc, "//Demande/Commemoratif")
-      df_out_commemoratif<-ss_func_extrat_from_xml(xml_nodes=b1_nodes,
+      if(length(b1_nodes)>0)
+      {df_out_commemoratif<-ss_func_extrat_from_xml(xml_nodes=b1_nodes,
                                                    values=list("CdCommemoratif",
                                                                "LbCommemoratif",
                                                                "DsCommemoratif",
-                                                               "ValCommemoratif"))
+                                                               "ValCommemoratif"))}
 
       }
 
@@ -250,13 +281,14 @@ func_importe_edilabo <- function(fichier, stations_a_traiter = NULL) {
 
       # extraire les noeuds <Commemoratif> directement sous les noeuds <Demande>
       b1_nodes <- xml2::xml_find_all(doc, "//Prelevement/Commemoratif")
+      if(length(b1_nodes)>0){
       df_out_commemoratif_prel<-ss_func_extrat_from_xml(xml_nodes=b1_nodes,
                                                    values=list("CdCommemoratif",
                                                                "LbCommemoratif",
                                                                "DsCommemoratif",
                                                                "ValCommemoratif"))
 
-
+      df_out_prelevement<-create_new_cols(df_out_prelevement, df_out_commemoratif_prel)}
 
 
       }else{df_out_prelevement<-data.frame()}
@@ -415,13 +447,25 @@ func_importe_edilabo <- function(fichier, stations_a_traiter = NULL) {
                                                         "AgrePrel",
                                                         "nb_Echantillon")
 
+      # extraire les noeuds <Commemoratif> directement sous les noeuds <Demande>
+      b1_nodes <- xml2::xml_find_all(doc, "//Prelevement/Echantillon/Commemoratif")
+      if(length(b1_nodes)>0){
+      df_out_commemoratif_prel<-ss_func_extrat_from_xml(xml_nodes=b1_nodes,
+                                                        values=list("CdCommemoratif",
+                                                                    "LbCommemoratif",
+                                                                    "DsCommemoratif",
+                                                                    "ValCommemoratif"))
+
+      df_out_echant<-create_new_cols(df_out_echant, df_out_commemoratif_prel)}
+
       }else{df_out_echant<-data.frame()}
 
 
       # recupération des résultats d'analyses
       mesenv <- xml2::xml_find_all(doc, "//Analyse")
       if(length(mesenv)>0)
-     { df_out_analyses<-ss_func_extrat_from_xml(xml_nodes=mesenv,
+     {
+        df_out_analyses<-ss_func_extrat_from_xml(xml_nodes=mesenv,
                                                 values=list("RefLaboAna",
                                                             "DateAna",
                                                             "HeureAna",
@@ -559,12 +603,24 @@ func_importe_edilabo <- function(fichier, stations_a_traiter = NULL) {
      df_out_analyses$Laboratoire_CdIntervenant<-ss_func_ajoute_colonne(df_out_echant,
                                                                  "Laboratoire_CdIntervenant",
                                                                  "nb_Analyse")
+
+     # extraire les noeuds <Commemoratif> directement sous les noeuds <Demande>
+     b1_nodes <- xml2::xml_find_all(doc, "//Prelevement/Echantillon/Analyse/Commemoratif")
+     if(length(b1_nodes)>0){
+       df_out_commemoratif_prel<-ss_func_extrat_from_xml(xml_nodes=b1_nodes,
+                                                         values=list("CdCommemoratif",
+                                                                     "LbCommemoratif",
+                                                                     "DsCommemoratif",
+                                                                     "ValCommemoratif"))
+
+       df_out_analyses<-create_new_cols(df_out_analyses, df_out_commemoratif_prel)}
+
      } else
                                                   {df_out_analyses<-data.frame()}
 
 
 
-    # affectation des commemoratifs
+
 
 
 
