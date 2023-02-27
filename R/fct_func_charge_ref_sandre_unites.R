@@ -9,7 +9,9 @@
 #' @export
 func_charge_ref_sandre_unites <- function(date_maj = "1950-01-01")
 {
-  unites.csv.gz <- tempfile()
+  uni_codesandreunite<-uni_symbole<-uni_lblsandreunite<-NULL
+
+   unites.csv.gz <- tempfile()
 
   # telechargement du referentiel unites sandre
   downloader::download(

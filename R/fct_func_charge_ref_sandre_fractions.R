@@ -9,6 +9,10 @@
 
 func_charge_ref_sandre_fractions <- function(date_maj = "1950-01-01")
 {
+  CdFractionAnalysee<-LbFractionAnalysee<-NULL
+
+
+
   fraction.csv.gz <- tempfile()
 
 

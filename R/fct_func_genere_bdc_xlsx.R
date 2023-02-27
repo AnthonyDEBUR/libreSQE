@@ -13,7 +13,7 @@
 #' @noRd
 func_genere_bdc_xlsx<-function(bdc_id, pre_id, connexion, bdc_type, out_file_name)
 {
-
+  pru_datedebut<-pru_datefin<-pru_valeur<-prs_label_prestation<-NULL
 
 if(!(("numeric"%in%class(bdc_id))|("integer"%in%class(bdc_id)))){stop("func_genere_bdc_xlsx le parametre bdc_id doit être de classe numeric")}
 if(!(("numeric"%in%class(pre_id))|("integer"%in%class(pre_id)))){stop("func_genere_bdc_xlsx le parametre pre_id doit être de classe numeric")}

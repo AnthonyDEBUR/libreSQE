@@ -141,7 +141,7 @@ ss_func_extrat_from_xml <- function(xml_nodes,
 
   # remplissage du dataframe avec les values
   df_out[, nm_scheme] <-
-    lapply(seq_along(sapply(scheme, head, n = 1) %>% as.character),
+    lapply(seq_along(sapply(scheme, utils::head, n = 1) %>% as.character),
            function(x)
              remplissage_df_scheme(x, scheme)) %>% as.data.frame
 

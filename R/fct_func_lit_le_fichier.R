@@ -18,7 +18,7 @@ func_lit_le_fichier<-function(fichier_prog, onglet){
 dictionnaire_import_data <-
   system.file("dictionnaire_import_data.csv", package = "LibreSQE")
 dictionnaire_import_data <-
-  read.csv2(dictionnaire_import_data, encoding = "UTF-8")
+  utils::read.csv2(dictionnaire_import_data, encoding = "UTF-8")
 
 
 
@@ -76,7 +76,7 @@ convert_format_colonnes<-function(onglet){
     ))
 
   if (nrow(get(onglet)) == 0) {
-    stop(paste0("Onglet ",onglet," ne contient pas de données"))
+    stop(paste0("Onglet ",onglet," ne contient pas de donn\u00e9es"))
   }
 
   tryCatch(test_noms_colonnes(fichier_prog, onglet))

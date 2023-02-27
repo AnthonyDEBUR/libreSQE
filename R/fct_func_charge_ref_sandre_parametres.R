@@ -8,6 +8,8 @@
 #' @export
 func_charge_referentiel_SANDRE_parametres <-function(date_maj = "1950-01-01")
   {
+  par_cdparametre<-par_nomparametre<-par_statutparametre<-par_nomcourt<-par_codecas<-NULL
+
     param.xml.gz <- tempfile()
 
     downloader::download(

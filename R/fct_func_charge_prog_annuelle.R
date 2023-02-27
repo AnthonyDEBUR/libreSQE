@@ -30,9 +30,16 @@ func_charge_prog_annuelle <-
     # t_calendrierprog_cal
     #
 
-
-
     # func_charge_prog_annuelle(fichier_prog, connexion, mar_id, frequence_bdc="mensuelle", prefixe="SQE2023")
+
+    janvier<-fevrier<-mars<-avril<-mai<-juin<-NULL
+    juillet<-aout<-septembre<-octobre<-novembre<-decembre<-NULL
+    nb<-num_mois<-jour<-cal_refannee<-cal_mar_id<-cal_typestation<-NULL
+    cal_date<-cal_prs_id<-cal_rattachement_bdc<-pga_cal_refannee<-NULL
+    pga_mar_id<-pga_per_nom<-pga_cal_typestation<-pga_stm_cdstationmesureauxsurface<-NULL
+    pga_stm_cdstationmesureinterne<-num_bdc_tmp<-bco_refcommande<-bco_id<-res_codeprel<-NULL
+    ppt_pre_id<-ppt_analyseinsitu<-NULL
+
 
     frequence_bdc="mensuelle"
     prefixe<-"SQE2023"
@@ -74,7 +81,7 @@ func_charge_prog_annuelle <-
         calendrier,
         cols = c(
           janvier,
-          février,
+          fevrier,
           mars,
           avril,
           mai,
@@ -84,7 +91,7 @@ func_charge_prog_annuelle <-
           septembre,
           octobre,
           novembre,
-          décembre
+          decembre
         ),
         names_to = "mois",
         values_to = "nb"
@@ -95,7 +102,7 @@ func_charge_prog_annuelle <-
       mois_numeric <- data.frame(
         mois = c(
           "janvier",
-          "f\u00e9vrier",
+          "fevrier",
           "mars",
           "avril",
           "mai",
@@ -105,7 +112,7 @@ func_charge_prog_annuelle <-
           "septembre",
           "octobre",
           "novembre",
-          "d\u00e9cembre"
+          "decembre"
         ),
         num_mois = seq(1, 12, 1)
       )
@@ -257,7 +264,7 @@ prog_annuelle<-dplyr::left_join(programme_annuel, calendrier, by=c("pga_cal_type
 
     prog_annuelle$mois1<-as.factor(prog_annuelle$mois)%>%dplyr::recode_factor(
       "janvier"="1",
-      "f\u00e9vrier"="2",
+      "fevrier"="2",
       "mars"="3",
       "avril"="4",
       "mai"="5",
@@ -267,7 +274,7 @@ prog_annuelle<-dplyr::left_join(programme_annuel, calendrier, by=c("pga_cal_type
       "septembre"="9",
       "octobre"="10",
       "novembre"="11",
-      "d\u00e9cembre"="12")%>%as.numeric
+      "decembre"="12")%>%as.numeric
 
 
 

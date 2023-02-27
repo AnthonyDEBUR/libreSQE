@@ -8,6 +8,10 @@
 #' @export
 func_charge_ref_sandre_staq <- function(date_maj = "1950-01-01")
 {
+  CdStationMesureEauxSurface<-LbStationMesureEauxSurface<-CoordXStationMesureEauxSurface<-NULL
+  CoordYStationMesureEauxSurface<-NULL
+
+
   staq.csv.gz <- tempfile()
 
   # si date de dernière maj > 3 mois alors on recharge tout le référentiel (pour palier les défauts du SANDRE)

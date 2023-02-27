@@ -13,6 +13,9 @@
 #' @export
 func_importe_edilabo <- function(fichier, stations_a_traiter = NULL) {
 
+  CdStationPrelevement<-StationPrelevement_CdStationPrelevement<-NULL
+
+
   if (!("character" %in% class(fichier))) {
     stop(
       "func_importe_edilabo : le paramètre fichier doit être un

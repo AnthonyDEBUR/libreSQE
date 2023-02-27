@@ -10,6 +10,9 @@
 #' @export
 func_charge_ref_sandre_dispocollecte <- function(date_maj = "1950-01-01")
 {
+
+  CodeSandreRdd<-NomRdd<-StRdd<-NULL
+
   dispo_collecte.csv.gz <- tempfile()
 
 

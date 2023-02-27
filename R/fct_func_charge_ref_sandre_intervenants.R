@@ -9,6 +9,11 @@
 #' @export
 func_charge_ref_sandre_intervenants <-  function(date_maj = "1950-01-01")
 {
+  CdIntervenant<-NomIntervenant<-StIntervenant<-DateCreationIntervenant<-NULL
+DateMajIntervenant<-MnIntervenant<-ImmoIntervenant<-BpIntervenant<-LieuIntervenant<-NULL
+VilleIntervenant<-DepIntervenant<-CPIntervenant<-isa_datemaj<-RueIntervenant<-NULL
+
+
   interv.csv.gz <- tempfile()
 
   # si date de dernière maj > 3 mois alors on recherge tout el référentiel (pour palier les défauts du SANDRE)
