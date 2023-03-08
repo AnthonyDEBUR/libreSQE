@@ -37,8 +37,8 @@ if(!is.null(table_sandre))
                     "tr_parametre_par",
                     "refer",
                     connexion)
-  Sys.sleep(3)}
-
+ }
+  Sys.sleep(3)
 
   # Mise à jour table référentiel fractions SANDRE
   date_maj_table<-dates_maj[dates_maj$ts_table=="tr_fraction_fra",]$ts_date-1
@@ -51,8 +51,8 @@ if(!is.null(table_sandre))
                     "tr_fraction_fra",
                     "refer",
                     connexion)
-    Sys.sleep(3)}
-
+   }
+  Sys.sleep(3)
 
 
   # Mise à jour table référentiel unités SANDRE
@@ -65,8 +65,8 @@ if(!is.null(table_sandre))
                       "tr_uniteparametre_uni",
                       "refer",
                       connexion)
-    Sys.sleep(3)}
-
+}
+  Sys.sleep(3)
 
   # Mise à jour table référentiel méthodes SANDRE
   date_maj_table<-dates_maj[dates_maj$ts_table=="tr_methode_met",]$ts_date-1
@@ -77,10 +77,9 @@ if(!is.null(table_sandre))
                     "met_code",
                     "tr_methode_met",
                     "refer",
-                    connexion)
-          Sys.sleep(3)
+                  connexion)
         }
-
+  Sys.sleep(3)
 
   # Mise à jour table dispositifs de collectes (réseaux de mesures) du SANDRE
   date_maj_table<-dates_maj[dates_maj$ts_table=="tr_rdd_rdd",]$ts_date-1
@@ -93,8 +92,8 @@ if(!is.null(table_sandre))
                     schema_destination="refer",
                     connexion=connexion)
 
-    Sys.sleep(3)
     }
+  Sys.sleep(3)
 
   # Mise à jour table stations de mesures du SANDRE
   date_maj_table<-dates_maj[dates_maj$ts_table=="tr_stationmesure_stm",]$ts_date-1
@@ -103,15 +102,14 @@ if(!is.null(table_sandre))
   if(!is.null(table_sandre)){if(nrow(table_sandre)>0){
     table_sandre$stm_cdstationmesureinterne<-table_sandre$stm_cdstationmesureauxsurface
 
-    func_update_table(table_sandre,
-                      "stm_cdstationmesureauxsurface",
-                        "tr_stationmesure_stm",
-                      "refer",
-                      connexion)
+    func_update_table(dataframe_a_enr=table_sandre,
+                      table_destination="tr_stationmesure_stm",
+                      cle="stm_cdstationmesureauxsurface",
+                      schema_destination="refer",
+                      connexion=connexion)
 
-    Sys.sleep(3)
     }}
-
+  Sys.sleep(3)
 
 
   # Mise à jour table référentiel intervenants SANDRE

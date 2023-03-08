@@ -368,6 +368,9 @@ func_importe_edilabo <- function(fichier, stations_a_traiter = NULL) {
                                                            "AgrePrel",
                                                            "nb_MesureEnvironnementale")
 
+      df_out_mesureenv$CdPrelevement<-ss_func_ajoute_colonne(df_out_prelevement,
+                                                        "CdPrelevement",
+                                                        "nb_MesureEnvironnementale")
       }else{df_out_mesureenv<-data.frame()}
 
 
@@ -409,9 +412,12 @@ func_importe_edilabo <- function(fichier, stations_a_traiter = NULL) {
                                                                  "HeurePrel",
                                                                  "nb_Echantillon")
 
-
       df_out_echant$CdSupport<-ss_func_ajoute_colonne(df_out_prelevement,
-                                                         "Support_CdSupport",
+                                                      "Support_CdSupport",
+                                                      "nb_Echantillon")
+
+      df_out_echant$LbSupport<-ss_func_ajoute_colonne(df_out_prelevement,
+                                                         "Support_LbSupport",
                                                          "nb_Echantillon")
 
       df_out_echant$ProfondeurPrel<-ss_func_ajoute_colonne(df_out_prelevement,
@@ -427,7 +433,7 @@ func_importe_edilabo <- function(fichier, stations_a_traiter = NULL) {
                                                                      "nb_Echantillon")
 
       df_out_echant$CdPreleveur<-ss_func_ajoute_colonne(df_out_prelevement,
-                                                           "CdPreleveur",
+                                                           "Preleveur_CdIntervenant",
                                                            "nb_Echantillon")
 
       df_out_echant$ConformitePrel<-ss_func_ajoute_colonne(df_out_prelevement,
@@ -449,6 +455,15 @@ func_importe_edilabo <- function(fichier, stations_a_traiter = NULL) {
       df_out_echant$AgrePrel<-ss_func_ajoute_colonne(df_out_prelevement,
                                                         "AgrePrel",
                                                         "nb_Echantillon")
+
+      df_out_echant$CdPrelevement<-ss_func_ajoute_colonne(df_out_prelevement,
+                                                     "CdPrelevement",
+                                                     "nb_Echantillon")
+
+      df_out_echant$commemo_123<-ss_func_ajoute_colonne(df_out_prelevement,
+                                                     "commemo_123",
+                                                     "nb_Echantillon")
+
 
       # extraire les noeuds <Commemoratif> directement sous les noeuds <Demande>
       b1_nodes <- xml2::xml_find_all(doc, "//Prelevement/Echantillon/Commemoratif")
@@ -518,6 +533,10 @@ func_importe_edilabo <- function(fichier, stations_a_traiter = NULL) {
                                                                    "CdStationPrelevement",
                                                                    "nb_Analyse")
 
+     df_out_analyses$CdPrelevement<-ss_func_ajoute_colonne(df_out_echant,
+                                                                  "CdPrelevement",
+                                                                  "nb_Analyse")
+
      df_out_analyses$DatePrel<-ss_func_ajoute_colonne(df_out_echant,
                                                                   "DatePrel",
                                                                   "nb_Analyse")
@@ -526,9 +545,12 @@ func_importe_edilabo <- function(fichier, stations_a_traiter = NULL) {
                                                                   "HeurePrel",
                                                                   "nb_Analyse")
 
-
      df_out_analyses$CdSupport<-ss_func_ajoute_colonne(df_out_echant,
-                                                        "Support_CdSupport",
+                                                       "CdSupport",
+                                                       "nb_Analyse")
+
+     df_out_analyses$LbSupport<-ss_func_ajoute_colonne(df_out_echant,
+                                                        "LbSupport",
                                                         "nb_Analyse")
 
      df_out_analyses$ProfondeurPrel<-ss_func_ajoute_colonne(df_out_echant,
@@ -606,6 +628,16 @@ func_importe_edilabo <- function(fichier, stations_a_traiter = NULL) {
      df_out_analyses$Laboratoire_CdIntervenant<-ss_func_ajoute_colonne(df_out_echant,
                                                                  "Laboratoire_CdIntervenant",
                                                                  "nb_Analyse")
+
+     df_out_analyses$CdPreleveur<-ss_func_ajoute_colonne(df_out_echant,
+                                                                       "CdPreleveur",
+                                                                       "nb_Analyse")
+
+     df_out_analyses$commemo_123<-ss_func_ajoute_colonne(df_out_echant,
+                                                         "commemo_123",
+                                                         "nb_Analyse")
+
+
 
      # extraire les noeuds <Commemoratif> directement sous les noeuds <Demande>
      b1_nodes <- xml2::xml_find_all(doc, "//Prelevement/Echantillon/Analyse/Commemoratif")

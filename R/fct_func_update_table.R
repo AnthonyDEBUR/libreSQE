@@ -43,7 +43,7 @@ func_update_table <- function(dataframe_a_enr,
   # chargement de la table à mettre à jour
   tbl_a_maj<-DBI::dbGetQuery(connexion, paste0("SELECT * FROM ",schema_destination,".",table_destination,";"))
 
-  # identificationdes lignes à insérer
+  # identification des lignes à insérer
   lignes_a_inserer<-dataframe_a_enr[!(dataframe_a_enr[[cle]]%in%tbl_a_maj[[cle]]),]
 
   if(nrow(lignes_a_inserer)>0)
@@ -132,7 +132,7 @@ func_update_table <- function(dataframe_a_enr,
         pool::dbRollback(conn)
       }
     )
-    pool::poolReturn(conn)
+ #   pool::poolReturn(conn)
 
   }
 

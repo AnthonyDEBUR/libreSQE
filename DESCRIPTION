@@ -27,6 +27,7 @@ Imports:
     stringi,
     stringr,
     tidyr,
+    utils,
     xml2
 Suggests: 
     spelling,
