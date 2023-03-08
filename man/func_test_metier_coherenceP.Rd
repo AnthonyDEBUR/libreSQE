@@ -9,7 +9,8 @@ func_test_metier_coherenceP(
   PO4 = NULL,
   incertPtot = NULL,
   incertPO4 = NULL,
-  forceincert = FALSE
+  forceincert = FALSE,
+  export = "code"
 )
 }
 \arguments{
@@ -23,13 +24,18 @@ func_test_metier_coherenceP(
 
 \item{forceincert}{: boolean. If TRUE, an incorrect value of incertPtot or of incertPO4 will be
 automaticaly replaced by 20 (in %)}
+
+\item{export}{: "code" (default) : return code if relation beween the two parameters is OK or not,
+"value" return PO4 value in unit P-PO4.}
 }
 \value{
-The return value, is a numeric code :
+The return value, is either a numeric code :
  0 = impossible to do the test
  1 = OK PO4<=Ptot without considering uncertainty
  2 = OK only by considering uncertainty
  3 = PO4 measurement to high versus Ptot measurement
+
+or the transfromed value of PO4 as P-PO4
 }
 \description{
 test that total phosphorus is greater or equal to orthophosphates

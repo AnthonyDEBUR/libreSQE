@@ -575,7 +575,304 @@ Rapport$coherence_Ptot_PO4 <-
   analyses_a_tester %>% subset(testPtot_PO4 != "correcte")
 
 
-# test vraissemblance des résultats
+##### Test vraissemblance des résultats d'analyses #####
+Analyses$cle_frac_unit <- paste0(
+  Analyses$cdparametre,
+  "_",
+  Analyses$cdfractionanalysee,
+  "_",
+  Analyses$cdunitemesure
+)
+
+Analyses$cle_staq_frac_unit <-
+  paste0(
+    Analyses$cdstationmesureinterne,
+    "_",
+    Analyses$cdparametre,
+    "_",
+    Analyses$cdfractionanalysee,
+    "_",
+    Analyses$cdunitemesure
+  )
+verif <- Analyses %>%
+  dplyr::left_join(table_stat_analyses, by = "cle_staq_frac_unit") %>%
+  dplyr::left_join(table_stat_analyses_toutes_staq, by = "cle_frac_unit") %>%
+  subset(cdrqana == "1")
+
+##### qualif par station #####
+verif$classement_par_station <- 99
+
+# classe 1
+verif$classement_par_station <-
+  ifelse(
+    verif$rsana >= verif$Q10ST &
+      verif$rsana <= verif$Q90ST,
+    1,
+    verif$classement_par_station
+  )
+
+# classe 2
+verif$classement_par_station <- ifelse(
+  (verif$rsana >= verif$Q5ST & verif$rsana < verif$Q10ST) |
+    (verif$rsana <= verif$Q95ST &
+       verif$rsana > verif$Q90ST),
+  2,
+  verif$classement_par_station
+)
+
+# classe 3
+verif$classement_par_station <- ifelse(
+  (verif$rsana >= verif$minST & verif$rsana < verif$Q5ST) |
+    (verif$rsana <= verif$maxST &
+       verif$rsana > verif$Q95ST),
+  3,
+  verif$classement_par_station
+)
+
+# classe 7
+verif$classement_par_station <- ifelse(
+  (
+    verif$rsana >= (verif$minST - verif$sdST) &
+      verif$rsana < verif$minST
+  ) |
+    (
+      verif$rsana <= (verif$maxST + verif$sdST) &
+        verif$rsana > verif$maxST
+    ),
+  7,
+  verif$classement_par_station
+)
+
+# classe 9
+verif$classement_par_station <- ifelse(
+  (
+    verif$rsana >= (verif$minST - 2 * verif$sdST) &
+      verif$rsana < (verif$minST - verif$sdST)
+  ) |
+    (
+      verif$rsana <= (verif$maxST + 2 * verif$sdST) &
+        verif$rsana > (verif$maxST + verif$sdST)
+    ),
+  9,
+  verif$classement_par_station
+)
+
+# classe 10
+verif$classement_par_station <-
+  ifelse((verif$rsana <= (verif$minST - 2 *
+                            verif$sdST)) |
+           (verif$rsana >= (verif$maxST + 2 * verif$sdST)),
+         10,
+         verif$classement_par_station)
+
+# classe 0
+verif$classement_par_station <-
+  ifelse(is.na(verif$classement_par_station),
+         0,
+         verif$classement_par_station)
+
+
+##### qualif toutes stations
+
+verif$classement_toutes_station <- 99
+
+# classe 2
+verif$classement_toutes_station <-
+  ifelse(
+    verif$rsana >= verif$Q10 &
+      verif$rsana <= verif$Q90,
+    2,
+    verif$classement_toutes_station
+  )
+
+# classe 3
+verif$classement_toutes_station <- ifelse(
+  (verif$rsana >= verif$Q5 & verif$rsana < verif$Q10) |
+    (verif$rsana <= verif$Q95 &
+       verif$rsana > verif$Q90),
+  3,
+  verif$classement_toutes_station
+)
+
+# classe 4
+verif$classement_toutes_station <- ifelse(
+  (verif$rsana >= verif$Q1 & verif$rsana < verif$Q5) |
+    (verif$rsana <= verif$Q99 &
+       verif$rsana > verif$Q95),
+  4,
+  verif$classement_toutes_station
+)
+
+# classe 6
+verif$classement_toutes_station <- ifelse(
+  (verif$rsana >= verif$min & verif$rsana < verif$Q1) |
+    (verif$rsana <= verif$max &
+       verif$rsana > verif$Q99),
+  6,
+  verif$classement_toutes_station
+)
+
+# classe 8
+verif$classement_toutes_station <- ifelse(
+  (
+    verif$rsana >= (verif$min - verif$sd) &
+      verif$rsana < verif$min
+  ) |
+    (
+      verif$rsana <= (verif$max + verif$sd) &
+        verif$rsana > verif$max
+    ),
+  8,
+  verif$classement_toutes_station
+)
+
+
+# classe 10
+verif$classement_toutes_station <-
+  ifelse((verif$rsana <= (verif$min -
+                            verif$sd)) |
+           (verif$rsana >= (verif$max + verif$sd)),
+         10,
+         verif$classement_toutes_station)
+
+# classe 0
+verif$classement_toutes_station <-
+  ifelse(is.na(verif$classement_toutes_station),
+         0,
+         verif$classement_toutes_station)
+
+##### agrégation des vérifications
+verif$classement <-
+  ifelse(verif$classement_toutes_station == 0 &
+           verif$classement_par_station == 0,
+         3,
+         4)
+
+verif$classement <-
+  ifelse(
+    verif$classement_toutes_station %in% c(2, 3, 4) &
+      verif$classement_par_station %in% c(0, 1, 2),
+    1,
+    verif$classement
+  )
+
+verif$classement <-
+  ifelse(
+    verif$classement_toutes_station %in% c(2, 3) &
+      verif$classement_par_station %in% c(3),
+    1,
+    verif$classement
+  )
+
+verif$classement <-
+  ifelse(
+    verif$classement_toutes_station %in% c(6) &
+      verif$classement_par_station %in% c(3),
+    1,
+    verif$classement
+  )
+
+verif$classement <-
+  ifelse(
+    verif$classement_toutes_station %in% c(6) &
+      verif$classement_par_station %in% c(0, 1, 2, 3, 7),
+    3,
+    verif$classement
+  )
+
+verif$classement <-
+  ifelse(
+    verif$classement_toutes_station %in% c(4) &
+      verif$classement_par_station %in% c(3, 7),
+    3,
+    verif$classement
+  )
+
+verif$classement <-
+  ifelse(
+    verif$classement_toutes_station %in% c(3) &
+      verif$classement_par_station %in% c(7),
+    3,
+    verif$classement
+  )
+
+verif$classement <-
+  ifelse(
+    verif$classement_toutes_station %in% c(2) &
+      verif$classement_par_station %in% c(7, 9),
+    3,
+    verif$classement
+  )
+
+verif$classement <-
+  ifelse(verif$classement_toutes_station %in% c(8, 10),
+         2,
+         verif$classement)
+
+verif$classement <-
+  ifelse(
+    verif$classement_toutes_station %in% c(3, 4, 6) &
+      verif$classement_par_station %in% c(9, 10),
+    2,
+    verif$classement
+  )
+
+verif$classement <-
+  ifelse(
+    verif$classement_toutes_station %in% c(2) &
+      verif$classement_par_station %in% c(10),
+    2,
+    verif$classement
+  )
+
+
+verif$classement <- as.character(verif$classement)
+verif$classement <- verif$classement %>%
+  dplyr::case_match("0" ~ "non definissable",
+                    "1" ~ "correct",
+                    "2" ~ "incorrect",
+                    "3" ~ "incertain",
+                    "4" ~ "non qualifié")
+
+##### A FAIRE #####
+# Ajout des noms paramètres, support, fraction, symboles unités, nom labo, noms Rdd
+
+verif$unite<-func_ajoute_nom_sandre(connexion=connexion,
+                                       code=verif$cdunitemesure,
+                                    out="nom_unite")
+
+as.character(func_ajoute_nom_sandre(connexion=connexion,
+                       code=c("133","X"),
+                       out="nom_unite"))
+
+Rapport$resultats_a_confirmer<-verif%>%
+  subset(classement%in%c("incorrect",
+                         "incertain"))%>%
+  dplyr::select("classement",
+                "cdstationmesureinterne",
+                "cdrdd",
+                "dateprel",
+                "heureprel",
+                "profondeurpre",
+                "ZoneVerticaleProspectee",
+                "cdsupport",
+                "cdfractionanalysee",
+                "cdrqana",
+                "rsana",
+                "cdunitemesure",
+                "lqana",
+                "CommentairesEchant",
+                "commentairesana",
+                "cdpreleveur",
+                "cdlaboratoire",
+                "RefEchantillonLabo",
+                "RefEchantillonCommanditaire")
+names(verif)
 
 
 
+##### Test durée transport / réception échantillon labo #####
+
+
+
+##### Test température réception échantillon #####

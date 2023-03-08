@@ -4,7 +4,12 @@
 \alias{func_test_metier_coherenceO2}
 \title{func_test_metier_coherenceO2}
 \usage{
-func_test_metier_coherenceO2(O2 = NULL, satO2 = NULL, temp = NULL)
+func_test_metier_coherenceO2(
+  O2 = NULL,
+  satO2 = NULL,
+  temp = NULL,
+  export = "code"
+)
 }
 \arguments{
 \item{O2}{: dissolved oxygen content in mg O2/L}
@@ -12,13 +17,20 @@ func_test_metier_coherenceO2(O2 = NULL, satO2 = NULL, temp = NULL)
 \item{satO2}{: oxygen saturation in % (value between 0 and 250, more than 100% = oversaturated)}
 
 \item{temp}{: temperature in °C}
+
+\item{export}{: "code" (default) : return code if correlation is OK or not,
+"value" return oxygen saturation calculated for given O2 and temp values.}
 }
 \value{
-The return value, is a numeric code :
+The return value, is either a numeric code :
  0 = impossible to do the test
- 1 = correlation OK (less than 1% of difference between provide satO2 value and calculated satO2value)
- 2 = correlation not exactly respected (less than 5% of difference between provide satO2 value and calculated satO2value)
+ 1 = correlation OK (difference between provide satO2 value and calculated satO2value respect
+ satO2 value in [satO2 calculated - 1, sat O2 calculated + 1])
+ 2 = correlation not exactly respected (satO2 value in [satO2 calculated - 5, sat O2 calculated - 1[ or
+ satO2 value in ]satO2 calculated +1, sat O2 calculated + 5] )
  3 = error for sure
+
+or the calculated value of oxygen saturation for given temperature and dissolved O2.
 }
 \description{
 In pure water under 1atm of pressure, the parameters of temperature,
