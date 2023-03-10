@@ -260,7 +260,10 @@ func_charge_prog_annuelle <-
 
  ##### Préparation des bons de commandes #####
 
-prog_annuelle<-dplyr::left_join(programme_annuel, calendrier, by=c("pga_cal_typestation"='cal_typestation'))
+prog_annuelle<-dplyr::left_join(programme_annuel,
+                                calendrier,
+                                by=c("pga_cal_typestation"='cal_typestation'),
+                                multiple = "all")
 
     prog_annuelle$mois1<-as.factor(prog_annuelle$mois)%>%dplyr::recode_factor(
       "janvier"="1",
@@ -418,7 +421,7 @@ tmp<-prog_annuelle%>%dplyr::select(pga_stm_cdstationmesureinterne,
 
 names(tmp)<-c("res_stm_cdstationmesureinterne",
               "res_codeprel",
-              "res_dateprel",
+              "rea_dateprel_prev",
               "res_bco_id",
               "cal_prs_id"
               )
@@ -438,14 +441,21 @@ liste_pgm_types <- pool::dbGetQuery(
     ppt_uni_codesandreunite,
     ppt_met_codesandremethode,
     ppt_pre_id,
-    ppt_analyseinsitu
+    ppt_analyseinsitu,
+    ppt_limitedetec,
+    ppt_limitequantif,
+    ppt_incertitude,
+    ppt_accreditation
     FROM sqe.t_parametreprogrammetype_ppt WHERE ppt_mar_id=",
     mar_id,
     ";"
   )
 )
 
-tmp<-dplyr::left_join(tmp, liste_pgm_types, by=c("cal_prs_id"="ppt_prs_id"))
+tmp<-dplyr::left_join(tmp,
+                      liste_pgm_types,
+                      by=c("cal_prs_id"="ppt_prs_id"),
+                      multiple = "all")
 
 # récupération de la table des prestataires
 conn <-  pool::poolCheckout(connexion)
@@ -469,7 +479,12 @@ tmp <- dplyr::rename(
   "rea_cdfractionanalysee" = "ppt_fra_codefraction",
   "rea_cdunitemesure" = "ppt_uni_codesandreunite",
   "rea_cdmethode" = "ppt_met_codesandremethode",
-  "rea_cdproducteur" = "pre_siret"
+  "rea_cdproducteur" = "pre_siret",
+  "rea_cdaccreanaprev"="ppt_accreditation",
+  "rea_incertitudeprev"="ppt_incertitude",
+  "rea_lqprev"="ppt_limitequantif",
+  "rea_ldprev"="ppt_limitedetec"
+
 )
 
 tmp$rea_cdinsituana<-ifelse(tmp$ppt_analyseinsitu=="TRUE", "1", "2")

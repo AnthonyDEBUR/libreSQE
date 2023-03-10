@@ -13,7 +13,7 @@
 #' @return The return value, is either a numeric code :
 #'  0 = impossible to do the test
 #'  1 = correlation OK (difference between provide satO2 value and calculated satO2value respect
-#'  satO2 value in [satO2 calculated - 1, sat O2 calculated + 1])
+#'  satO2 value in [satO2 calculated - 2, sat O2 calculated + 2])
 #'  2 = correlation not exactly respected (satO2 value in [satO2 calculated - 5, sat O2 calculated - 1[ or
 #'  satO2 value in ]satO2 calculated +1, sat O2 calculated + 5] )
 #'  3 = error for sure
@@ -56,7 +56,7 @@ func_test_metier_coherenceO2<-function(O2=NULL, satO2=NULL, temp=NULL, export="c
   if(export=="code")
  { delta<-abs(satO2-satO2theorique)
 
-  out <- ifelse(delta < 1, "1",
+  out <- ifelse(delta < 2, "1",
                 ifelse(delta < 5, "2",
                        ifelse(delta >= 5, "3", "0")))}
   if(export=="value"){out<-satO2theorique}

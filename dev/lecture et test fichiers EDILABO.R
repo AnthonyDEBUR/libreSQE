@@ -1,9 +1,24 @@
 library(LibreSQE)
+library(openxlsx)
 
 #####Fichier a tester #####
 # file.choose()
+
+# SQE2023_UGVA_calend_1
 fichier <-
   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\01_janvier\\RA_LABOCEAQ_EPTB_230307104729001.xml"
+bon_de_commande_id <- 57
+
+# SQE2023_UGVE_calend_1
+fichier<-
+  "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\01_janvier\\RA_LABOCEAQ_EPTB_230307110458001.xml"
+bon_de_commande_id <- 20
+
+# SQE2023_UGVO_calend_1
+fichier<-
+  "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\01_janvier\\RA_LABOCEAQ_EPTB_230307111654001.xml"
+bon_de_commande_id <- 32
+
 
 ##### Connexion bdd #####
 connexion <- DBI::dbConnect(
@@ -25,8 +40,54 @@ table_stat_analyses_toutes_staq <-
     "C:/workspace/LibreSQE/dev/prototype_interface_libreSQE/data/table_stat_analyses_toutes_staq.rds"
   )
 
+##### chargement des analyses attendues pour le bon de commande #####
+# Écrire une requête SQL qui utilise la clause IN pour filtrer les résultats
+requete <-
+  paste(
+    "SELECT * FROM sqe.t_resultatanalyse_rea WHERE res_bco_id IN (",
+    bon_de_commande_id,
+    ")",
+    sep = ""
+  )
 
-# initialisation du rapport d'import
+# Exécuter la requête en utilisant la connexion à la base de données
+analyses_attendues <- DBI::dbGetQuery(connexion, requete)
+
+analyses_attendues <- analyses_attendues %>%
+  subset(res_stm_cdstationmesureinterne != "sans_objet")
+
+analyses_attendues$nomparametre <- func_ajoute_nom_sandre(connexion,
+                                                          code = analyses_attendues$rea_par_cdparametre,
+                                                          out = "nom_parametre")
+
+analyses_attendues$nomfraction <- func_ajoute_nom_sandre(connexion,
+                                                         code = analyses_attendues$rea_cdfractionanalysee,
+                                                         out = "nom_fraction")
+
+analyses_attendues$nompreleveur <- func_ajoute_nom_sandre(connexion,
+                                                          code = analyses_attendues$rea_cdpreleveur,
+                                                          out = "nom_intervenant")
+
+analyses_attendues$nomlabo <- func_ajoute_nom_sandre(connexion,
+                                                     code = analyses_attendues$rea_cdlaboratoire,
+                                                     out = "nom_intervenant")
+
+
+##### référence bon de commande #####
+# Écrire une requête SQL qui utilise la clause IN pour filtrer les résultats
+requete <-
+  paste(
+    "SELECT bco_refcommande FROM sqe.t_boncommande_bco WHERE bco_id IN (",
+    bon_de_commande_id,
+    ")",
+    sep = ""
+  )
+
+# Exécuter la requête en utilisant la connexion à la base de données
+ref_bon_de_commande <- DBI::dbGetQuery(connexion, requete)
+
+
+##### initialisation du rapport d'import #####
 Rapport <- list()
 
 ##### Import et mise en forme du fichier à tester #####
@@ -43,6 +104,7 @@ rm(test)
 
 ##### Synthèse rapport #####
 Rapport$fichier <- fichier
+Rapport$bon_de_commande <- ref_bon_de_commande
 Rapport$nb_lignes <- data.frame(c("Analyses", "Stations", "ResEnv"),
                                 c(nrow(Analyses), nrow(Stations), nrow(Res_env)))
 
@@ -96,6 +158,66 @@ Analyses$incertitude <- as.numeric(Analyses$incertitude)
 
 Analyses$cdproducteur <- Demande$Commanditaire_CdIntervenant[1]
 
+# Ajout des noms paramètres, fraction, symboles unités, nom labo, noms Rdd
+Analyses$nomparametre <-
+  func_ajoute_nom_sandre(connexion = connexion,
+                         code = Analyses$cdparametre,
+                         out = "nom_parametre")
+
+Analyses$unite <- func_ajoute_nom_sandre(connexion = connexion,
+                                         code = Analyses$cdunitemesure,
+                                         out = "nom_unite")
+
+Analyses$nomfraction <- func_ajoute_nom_sandre(
+  connexion = connexion,
+  code = Analyses$cdfractionanalysee,
+  out = "nom_fraction"
+)
+
+Analyses$nomlabo <- func_ajoute_nom_sandre(connexion = connexion,
+                                           code = Analyses$cdlaboratoire,
+                                           out = "nom_long_intervenant")
+
+Analyses$nompreleveur <-
+  func_ajoute_nom_sandre(connexion = connexion,
+                         code = Analyses$cdpreleveur,
+                         out = "nom_long_intervenant")
+
+Analyses$insitu <- func_ajoute_nom_sandre(connexion = connexion,
+                                          code = Analyses$cdinsituana,
+                                          out = "insitu")
+
+Analyses$station <- func_ajoute_nom_sandre(
+  connexion = connexion,
+  code = Analyses$cdstationmesureinterne,
+  out = "nom_station"
+)
+
+
+func_noms_codes <- function(codesrdd_vecteur) {
+  # Divise chaque élément du vecteur en entrée en un sous-vecteur de codes
+  codes_separe <- strsplit(codesrdd_vecteur, "/")
+
+  # Applique la fonction func_ajoute_nom_sandre à chaque sous-vecteur de codes
+  noms_codes <-
+    lapply(codes_separe, function(x)
+      func_ajoute_nom_sandre(
+        connexion = connexion,
+        code =
+          x,
+        out =
+          "nom_rdd"
+      ))
+
+  # Concatène les noms de code séparés par des slashs à nouveau
+  noms_codes_concatenes <- sapply(noms_codes, paste, collapse = "/")
+
+  return(noms_codes_concatenes)
+}
+
+Analyses$nomrdd <- func_noms_codes(Analyses$cdrdd)
+
+
 # Res_env
 Res_env <- dplyr::rename(
   Res_env,
@@ -118,24 +240,10 @@ Res_env$cdproducteur <- Demande$Commanditaire_CdIntervenant[1]
 
 ##### test cohérence code / nom station #####
 
-station_str <-
-  paste0("'", Stations$CdStationPrelevement, "'", collapse = ", ")
-
-# Écrire une requête SQL qui utilise la clause IN pour filtrer les résultats
-requete <-
-  paste(
-    "SELECT * FROM refer.tr_stationmesure_stm WHERE stm_cdstationmesureinterne IN (",
-    station_str,
-    ")",
-    sep = ""
-  )
-
-# Exécuter la requête en utilisant la connexion à la base de données
-refer_staq <- DBI::dbGetQuery(connexion, requete)
-Stations <-
-  dplyr::left_join(Stations,
-                   refer_staq,
-                   by = c("CdStationPrelevement" = "stm_cdstationmesureinterne"))
+Stations$stm_lbstationmesureeauxsurface <-
+  func_ajoute_nom_sandre(connexion ,
+                         code = Stations$CdStationPrelevement,
+                         out = "nom_station")
 Stations$LbStationConforme <-
   ifelse(
     Stations$LbStationPrelevement == Stations$stm_lbstationmesureeauxsurface,
@@ -150,12 +258,16 @@ Stations <- dplyr::rename(
 )
 
 
-Rapport$nom_cd_station <- Stations %>%
-  subset(LbStationConforme == FALSE &
-           !is.na(rendu_dans_xml) & rendu_dans_xml != "") %>%
-  dplyr::select(cdstationmesureinterne,
-                rendu_dans_xml,
-                attendu)
+Rapport$nom_cd_station <- unique(
+  Stations %>%
+    subset(
+      LbStationConforme == FALSE &
+        !is.na(rendu_dans_xml) & rendu_dans_xml != ""
+    ) %>%
+    dplyr::select(cdstationmesureinterne,
+                  rendu_dans_xml,
+                  attendu)
+)
 
 ##### test cohérence code / nom paramètre (analyses et Res_enc) #####
 #####Analyses #####
@@ -178,21 +290,29 @@ Parametres <-
                    refer_param,
                    by = c("cdparametre" = "par_cdparametre"))
 Parametres$LbParametreConforme <-
-  ifelse(Parametres$LbParametre == Parametres$par_nomparametre,
-         TRUE,
-         FALSE)
+  ifelse(
+    Parametres$LbParametre == Parametres$par_nomparametre |
+      Parametres$LbParametre == Parametres$par_nomcourt,
+    TRUE,
+    FALSE
+  )
 
-Parametres <- dplyr::rename(Parametres,
-                            rendu_dans_xml = LbParametre,
-                            attendu = par_nomparametre,
-                            statut_parametre_dans_SANDRE=par_statutparametre)
+Parametres <- dplyr::rename(
+  Parametres,
+  rendu_dans_xml = LbParametre,
+  attendu = par_nomparametre,
+  statut_parametre_dans_SANDRE = par_statutparametre
+)
 
 
 Rapport$nom_cd_parametre_analyses <- Parametres %>%
-  subset((LbParametreConforme == FALSE &
-            !is.na(rendu_dans_xml) &
-            rendu_dans_xml != "") |
-           statut_parametre_dans_SANDRE != "Validé") %>%
+  subset((
+    LbParametreConforme == FALSE &
+      !is.na(rendu_dans_xml) &
+      rendu_dans_xml != ""
+  ) |
+    statut_parametre_dans_SANDRE != "Validé"
+  ) %>%
   dplyr::select(cdparametre,
                 rendu_dans_xml,
                 attendu,
@@ -218,21 +338,29 @@ Parametres <-
                    refer_param,
                    by = c("cdparametre" = "par_cdparametre"))
 Parametres$LbParametreConforme <-
-  ifelse(Parametres$LbParametre == Parametres$par_nomparametre,
-         TRUE,
-         FALSE)
+  ifelse(
+    Parametres$LbParametre == Parametres$par_nomparametre |
+      Parametres$LbParametre == Parametres$par_nomcourt,
+    TRUE,
+    FALSE
+  )
 
-Parametres <- dplyr::rename(Parametres,
-                            rendu_dans_xml = LbParametre,
-                            attendu = par_nomparametre,
-                            statut_parametre_dans_SANDRE=par_statutparametre)
+Parametres <- dplyr::rename(
+  Parametres,
+  rendu_dans_xml = LbParametre,
+  attendu = par_nomparametre,
+  statut_parametre_dans_SANDRE = par_statutparametre
+)
 
 
 Rapport$nom_cd_parametre_res_env <- Parametres %>%
-  subset((LbParametreConforme == FALSE &
-            !is.na(rendu_dans_xml) &
-            rendu_dans_xml != "") |
-           statut_parametre_dans_SANDRE != "Validé") %>%
+  subset((
+    LbParametreConforme == FALSE &
+      !is.na(rendu_dans_xml) &
+      rendu_dans_xml != ""
+  ) |
+    statut_parametre_dans_SANDRE != "Validé"
+  ) %>%
   dplyr::select(cdparametre,
                 rendu_dans_xml,
                 attendu,
@@ -271,7 +399,7 @@ Fraction <- dplyr::rename(Fraction,
 Rapport$nom_cd_fraction_analyses <- Fraction %>%
   subset(LbFractionConforme == FALSE &
            !is.na(rendu_dans_xml) &
-           rendu_dans_xml!="")
+           rendu_dans_xml != "")
 
 ##### test cohérence code unité / nom unité #####
 Unites <- Analyses %>%
@@ -311,13 +439,17 @@ Unites <- dplyr::rename(
 
 
 Rapport$nom_cd_unites_analyses <- Unites %>%
-  subset((LbUniteConforme == FALSE &
-            !is.na(Lb_rendu_dans_xml) &
-            Lb_rendu_dans_xml!=""
-          )|
-           (SymUniteConforme == FALSE &
-              !is.na(Sym_rendu_dans_xml) &
-              Sym_rendu_dans_xml!="")) %>%
+  subset((
+    LbUniteConforme == FALSE &
+      !is.na(Lb_rendu_dans_xml) &
+      Lb_rendu_dans_xml != ""
+  ) |
+    (
+      SymUniteConforme == FALSE &
+        !is.na(Sym_rendu_dans_xml) &
+        Sym_rendu_dans_xml != ""
+    )
+  ) %>%
   dplyr::select(cdunitemesure,
                 Lb_rendu_dans_xml,
                 Lb_attendu,
@@ -360,12 +492,17 @@ Intervenants <- dplyr::rename(
 
 
 Rapport$nom_mnemo_intervenants <- Intervenants %>%
-  subset((NomIntervenantConforme == FALSE &
-            !is.na(Nom_rendu_dans_xml) &
-            Nom_rendu_dans_xml!="") |
-           (MnIntervenantConforme == FALSE &
-              !is.na(Mn_rendu_dans_xml) &
-              Mn_rendu_dans_xml!="" )) %>%
+  subset((
+    NomIntervenantConforme == FALSE &
+      !is.na(Nom_rendu_dans_xml) &
+      Nom_rendu_dans_xml != ""
+  ) |
+    (
+      MnIntervenantConforme == FALSE &
+        !is.na(Mn_rendu_dans_xml) &
+        Mn_rendu_dans_xml != ""
+    )
+  ) %>%
   dplyr::select(CdIntervenant,
                 Nom_rendu_dans_xml,
                 Nom_attendu,
@@ -531,11 +668,13 @@ analyses_a_tester <-
 
 fct_test_P <-
   function(x) {
+    print(analyses_a_tester[["cdstationmesureinterne"]][x])
     func_test_metier_coherenceP(
       Ptot = analyses_a_tester[["p1350"]][x],
       PO4 = analyses_a_tester[["p1433"]][x],
       incertPtot = analyses_a_tester[["incer1350"]][x],
-      incertPO4 = analyses_a_tester[["incer1350"]][x]
+      incertPO4 = analyses_a_tester[["incer1350"]][x],
+      forceincert = TRUE
     )
   }
 
@@ -546,9 +685,11 @@ fct_test_P_val <-
       PO4 = analyses_a_tester[["p1433"]][x],
       incertPtot = analyses_a_tester[["incer1350"]][x],
       incertPO4 = analyses_a_tester[["incer1350"]][x],
-      export = "value"
+      export = "value",
+      forceincert = TRUE
     )
   }
+
 
 analyses_a_tester$testPtot_PO4 <-
   sapply(seq_along(analyses_a_tester$cdstationmesureinterne),
@@ -714,14 +855,10 @@ verif$classement_toutes_station <- ifelse(
 
 # classe 8
 verif$classement_toutes_station <- ifelse(
-  (
-    verif$rsana >= (verif$min - verif$sd) &
-      verif$rsana < verif$min
-  ) |
-    (
-      verif$rsana <= (verif$max + verif$sd) &
-        verif$rsana > verif$max
-    ),
+  (verif$rsana >= (verif$min - verif$sd) &
+     verif$rsana < verif$min) |
+    (verif$rsana <= (verif$max + verif$sd) &
+       verif$rsana > verif$max),
   8,
   verif$classement_toutes_station
 )
@@ -742,137 +879,577 @@ verif$classement_toutes_station <-
          verif$classement_toutes_station)
 
 ##### agrégation des vérifications
-verif$classement <-
+verif$cdqualana <-
   ifelse(verif$classement_toutes_station == 0 &
            verif$classement_par_station == 0,
          3,
          4)
 
-verif$classement <-
+verif$cdqualana <-
   ifelse(
     verif$classement_toutes_station %in% c(2, 3, 4) &
       verif$classement_par_station %in% c(0, 1, 2),
     1,
-    verif$classement
+    verif$cdqualana
   )
 
-verif$classement <-
+verif$cdqualana <-
   ifelse(
     verif$classement_toutes_station %in% c(2, 3) &
       verif$classement_par_station %in% c(3),
     1,
-    verif$classement
+    verif$cdqualana
   )
 
-verif$classement <-
+verif$cdqualana <-
   ifelse(
     verif$classement_toutes_station %in% c(6) &
       verif$classement_par_station %in% c(3),
     1,
-    verif$classement
+    verif$cdqualana
   )
 
-verif$classement <-
+verif$cdqualana <-
   ifelse(
     verif$classement_toutes_station %in% c(6) &
       verif$classement_par_station %in% c(0, 1, 2, 3, 7),
     3,
-    verif$classement
+    verif$cdqualana
   )
 
-verif$classement <-
+verif$cdqualana <-
   ifelse(
     verif$classement_toutes_station %in% c(4) &
       verif$classement_par_station %in% c(3, 7),
     3,
-    verif$classement
+    verif$cdqualana
   )
 
-verif$classement <-
+verif$cdqualana <-
   ifelse(
     verif$classement_toutes_station %in% c(3) &
       verif$classement_par_station %in% c(7),
     3,
-    verif$classement
+    verif$cdqualana
   )
 
-verif$classement <-
+verif$cdqualana <-
   ifelse(
     verif$classement_toutes_station %in% c(2) &
       verif$classement_par_station %in% c(7, 9),
     3,
-    verif$classement
+    verif$cdqualana
   )
 
-verif$classement <-
+verif$cdqualana <-
   ifelse(verif$classement_toutes_station %in% c(8, 10),
          2,
-         verif$classement)
+         verif$cdqualana)
 
-verif$classement <-
+verif$cdqualana <-
   ifelse(
     verif$classement_toutes_station %in% c(3, 4, 6) &
       verif$classement_par_station %in% c(9, 10),
     2,
-    verif$classement
+    verif$cdqualana
   )
 
-verif$classement <-
+verif$cdqualana <-
   ifelse(
     verif$classement_toutes_station %in% c(2) &
       verif$classement_par_station %in% c(10),
     2,
-    verif$classement
+    verif$cdqualana
   )
 
 
-verif$classement <- as.character(verif$classement)
-verif$classement <- verif$classement %>%
-  dplyr::case_match("0" ~ "non definissable",
-                    "1" ~ "correct",
-                    "2" ~ "incorrect",
-                    "3" ~ "incertain",
-                    "4" ~ "non qualifié")
+verif$cdqualana <- as.character(verif$cdqualana)
+verif$nomclassement <- verif$cdqualana %>%
+  dplyr::case_match(
+    "0" ~ "non definissable",
+    "1" ~ "correct",
+    "2" ~ "incorrect",
+    "3" ~ "incertain",
+    "4" ~ "non qualifié"
+  )
 
-##### A FAIRE #####
-# Ajout des noms paramètres, support, fraction, symboles unités, nom labo, noms Rdd
+# export des resultats
 
-verif$unite<-func_ajoute_nom_sandre(connexion=connexion,
-                                       code=verif$cdunitemesure,
-                                    out="nom_unite")
+Rapport$resultats_a_confirmer <- verif %>%
+  dplyr::select(
+    "nomclassement",
+    "cdstationmesureinterne",
+    "station",
+    "dateprel",
+    "heureprel",
+    "profondeurpre",
+    "ZoneVerticaleProspectee",
+    "cdparametre",
+    "nomparametre",
+    "insitu",
+    "nomfraction",
+    "cdrqana",
+    "rsana",
+    "unite",
+    "lqana",
+    "CommentairesEchant",
+    "commentairesana",
+    "cdpreleveur",
+    "nompreleveur",
+    "cdlaboratoire",
+    "nomlabo",
+    "RefEchantillonLabo",
+    "RefEchantillonCommanditaire",
+    "cdrdd",
+    "nomrdd"
+  ) %>%
+  subset(nomclassement %in% c("incorrect",
+                              "incertain"))
 
-as.character(func_ajoute_nom_sandre(connexion=connexion,
-                       code=c("133","X"),
-                       out="nom_unite"))
+##### ajout de la qualification à la table Analyses #####
+verif <-
+  verif %>% dplyr::select(
+    "cdqualana",
+    "cdstationmesureinterne",
+    "dateprel",
+    "heureprel",
+    "profondeurpre",
+    "ZoneVerticaleProspectee",
+    "cdparametre",
+    "cdinsituana",
+    "cdfractionanalysee",
+    "cdrqana",
+    "rsana",
+    "cdunitemesure",
+    "cdpreleveur",
+    "cdlaboratoire",
+    "RefEchantillonLabo",
+    "RefEchantillonCommanditaire"
+  )
 
-Rapport$resultats_a_confirmer<-verif%>%
-  subset(classement%in%c("incorrect",
-                         "incertain"))%>%
-  dplyr::select("classement",
-                "cdstationmesureinterne",
-                "cdrdd",
-                "dateprel",
-                "heureprel",
-                "profondeurpre",
-                "ZoneVerticaleProspectee",
-                "cdsupport",
-                "cdfractionanalysee",
-                "cdrqana",
-                "rsana",
-                "cdunitemesure",
-                "lqana",
-                "CommentairesEchant",
-                "commentairesana",
-                "cdpreleveur",
-                "cdlaboratoire",
-                "RefEchantillonLabo",
-                "RefEchantillonCommanditaire")
-names(verif)
+Analyses <-
+  Analyses %>% dplyr::left_join(
+    verif,
+    by = c(
+      "cdstationmesureinterne",
+      "dateprel",
+      "heureprel",
+      "profondeurpre",
+      "ZoneVerticaleProspectee",
+      "cdparametre",
+      "cdinsituana",
+      "cdfractionanalysee",
+      "cdrqana",
+      "rsana",
+      "cdunitemesure",
+      "cdpreleveur",
+      "cdlaboratoire",
+      "RefEchantillonLabo",
+      "RefEchantillonCommanditaire"
+    )
+  )
 
+
+##### Comparaison bon de commande - réalisé #####
+
+analyses_attendues$cle <-
+  paste0(
+    analyses_attendues$res_stm_cdstationmesureinterne,
+    "_",
+    analyses_attendues$rea_cdfractionanalysee,
+    "_",
+    analyses_attendues$rea_par_cdparametre,
+    "_",
+    analyses_attendues$rea_cdunitemesure,
+    "_",
+    analyses_attendues$rea_cdinsituana
+  )
+
+Analyses$cle <-
+  paste0(
+    Analyses$cdstationmesureinterne,
+    "_",
+    Analyses$cdfractionanalysee,
+    "_",
+    Analyses$cdparametre,
+    "_",
+    Analyses$cdunitemesure,
+    "_",
+    Analyses$cdinsituana
+  )
+
+
+
+##### Stations commandées et réalisées #####
+
+Rapport$stations_commandees_analysees <- Analyses %>%
+  subset(
+    cdstationmesureinterne %in% analyses_attendues$res_stm_cdstationmesureinterne &
+      cdrqana != "0"
+  ) %>%
+  dplyr::group_by(cdstationmesureinterne, station, dateprel) %>%
+  dplyr::summarise(nb_donnees = dplyr::n())
+
+##### Stations non commandées et réalisées #####                                                                                                                  )
+Rapport$stations_non_commandees_analysees <- Analyses %>%
+  subset(
+    !(
+      cdstationmesureinterne %in% analyses_attendues$res_stm_cdstationmesureinterne &
+        cdrqana != "0"
+    )
+  ) %>%
+  dplyr::group_by(cdstationmesureinterne, station, dateprel) %>%
+  dplyr::summarise(nb_donnees = dplyr::n())
+
+##### Stations commandées et non réalisées #####                                                                                                                  )
+analyses_attendues$station <- func_ajoute_nom_sandre(connexion,
+                                                     code = analyses_attendues$res_stm_cdstationmesureinterne,
+                                                     out = "nom_station")
+
+Rapport$stations_commandees_non_analysees <- analyses_attendues %>%
+  subset(!(
+    res_stm_cdstationmesureinterne %in% Analyses$cdstationmesureinterne
+  )) %>%
+  dplyr::group_by(res_stm_cdstationmesureinterne, station) %>%
+  dplyr::summarise(nb_donnees = dplyr::n())
+
+
+##### Analyses hors bon de commande (analyses en +) #####
+Rapport$analyses_hors_bon_de_commande <- Analyses %>%
+  subset((!cle %in% analyses_attendues$cle) &
+           (
+             !cdstationmesureinterne %in% Rapport$stations_commandees_non_analysees$cdstationmesureinterne
+           )
+  ) %>%
+  dplyr::select(
+    "cdstationmesureinterne",
+    "station",
+    "dateprel",
+    "heureprel",
+    "profondeurpre",
+    "ZoneVerticaleProspectee",
+    "cdparametre",
+    "nomparametre",
+    "insitu",
+    "nomfraction",
+    "cdrqana",
+    "rsana",
+    "unite",
+    "lqana",
+    "CommentairesEchant",
+    "commentairesana",
+    "cdpreleveur",
+    "nompreleveur",
+    "cdlaboratoire",
+    "nomlabo",
+    "RefEchantillonLabo",
+    "RefEchantillonCommanditaire",
+    "cdrdd",
+    "nomrdd"
+  )
+
+##### Analyses en doublon #####
+doublons <- Analyses %>%
+  dplyr::group_by(cle, dateprel) %>%
+  dplyr::summarise(nb = dplyr::n()) %>%
+  subset(nb > 1)
+
+Rapport$analyses_en_doublon <- Analyses %>%
+  dplyr::inner_join(doublons, by = c("cle", "dateprel")) %>%
+  dplyr::select(
+    "cdstationmesureinterne",
+    "station",
+    "dateprel",
+    "heureprel",
+    "profondeurpre",
+    "ZoneVerticaleProspectee",
+    "cdparametre",
+    "nomparametre",
+    "insitu",
+    "nomfraction",
+    "cdrqana",
+    "rsana",
+    "unite",
+    "lqana",
+    "CommentairesEchant",
+    "commentairesana",
+    "cdpreleveur",
+    "nompreleveur",
+    "cdlaboratoire",
+    "nomlabo",
+    "RefEchantillonLabo",
+    "RefEchantillonCommanditaire",
+    "cdrdd",
+    "nomrdd"
+  )
+
+##### Analyses manquantes #####
+nb_analyses_attendues <- analyses_attendues %>%
+  subset(
+    !res_stm_cdstationmesureinterne %in%
+      Rapport$stations_commandees_non_analysees$cdstationmesureinterne
+  ) %>%
+  unique %>%
+  dplyr::group_by(cle) %>%
+  dplyr::summarise(nb_attendu = dplyr::n()) %>%
+  dplyr::ungroup()
+
+nb_analyses_rendues <- Analyses %>%
+  subset(cdrqana != "0") %>%
+  dplyr::select(cle, dateprel) %>%
+  unique %>%
+  dplyr::group_by(cle) %>%
+  dplyr::summarise(nb_rendu = dplyr::n()) %>%
+  dplyr::ungroup()
+nb_analyses_rendues$nb_rendu <-
+  ifelse(is.na(nb_analyses_rendues$nb_rendu),
+         0,
+         nb_analyses_rendues$nb_rendu)
+
+
+delta_analyses <- dplyr::left_join(nb_analyses_attendues,
+                                   nb_analyses_rendues,
+                                   by = "cle") %>%
+  dplyr::mutate(delta = nb_attendu - ifelse(is.na(nb_rendu), 0, nb_rendu)) %>%
+  subset(delta > 0)
+
+extraire_lignes <- function(df, delta_analyses) {
+  # Calculer le nombre d'occurrences de chaque clé dans le data.frame d'analyses
+  df$occurrences <- ave(df$cle, df$cle, FUN = length)
+
+  # Fusionner avec le data.frame delta pour récupérer les nombres d'occurrences souhaités
+  df <- merge(df, delta_analyses, by = "cle", all = TRUE)
+
+  # Extraire les lignes avec les clés et les nombres d'occurrences souhaités
+  df <- subset(df, occurrences <= delta)
+
+  # Retirer la colonne "occurrences" ajoutée précédemment
+  df$occurrences <- NULL
+
+  # Retourner le data.frame résultant
+  return(df)
+}
+
+
+
+
+Rapport$analyses_manquantes <-
+  extraire_lignes(analyses_attendues, delta_analyses) %>%
+  dplyr::select(
+    "res_stm_cdstationmesureinterne",
+    "station",
+    "rea_dateprel_prev",
+    "rea_profondeurpre",
+    "rea_par_cdparametre",
+    "nomparametre",
+    "rea_cdinsituana",
+    "nomfraction",
+    "rea_cdpreleveur",
+    "nompreleveur",
+    "rea_cdlaboratoire",
+    "nomlabo",
+    "rea_rdd_cdrdd"
+  )
+
+##### Vérification dispositif de collecte #####
+Rapport$reseaux_de_mesures <- Analyses %>%
+  dplyr::group_by(cdrdd, nomrdd) %>%
+  dplyr::summarise(nb = dplyr::n(),
+                   pourcent = 100 * dplyr::n() / nrow(Analyses))
+
+##### Vérification respect des LQ contractuelles #####
+
+compar_perf_anal <- dplyr::inner_join(Analyses,
+                                      analyses_attendues,
+                                      by = "cle",
+                                      suffix = c("", ".attendu"))
+
+
+Rapport$lq_non_conforme <- compar_perf_anal %>%
+  subset((lqana > rea_lqprev) & cdrqana == "10") %>%
+  dplyr::select(
+    "cdstationmesureinterne",
+    "station",
+    "dateprel",
+    "heureprel",
+    "profondeurpre",
+    "ZoneVerticaleProspectee",
+    "cdparametre",
+    "nomparametre",
+    "insitu",
+    "nomfraction",
+    "cdrqana",
+    "rsana",
+    "unite",
+    "lqana",
+    "rea_lqprev",
+    "CommentairesEchant",
+    "commentairesana",
+    "cdpreleveur",
+    "nompreleveur",
+    "cdlaboratoire",
+    "nomlabo",
+    "RefEchantillonLabo",
+    "RefEchantillonCommanditaire",
+    "cdrdd",
+    "nomrdd"
+  ) %>%
+  dplyr::rename("lq_au_bpu" = "rea_lqprev")
+
+##### Vérification respect des accréditations #####
+
+Rapport$accreditation_non_conforme <- compar_perf_anal %>%
+  subset(rea_cdaccreanaprev == "true" & cdaccreana != "1") %>%
+  dplyr::select(
+    "cdstationmesureinterne",
+    "station",
+    "dateprel",
+    "heureprel",
+    "profondeurpre",
+    "ZoneVerticaleProspectee",
+    "cdparametre",
+    "nomparametre",
+    "insitu",
+    "nomfraction",
+    "cdrqana",
+    "rsana",
+    "unite",
+    "cdaccreana",
+    "rea_cdaccreanaprev",
+    "CommentairesEchant",
+    "commentairesana",
+    "cdpreleveur",
+    "nompreleveur",
+    "cdlaboratoire",
+    "nomlabo",
+    "RefEchantillonLabo",
+    "RefEchantillonCommanditaire",
+    "cdrdd",
+    "nomrdd"
+  ) %>%
+  dplyr::rename("accreditation_attendue" = "rea_cdaccreanaprev")
+
+
+# calcul taux de résultats rendus sous accréditation par rapport à celui attendu
+
+if (nrow(compar_perf_anal %>%
+         subset(rea_cdaccreanaprev == "true")) > 0)
+{
+  Rapport$taux_result_accredites_sur_attendus <-
+    nrow(compar_perf_anal %>%
+           subset(rea_cdaccreanaprev ==
+                    "true" & cdaccreana == "1")) / nrow(compar_perf_anal %>%
+                                                          subset(rea_cdaccreanaprev ==
+                                                                   "true")) * 100
+}
+
+##### Vérification des incertitudes contractuelles #####
+Rapport$incertitude_non_conforme <- compar_perf_anal %>%
+  subset(incertitude > rea_incertitudeprev) %>%
+  dplyr::select(
+    "cdstationmesureinterne",
+    "station",
+    "dateprel",
+    "heureprel",
+    "profondeurpre",
+    "ZoneVerticaleProspectee",
+    "cdparametre",
+    "nomparametre",
+    "insitu",
+    "nomfraction",
+    "cdrqana",
+    "rsana",
+    "unite",
+    "lqana",
+    "incertitude",
+    "rea_incertitudeprev",
+    "CommentairesEchant",
+    "commentairesana",
+    "cdpreleveur",
+    "nompreleveur",
+    "cdlaboratoire",
+    "nomlabo",
+    "RefEchantillonLabo",
+    "RefEchantillonCommanditaire",
+    "cdrdd",
+    "nomrdd"
+  ) %>%
+  dplyr::rename("incertitude_au_bpu" = "rea_incertitudeprev")
+
+
+##### Vérification des méthodes analytiques contractuelles #####
+compar_perf_anal$methode_au_bpu <- func_ajoute_nom_sandre(connexion,
+                                                          code = compar_perf_anal$rea_cdmethode,
+                                                          out = "nom_methode")
+
+compar_perf_anal$methode_analyse <- func_ajoute_nom_sandre(connexion,
+                                                           code = compar_perf_anal$cdmethode,
+                                                           out = "nom_methode")
+
+Rapport$methode_non_conforme <- compar_perf_anal %>%
+  subset(cdmethode != rea_cdmethode) %>%
+  dplyr::select(
+    "cdstationmesureinterne",
+    "station",
+    "dateprel",
+    "heureprel",
+    "profondeurpre",
+    "ZoneVerticaleProspectee",
+    "cdparametre",
+    "nomparametre",
+    "insitu",
+    "nomfraction",
+    "cdrqana",
+    "rsana",
+    "unite",
+    "cdmethode",
+    "methode_analyse",
+    "rea_cdmethode",
+    "methode_au_bpu",
+    "CommentairesEchant",
+    "commentairesana",
+    "cdpreleveur",
+    "nompreleveur",
+    "cdlaboratoire",
+    "nomlabo",
+    "RefEchantillonLabo",
+    "RefEchantillonCommanditaire",
+    "cdrdd",
+    "nomrdd"
+  ) %>%
+  dplyr::rename("cd_methode_au_bpu" = "rea_cdmethode")
 
 
 ##### Test durée transport / réception échantillon labo #####
 
+Rapport$duree_transport <- "Fonction à implémenter"
+
 
 
 ##### Test température réception échantillon #####
+
+Rapport$temperature_reception_echantillon <-
+  "Fonction à implémenter"
+
+
+##### Génération d'un rapport xlsx #####
+wb <- createWorkbook()
+for (i in 1:length(Rapport)) {
+  if (is.data.frame(Rapport[[i]])) {
+    if (nrow(Rapport[[i]]) > 0) {
+      if (nchar((names(Rapport))[i]) > 30) {
+        nom_sheet <-
+          paste0(substr((names(Rapport))[i], 1, 15), "_", substr((names(Rapport))[i], nchar((
+            names(Rapport)
+          )[i]) - 14, nchar((
+            names(Rapport)
+          )[i])))
+      } else {
+        nom_sheet <- (names(Rapport))[i]
+      }
+      addWorksheet(wb, sheetName = nom_sheet)
+      writeData(wb, sheet = nom_sheet, x = Rapport[[i]])
+    }
+  }
+}
+saveWorkbook(wb, paste0(basename(Rapport$fichier), ".xlsx"), overwrite=TRUE)

@@ -2,22 +2,23 @@
 #'
 #' @description A function to add name according to french reference SANDRE corresponding to a code
 #'
-#' @param DBI connexion to active LibreSQE database
-#' @param a vector containing the code to convert
-#' @param out : name of the required output. Can be :
-#' - nom_parametre to add parameter short name
-#' - nom_long_parametre to add parameter long name
-#' - code_cas to add cass number of parameter
-#' - nom_fraction to add fraction name
-#' - nom_intervenant to add intervenant short name
-#' - nom_long_intervenant to add intervenant full name
-#' - nom_methode to add methode name
-#' - nom_qualif_ana to add name of the qualification of analysis
-#' - nom_rdd to add name of the dispositif de collecte
-#' - nom_station to add name of the measurement station
-#' - nom_statut to add name of statut of analysis
-#' - nom_unite to add symbole of unit
-#'
+#' @param connexion : DBI connexion to active LibreSQE database
+#' @param code : a vector containing the code to convert
+#' @param out Name of the required output. Possible values:
+#' \describe{
+#'   \item{\code{nom_parametre}}{To add parameter short name.}
+#'   \item{\code{nom_long_parametre}}{To add parameter long name.}
+#'   \item{\code{code_cas}}{To add cass number of parameter.}
+#'   \item{\code{nom_fraction}}{To add fraction name.}
+#'   \item{\code{nom_intervenant}}{To add intervenant short name.}
+#'   \item{\code{nom_long_intervenant}}{To add intervenant full name.}
+#'   \item{\code{nom_methode}}{To add methode name.}
+#'   \item{\code{nom_qualif_ana}}{To add name of the qualification of analysis.}
+#'   \item{\code{nom_rdd}}{To add name of the dispositif de collecte.}
+#'   \item{\code{nom_station}}{To add name of the measurement station.}
+#'   \item{\code{nom_statut}}{To add name of statut of analysis.}
+#'  \item{\code{nom_unite}}{To add unit symbol.}
+#'   \item{\code{insitu}}{To add signification of insitu code.}
 #' @return vector of same length as input with corresponding name.
 #' If code is missing, value return is NA
 #'
@@ -37,7 +38,9 @@ func_ajoute_nom_sandre <- function(connexion = connexion,
     "nom_rdd",
     "nom_station",
     "nom_statut",
-    "nom_unite"
+    "nom_unite",
+    "insitu",
+    "nom_support"
   )
   out <- match.arg(out, valeurs_out)
 
@@ -129,7 +132,7 @@ func_ajoute_nom_sandre <- function(connexion = connexion,
       nom_table = "tr_intervenantsandre_isa",
       nom_schema = "refer",
       nom_colonne_in = "isa_codesandre",
-      nom_colonne_out = "nom_long_intervenant",
+      nom_colonne_out = "isa_nom",
       liste_des_codes = code
     )
   }
@@ -193,6 +196,13 @@ func_ajoute_nom_sandre <- function(connexion = connexion,
       liste_des_codes = code
     )
   }
+
+
+  if (out == "insitu") {
+    corresp <- data.frame(nom_insitu=c("Localisation inconnue", "In situ", "Laboratoire", "Sans objet"),
+                          code_insitu=c("0","1","2","3"))
+  }
+
 
 
   # mise en forme du résultat

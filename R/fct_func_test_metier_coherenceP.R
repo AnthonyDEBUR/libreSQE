@@ -44,10 +44,10 @@ func_test_metier_coherenceP <- function(Ptot = NULL,
   }
   # on initialise les incertitudes si non fournies et si forceincert=TRUE
   if (forceincert) {
-    if (!is.numeric(incertPtot)) {
+    if (!is.numeric(incertPtot) | is.na(incertPtot)) {
       incertPtot <- 20
     }
-    if (!is.numeric(incertPO4)) {
+    if (!is.numeric(incertPO4)| is.na(incertPO4)) {
       incertPO4 <- 20
     }
   }
