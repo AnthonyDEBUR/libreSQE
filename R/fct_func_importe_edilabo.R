@@ -684,12 +684,12 @@ func_importe_edilabo <- function(fichier, stations_a_traiter = NULL) {
     }
 
     gc(verbose=FALSE)
-
+}
 
   #####Traitement des balises stations de prélèvement #####
   # à traiter à la fin (hors boucle import des lignes en batch)
   # car la balise StationPrelevement peut être utilisée
-  # pour décrire la station et dans le coprs d'une balise <Demande>. Il faut traiter impérativement
+  # pour décrire la station et dans le corps d'une balise <Demande>. Il faut traiter impérativement
   # les balies demmande avant
   # servira à affecter un nom de station face à un code station et à vérifier la cohérence entre les 2 informations
   # on regarde si on trouve la balise </StationPrelevement> et dans ce cas on traite
@@ -731,7 +731,7 @@ func_importe_edilabo <- function(fichier, stations_a_traiter = NULL) {
       if(!is.null(stations_a_traiter))
       {df_out_stations<-df_out_stations%>%subset(CdStationPrelevement %in% stations_a_traiter)}
 
-  }
+
   }
 
   return(

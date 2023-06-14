@@ -5,20 +5,274 @@ library(openxlsx)
 # file.choose()
 
 # SQE2023_UGVA_calend_1
-fichier <-
-  "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\01_janvier\\RA_LABOCEAQ_EPTB_230307104729001.xml"
-bon_de_commande_id <- 57
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102131001_SQE2023-UGVA_calend_1.xml"
+# bon_de_commande_id <- 57
+
+# SQE2023_UGVA_calend_2
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405104132001_SQE2023-UGVA_calend_2.xml"
+# bon_de_commande_id <- 58
+
+# SQE2023_UGVA_calend_3
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405121734001_SQE2023_UGVA_calend_3.xml"
+# bon_de_commande_id <- 59
+
+# SQE2023_UGVA_calend_4
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230606163726001_SQE2023-UGVA_calend_4.xml"
+# bon_de_commande_id <- 60
+
+# SQE2023_UGVA_calend_5
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230607164348001_SQE2023-UGVA_calend_5.xml"
+# bon_de_commande_id <- 61
+
+# SQE2023_UGVA_calend_6
+# fichier
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102131001_SQE2023-UGVA_calend_1.xml"
+# bon_de_commande_id <- 62
+
+# SQE2023_UGVA_calend_7
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102131001_SQE2023-UGVA_calend_1.xml"
+# bon_de_commande_id <- 63
+
+# SQE2023_UGVA_calend_8
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102131001_SQE2023-UGVA_calend_1.xml"
+# bon_de_commande_id <- 64
+# # SQE2023_UGVE_calend_9
+
+# SQE2023_UGVA_calend_10
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102131001_SQE2023-UGVA_calend_1.xml"
+# bon_de_commande_id <- 65
+
+# SQE2023_UGVA_calend_11
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102131001_SQE2023-UGVA_calend_1.xml"
+# bon_de_commande_id <- 66
+
+# SQE2023_UGVA_calend_12
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102131001_SQE2023-UGVA_calend_1.xml"
+# bon_de_commande_id <- 67
 
 # SQE2023_UGVE_calend_1
-fichier<-
-  "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\01_janvier\\RA_LABOCEAQ_EPTB_230307110458001.xml"
-bon_de_commande_id <- 20
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102332001_SQE2023-UGVO_calend_1.xml"
+# bon_de_commande_id <- 20
+
+# SQE2023_UGVE_calend_2
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102332001_SQE2023-UGVO_calend_1.xml"
+# bon_de_commande_id <- 21
+
+# SQE2023_UGVE_calend_3
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102332001_SQE2023-UGVO_calend_1.xml"
+# bon_de_commande_id <- 22
+
+# SQE2023_UGVE_calend_4
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102332001_SQE2023-UGVO_calend_1.xml"
+# bon_de_commande_id <- 23
+
+# SQE2023_UGVE_calend_5
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102332001_SQE2023-UGVO_calend_1.xml"
+# bon_de_commande_id <- 24
+
+# SQE2023_UGVE_calend_6
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102332001_SQE2023-UGVO_calend_1.xml"
+# bon_de_commande_id <- 25
+
+# SQE2023_UGVE_calend_7
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102332001_SQE2023-UGVO_calend_1.xml"
+# bon_de_commande_id <- 26
+
+# SQE2023_UGVE_calend_8
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102332001_SQE2023-UGVO_calend_1.xml"
+# bon_de_commande_id <- 27
+
+# SQE2023_UGVE_calend_9
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102332001_SQE2023-UGVO_calend_1.xml"
+# bon_de_commande_id <- 28
+
+# SQE2023_UGVE_calend_10
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102332001_SQE2023-UGVO_calend_1.xml"
+# bon_de_commande_id <- 29
+
+# SQE2023_UGVE_calend_11
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102332001_SQE2023-UGVO_calend_1.xml"
+# bon_de_commande_id <- 30
+
+# SQE2023_UGVE_calend_12
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102332001_SQE2023-UGVO_calend_1.xml"
+# bon_de_commande_id <- 31
 
 # SQE2023_UGVO_calend_1
-fichier<-
-  "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\01_janvier\\RA_LABOCEAQ_EPTB_230307111654001.xml"
-bon_de_commande_id <- 32
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102332001_SQE2023-UGVO_calend_1.xml"
+# bon_de_commande_id <- 32
 
+# SQE2023_UGVO_calend_2
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405104809001_SQE2023-UGVO_calend_2.xml"
+# bon_de_commande_id <- 37
+
+# SQE2023_UGVO_calend_3
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102332001_SQE2023-UGVO_calend_1.xml"
+# bon_de_commande_id <- 33
+
+# SQE2023_UGVO_calend_4
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102332001_SQE2023-UGVO_calend_1.xml"
+# bon_de_commande_id <- 38
+
+# SQE2023_UGVO_calend_5
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102332001_SQE2023-UGVO_calend_1.xml"
+# bon_de_commande_id <- 34
+
+# SQE2023_UGVO_calend_6
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102332001_SQE2023-UGVO_calend_1.xml"
+# bon_de_commande_id <- 39
+
+# SQE2023_UGVO_calend_7
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102332001_SQE2023-UGVO_calend_1.xml"
+# bon_de_commande_id <- 35
+
+# SQE2023_UGVO_calend_8
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102332001_SQE2023-UGVO_calend_1.xml"
+# bon_de_commande_id <- 40
+
+# SQE2023_UGVO_calend_9
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102332001_SQE2023-UGVO_calend_1.xml"
+# bon_de_commande_id <- 36
+
+# SQE2023_UGVO_calend_10
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102332001_SQE2023-UGVO_calend_1.xml"
+# bon_de_commande_id <- 1
+
+# SQE2023_UGVO_calend_11
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102332001_SQE2023-UGVO_calend_1.xml"
+# bon_de_commande_id <- 2
+
+# SQE2023_UGVO_calend_12
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102332001_SQE2023-UGVO_calend_1.xml"
+# bon_de_commande_id <- 3
+
+
+# Careil 1
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230608094052001_SQE2023-UGVO-CAREIL_pluie-1.xml"
+# bon_de_commande_id <- 77
+
+# Careil 2
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230608094052001_SQE2023-UGVO-CAREIL_pluie-1.xml"
+# bon_de_commande_id <- 78
+
+# Careil 3
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230608094052001_SQE2023-UGVO-CAREIL_pluie-1.xml"
+# bon_de_commande_id <- 79
+
+# Careil 4
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230608094052001_SQE2023-UGVO-CAREIL_pluie-1.xml"
+# bon_de_commande_id <- 80
+
+# Careil 5
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230608094052001_SQE2023-UGVO-CAREIL_pluie-1.xml"
+# bon_de_commande_id <- 81
+
+# SQE2023_UGVE_pluie_externalisée_1
+fichier<-
+  "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230608100021001_SQE2023_UGVE_pluie_externalisée_1.xml"
+bon_de_commande_id <- 12
+
+# SQE2023_UGVE_pluie_externalisée_2
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405121240001_SQE2023_UGVE_pluie_externalisée_1.xml"
+# bon_de_commande_id <- 13
+
+# SQE2023_UGVE_pluie_externalisée_3
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405121240001_SQE2023_UGVE_pluie_externalisée_1.xml"
+# bon_de_commande_id <- 14
+
+# SQE2023_UGVE_pluie_externalisée_4
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405121240001_SQE2023_UGVE_pluie_externalisée_1.xml"
+# bon_de_commande_id <- 15
+
+# SQE2023_UGVE_pluie_externalisée_5
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405121240001_SQE2023_UGVE_pluie_externalisée_1.xml"
+# bon_de_commande_id <- 16
+
+# SQE2023_UGVE_pluie_externalisée_6
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405121240001_SQE2023_UGVE_pluie_externalisée_1.xml"
+# bon_de_commande_id <- 17
+
+# SQE2023_UGVE_pluie_externalisée_7
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405121240001_SQE2023_UGVE_pluie_externalisée_1.xml"
+# bon_de_commande_id <- 18
+
+# SQE2023_UGVE_pluie_externalisée_8
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405121240001_SQE2023_UGVE_pluie_externalisée_1.xml"
+# bon_de_commande_id <- 19
+
+# SQE2023_UGVA_pluie_1
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230608094853001_SQE2023_UGVA_pluie_1.xml"
+# bon_de_commande_id <- 69
+
+# SQE2023_UGVO_pluie_1
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230608100512001_SQE2023_UGVO_pluie_1.xml"
+# bon_de_commande_id <- 41
+
+# SQE2023_UGVO_pluie_2
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230608100756001_SQE2023_UGVO_pluie_2.xml"
+# bon_de_commande_id <- 42
+
+#
+#
+# # fichier test Labocea
+# fichier<-
+#   "C:/workspace/LibreSQE/dev/fichier exemple EDILABO\\test Labocea.xml"
+# bon_de_commande_id <- 32
+
+
+# # fichier test
+# fichier<-
+#   "C:/workspace/LibreSQE/dev/fichier exemple EDILABO\\EDILABO test.xml"
+# bon_de_commande_id <- 57
 
 ##### Connexion bdd #####
 connexion <- DBI::dbConnect(
@@ -301,6 +555,7 @@ Parametres <- dplyr::rename(
   Parametres,
   rendu_dans_xml = LbParametre,
   attendu = par_nomparametre,
+  nom_court_attendu = par_nomcourt,
   statut_parametre_dans_SANDRE = par_statutparametre
 )
 
@@ -316,6 +571,7 @@ Rapport$nom_cd_parametre_analyses <- Parametres %>%
   dplyr::select(cdparametre,
                 rendu_dans_xml,
                 attendu,
+                nom_court_attendu,
                 statut_parametre_dans_SANDRE)
 
 #### Res_env #####
@@ -538,6 +794,8 @@ analyses_a_tester <-
   Analyses %>% subset(cdparametre %in% c("1301", "1311", "1312") &
                         cdsupport == "3" &
                         cdinsituana == "1") %>% unique()
+
+if(nrow(analyses_a_tester)>0){
 analyses_a_tester <-
   analyses_a_tester %>% tidyr::pivot_wider(
     id_cols = c(
@@ -592,8 +850,11 @@ analyses_a_tester <-
 analyses_a_tester$testO2 <- analyses_a_tester$testO2 %>%
   dplyr::case_match("1" ~ "correcte", "2" ~ "incertain", "3" ~ "incorrect")
 
+analyses_a_tester$test_satO2_attendu<-round(analyses_a_tester$test_satO2_attendu,1)
+
+
 Rapport$coherence_O2_temp <-
-  analyses_a_tester %>% subset(testO2 != "correcte")
+  analyses_a_tester %>% subset(testO2 != "correcte")}
 
 ##### test cohérence Ptot PO4 #####
 
@@ -607,7 +868,8 @@ analyses_a_tester <-
                            cdsupport == "3")
   ) %>% unique()
 
-
+if(nrow(analyses_a_tester)>0)
+{
 incertitudes_a_tester <-
   analyses_a_tester %>% tidyr::pivot_wider(
     id_cols = c(
@@ -713,7 +975,7 @@ analyses_a_tester$testPtot_PO4 <- analyses_a_tester$testPtot_PO4 %>%
   dplyr::case_match("1" ~ "correcte", "2" ~ "dans marge incertitude", "3" ~ "incorrect")
 
 Rapport$coherence_Ptot_PO4 <-
-  analyses_a_tester %>% subset(testPtot_PO4 != "correcte")
+  analyses_a_tester %>% subset(testPtot_PO4 != "correcte")}
 
 
 ##### Test vraissemblance des résultats d'analyses #####
@@ -1146,7 +1408,7 @@ Rapport$analyses_hors_bon_de_commande <- Analyses %>%
     "RefEchantillonCommanditaire",
     "cdrdd",
     "nomrdd"
-  )
+  )%>%unique()
 
 ##### Analyses en doublon #####
 doublons <- Analyses %>%
@@ -1181,7 +1443,7 @@ Rapport$analyses_en_doublon <- Analyses %>%
     "RefEchantillonCommanditaire",
     "cdrdd",
     "nomrdd"
-  )
+  )%>%unique()
 
 ##### Analyses manquantes #####
 nb_analyses_attendues <- analyses_attendues %>%
@@ -1249,7 +1511,7 @@ Rapport$analyses_manquantes <-
     "rea_cdlaboratoire",
     "nomlabo",
     "rea_rdd_cdrdd"
-  )
+  )%>%unique()
 
 ##### Vérification dispositif de collecte #####
 Rapport$reseaux_de_mesures <- Analyses %>%
@@ -1260,9 +1522,10 @@ Rapport$reseaux_de_mesures <- Analyses %>%
 ##### Vérification respect des LQ contractuelles #####
 
 compar_perf_anal <- dplyr::inner_join(Analyses,
-                                      analyses_attendues,
+                                      analyses_attendues%>%subset(!is.na(rea_par_cdparametre)),
                                       by = "cle",
-                                      suffix = c("", ".attendu"))
+                                      suffix = c("", ".attendu"),
+                                      multiple = "all")
 
 
 Rapport$lq_non_conforme <- compar_perf_anal %>%
@@ -1294,7 +1557,8 @@ Rapport$lq_non_conforme <- compar_perf_anal %>%
     "cdrdd",
     "nomrdd"
   ) %>%
-  dplyr::rename("lq_au_bpu" = "rea_lqprev")
+  dplyr::rename("lq_au_bpu" = "rea_lqprev")%>%
+  unique()
 
 ##### Vérification respect des accréditations #####
 
@@ -1374,7 +1638,8 @@ Rapport$incertitude_non_conforme <- compar_perf_anal %>%
     "cdrdd",
     "nomrdd"
   ) %>%
-  dplyr::rename("incertitude_au_bpu" = "rea_incertitudeprev")
+  dplyr::rename("incertitude_au_bpu" = "rea_incertitudeprev")%>%
+  unique()
 
 
 ##### Vérification des méthodes analytiques contractuelles #####
@@ -1417,7 +1682,8 @@ Rapport$methode_non_conforme <- compar_perf_anal %>%
     "cdrdd",
     "nomrdd"
   ) %>%
-  dplyr::rename("cd_methode_au_bpu" = "rea_cdmethode")
+  dplyr::rename("cd_methode_au_bpu" = "rea_cdmethode")%>%
+  unique()
 
 
 ##### Test durée transport / réception échantillon labo #####
@@ -1453,3 +1719,234 @@ for (i in 1:length(Rapport)) {
   }
 }
 saveWorkbook(wb, paste0(basename(Rapport$fichier), ".xlsx"), overwrite=TRUE)
+
+##### Sauvegarde au format xls des données d'analyses #####
+export <- Analyses %>%
+   dplyr::select(
+    "cdstationmesureinterne",
+    "station",
+    "dateprel",
+    "heureprel",
+    "profondeurpre",
+    "ZoneVerticaleProspectee",
+    "cdparametre",
+    "nomparametre",
+    "insitu",
+    "nomfraction",
+    "cdrqana",
+    "rsana",
+    "unite",
+    "lqana",
+    "CommentairesEchant",
+    "commentairesana",
+    "cdpreleveur",
+    "nompreleveur",
+    "cdlaboratoire",
+    "nomlabo",
+    "RefEchantillonLabo",
+    "RefEchantillonCommanditaire",
+    "cdrdd",
+    "nomrdd"
+  )
+
+
+write.xlsx(export,
+           paste0(basename(Rapport$fichier), "_data.xlsx"),
+           overwrite=TRUE)
+
+
+
+##### Sauvegarde des données correctes en QUESU v3.1 #####
+
+names(Analyses)
+cd_emetteur<-"25440124300012"
+nom_emetteur<-"ETABLISSEMENT PUBLIC TERRITORIAL DU BASSIN DE LA VILAINE (EPTB)"
+cd_destinataire<-"22350001800013" #CD35
+nom_destinataire<-"DEPARTEMENT D ILLE ET VILAINE"
+
+# Charger la bibliothèque xml2
+library(xml2)
+
+# Créer le document XML
+doc <- xml_new_document(version = "1.0", encoding = "UTF-8")
+quesu <- xml_new_root("QUESU", doc = doc)
+
+# Ajouter les attributs à la balise QUESU
+xml_set_attr(quesu, "xmlns", "http://xml.sandre.eaufrance.fr/scenario/quesu/3.1")
+xml_set_attr(quesu, "xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance")
+xml_set_attr(quesu, "xsi:schemalocation", "http://xml.sandre.eaufrance.fr/scenario/quesu/3.1 http://xml.sandre.eaufrance.fr/scenario/quesu/3.1/sandre_sc_quesu.xsd")
+
+# Créer l'élément Scenario
+scenario <- xml_add_child(quesu, "Scenario")
+
+# Ajouter les balises enfant de Scenario
+xml_add_child(scenario, "CodeScenario", "QUESU_PHY")
+xml_add_child(scenario, "VersionScenario", "3.1")
+xml_add_child(scenario, "NomScenario", "Qualité des eaux superficielles continentales – Données physico-chimiques et microbiologiques")
+xml_add_child(scenario, "DateCreationFichier", format(Sys.Date(), "%Y-%m-%d"))
+
+# Ajouter les balises Emetteur et Destinataire sous l'élément Scenario
+emetteur <- xml_add_child(scenario, "Emetteur")
+xml_add_child(emetteur, "CdIntervenant", cd_emetteur) %>%
+  xml_set_attr("schemeAgencyID", "SIRET")
+xml_add_child(emetteur, "NomIntervenant", nom_emetteur)
+
+destinataire <- xml_add_child(scenario, "Destinataire")
+xml_add_child(destinataire, "CdIntervenant", cd_destinataire) %>%
+  xml_set_attr("schemeAgencyID", "SIRET")
+xml_add_child(destinataire, "NomIntervenant", nom_destinataire)
+
+
+# Créer une série de balises StationMesureEauxSurface à partir des données dans le data.frame Analyses
+stations <- unique(Analyses$cdstationmesureinterne)
+for (i in seq_along(stations)) {
+  # <ResPC>
+  respc <- xml_add_child(quesu, "ResPC")
+  # <StationMesureEauxSurface>
+  station<-xml_add_child(respc, "StationMesureEauxSurface")
+  cd_station <- xml_add_child(station, "CdStationMesureEauxSurface", stations[i])
+  xml_set_attr(cd_station, "schemeID", "STQ")
+  xml_set_attr(cd_station, "schemeAgencyID", "AE")
+  # <OperationPrel>
+  oper<-Operation%>%subset(StationPrelevement_CdStationPrelevement==stations[i])
+  oper$dateheure<-paste0(oper$DatePrel, oper$HeurePrel)
+  for (j in seq_along(unique(oper$dateheure))) {
+    operationprel <- xml_add_child(respc, "OperationPrel")
+    xml_set_attr(operationprel,"Action", "A")
+    xml_add_child(operationprel, "DateDebutOperationPrel", oper$DatePrel[j])
+    xml_add_child(operationprel, "HeureDebutOperationPrel", oper$HeurePrel[j])
+    xml_add_child(operationprel, "DifficultePrel", 0)%>%
+      xml_set_attr("listID", "67")
+    xml_add_child(operationprel, "AccredPrel", oper$AccredPrel[j])%>%
+      xml_set_attr("listID", "333")
+    xml_add_child(operationprel, "CommentairesPrel", oper$CommentairesPrel[j])
+    pointprel <- xml_add_child(operationprel, "PointPrel")
+    CdPointEauxSurf <-xml_add_child(pointprel, "CdPointEauxSurf", "pt renseignement non traité")
+      xml_set_attr(CdPointEauxSurf, "schemeID", "STM")
+      xml_set_attr(CdPointEauxSurf, "schemeAgencyID", "AE")
+    support <- xml_add_child(operationprel, "Support")
+    xml_add_child(support, "CdSupport", oper$Support_CdSupport[j])%>%
+      xml_set_attr("schemeID", "SUP")
+    producprel<-xml_add_child(operationprel, "ProducteurPrelevement")
+    product<-xml_add_child(producprel, "CdIntervenant", Demande$Commanditaire_CdIntervenant)
+      xml_set_attr(product, "schemeAgencyID", "SIRET")
+      xml_set_attr(product, "schemeID", "INT")
+    preleveur<-xml_add_child(operationprel, "Preleveur")
+      prel<-xml_add_child(preleveur, "CdIntervenant", oper$Preleveur_CdIntervenant[j])
+      xml_set_attr(product, "schemeAgencyID", "SIRET")
+      xml_set_attr(product, "schemeID", "INT")
+
+    prelevement <- xml_add_child(operationprel, "Prelevement")
+
+    anal<-Analyses%>%subset(cdstationmesureinterne==stations[i] &
+                              dateprel==oper$DatePrel[j] & heureprel==oper$HeurePrel[j])
+
+    #<Prelevement>
+    xml_add_child(prelevement, "CdPrelevement", anal$codeprel[1])
+    xml_add_child(prelevement, "DatePrel", oper$DatePrel[j])
+    xml_add_child(prelevement, "HeurePrel", oper$HeurePrel[j])
+
+    #<Analyse>
+
+    for (k in seq_along(anal$cdparametre))
+    {analyse<-xml_add_child(prelevement, "Analyse")
+    xml_add_child(analyse, "RefAnaProd", anal$RefAna[k])
+    xml_add_child(analyse, "DateAna", anal$dateana[k])
+    xml_add_child(analyse, "HeureAna", anal$heureana[k])
+    parametre<-xml_add_child(analyse, "Parametre")
+    cdparametre<-xml_add_child(parametre, "CdParametre", anal$cdparametre[k])
+    xml_set_attr(product, "schemeID", "PAR")
+    xml_set_attr(product, "schemeAgencyID", "SANDRE")
+    fractionanalysee<-xml_add_child(analyse, "FractionAnalysee")
+    cdfraction<-xml_add_child(fractionanalysee, "CdFractionAnalysee", anal$cdfractionanalysee[k])
+    xml_set_attr(cdfraction, "schemeID", "FAN")
+    xml_add_child(analyse, "RsAna", anal$rsana[k])
+    unitemesure<-xml_add_child(analyse, "UniteMesure")
+    CdUniteMesure<-xml_add_child(unitemesure, "CdUniteMesure", anal$cdfractionanalysee[k])
+    xml_set_attr(CdUniteMesure, "schemeID", "URF")
+    xml_add_child(analyse, "RqAna", anal$cdrqana[k])%>%
+      xml_set_attr("listID", "155")
+    xml_add_child(analyse, "InsituAna", anal$insitu[k])%>%
+      xml_set_attr("listID", "156")
+    xml_add_child(analyse, "DifficulteAna", 0)%>%
+      xml_set_attr("listID", "43")
+    xml_add_child(analyse, "QualAna", anal$cdqualana[k])%>%
+      xml_set_attr("listID", "414")
+    xml_add_child(analyse, "CommentairesAna", anal$commentairesana[k])
+    xml_add_child(analyse, "ComResultatAna", "commentaire resultat ana à implémenter")
+    xml_add_child(analyse, "StatutAna", "statut ana à implémenter")%>%
+      xml_set_attr("listID", "446")
+    xml_add_child(analyse, "AccreAna", anal$cdaccreana[k])%>%
+      xml_set_attr("listID", "299")
+    xml_add_child(analyse, "LDAna", anal$ldana[k])
+    xml_add_child(analyse, "LQAna", anal$lqana[k])
+    xml_add_child(analyse, "LSAna", anal$lsana[k])
+    xml_add_child(analyse, "IncertAna", anal$incertitude[k])
+    xml_add_child(analyse, "AgreAna", "agrement ana à implémenter")
+    rdd<-xml_add_child(analyse, "Rsx")
+    cdrdd<-xml_add_child(rdd, "CodeSandreRdd", anal$cdrdd[1])
+    xml_set_attr(product, "schemeID", "RSX")
+      }
+  }
+}
+
+# Enregistrer le document XML dans un fichier
+write_xml(quesu, paste0(basename(Rapport$fichier),"_quesu3.1.xml"))
+
+##### Temporaire enregistrement format RDS #####
+analyses_Eaux_Vilaine <- readRDS("~/R_Anthony/Naiades/bdd_locale/analyses_Eaux_Vilaine.rds")
+names(analyses_Eaux_Vilaine)
+names(Analyses)[grepl("labo", names(Analyses))]
+
+
+analyses_rds<-Analyses%>%
+  dplyr::rename(CdStationMesureEauxSurface=cdstationmesureinterne,
+                CdSupport=cdsupport,
+                CdFractionAnalysee=cdfractionanalysee,
+                CdPrelevement=codeprel,
+                DatePrel=dateprel,
+                HeurePrel=heureprel,
+                DateAna=dateana,
+                HeureAna=heureana,
+                CdParametre=cdparametre,
+                RsAna=rsana,
+                CdUniteMesure=cdunitemesure,
+                CdRqAna=cdrqana,
+                CdInsituAna=cdinsituana,
+                ProfondeurPrel=profondeurpre,
+                LdAna=ldana,
+                LqAna=lqana,
+                LsAna=lsana,
+                IncertAna=incertitude,
+                CdMetFractionnement=cdmetfractionnement,
+                CdMethode=cdmethode,
+                RdtExtraction=rdtextraction,
+                CdMethodeExtraction=cdmethodeextraction,
+                CdAccreAna=cdaccreana,
+                AgreAna=agreana,
+                CommentairesAna=commentairesana,
+                ComResultatAna=CommentairesEchant,
+                CdRdd=cdrdd,
+                CdProducteur=cdproducteur,
+                CdPreleveur=cdpreleveur,
+                CdLaboratoire=cdlaboratoire
+                  )
+
+analyses_rds$CdDifficulteAna<-"0"
+analyses_rds$CdStatutAna<-"1"
+analyses_rds$CdQualAna<-"1"
+analyses_rds$DatePrel<-as.Date(analyses_rds$DatePrel)
+analyses_rds$DateAna<-as.Date(analyses_rds$DateAna)
+analyses_rds$ProfondeurPrel<-as.numeric(analyses_rds$ProfondeurPrel)
+analyses_rds$IncertAna<-as.character(analyses_rds$IncertAna)
+analyses_rds$AgreAna<-ifelse(analyses_rds$AgreAna=="1", TRUE, FALSE)
+
+analyses_Eaux_Vilaine<-dplyr::bind_rows(analyses_Eaux_Vilaine, analyses_rds)
+analyses_Eaux_Vilaine<-unique(analyses_Eaux_Vilaine)
+
+analyses_CD35_2020_2021 <- readRDS("~/R_Anthony/Naiades/bdd_locale/analyses_CD35_2020_2021.rds")
+analyses_Eaux_Vilaine$source<-"E&V"
+analyses_Eaux_Vilaine<-analyses_Eaux_Vilaine%>%dplyr::select(names(analyses_CD35_2020_2021))
+
+
+saveRDS(analyses_Eaux_Vilaine, "~/R_Anthony/Naiades/bdd_locale/analyses_Eaux_Vilaine.rds")

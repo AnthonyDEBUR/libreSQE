@@ -567,7 +567,9 @@ ui <- navbarPage(
         choices = c("2022")
       ),
       p(
-        "Affichage les 3 tableaux BPU, BPU des run analytiques et programmes types"
+        "Affichage les 3 tableaux BPU, BPU des run analytiques et programmes types.
+        Possibilité d'éditer certains champs (et en cascade de mettre  à jour les tables correspondantes) :
+        code / nom paramètres, dates, nb de presta commandées, ..."
       ),
       DTOutput("DT_bpu"),
       DTOutput("DT_bpu_run_analytiques"),
