@@ -72,23 +72,28 @@ library(openxlsx)
 
 # SQE2023_UGVE_calend_3
 # fichier<-
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102332001_SQE2023-UGVO_calend_1.xml"
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230630110237001_SQE2023_UGVE_calend_3.xml"
 # bon_de_commande_id <- 22
 
 # SQE2023_UGVE_calend_4
 # fichier<-
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102332001_SQE2023-UGVO_calend_1.xml"
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230630145937001_SQE2023_UGVE_calend_4.xml"
 # bon_de_commande_id <- 23
 
 # SQE2023_UGVE_calend_5
 # fichier<-
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102332001_SQE2023-UGVO_calend_1.xml"
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230630150743001_SQE2023_UGVE_calend_5.xml"
 # bon_de_commande_id <- 24
 
 # SQE2023_UGVE_calend_6
 # fichier<-
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102332001_SQE2023-UGVO_calend_1.xml"
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230717123828001_SQE2023_UGVE_calend_6.xml"
 # bon_de_commande_id <- 25
+
+# SQE2023_UGVE_calend_6 _ station manquante
+ fichier<-
+   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230817094253001_SQE2023_UGVE_calend_6_04374005_RICORDEL A ESSE.xml"
+ bon_de_commande_id <- 25
 
 # SQE2023_UGVE_calend_7
 # fichier<-
@@ -132,22 +137,27 @@ library(openxlsx)
 
 # SQE2023_UGVO_calend_3
 # fichier<-
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102332001_SQE2023-UGVO_calend_1.xml"
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230701143710001_SQE2023_UGVO_calend_3.xml"
 # bon_de_commande_id <- 33
 
 # SQE2023_UGVO_calend_4
 # fichier<-
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102332001_SQE2023-UGVO_calend_1.xml"
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230701144019001_SQE2023_UGVO_calend_4.xml"
 # bon_de_commande_id <- 38
+
+ # SQE2023_UGVO_calend_4 données manquantes sur Tréffineu
+ # fichier<-
+ #   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230817140035001_SQE2023_UGVO_calend_4_TREFINEU A GUIPRY.xml"
+ # bon_de_commande_id <- 38
 
 # SQE2023_UGVO_calend_5
 # fichier<-
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102332001_SQE2023-UGVO_calend_1.xml"
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230701144251001_SQE2023_UGVO_calend_5.xml"
 # bon_de_commande_id <- 34
 
 # SQE2023_UGVO_calend_6
 # fichier<-
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102332001_SQE2023-UGVO_calend_1.xml"
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230717151911001_SQE2023_UGVO_calend_6.xml"
 # bon_de_commande_id <- 39
 
 # SQE2023_UGVO_calend_7
@@ -207,23 +217,23 @@ library(openxlsx)
 # bon_de_commande_id <- 81
 
 # SQE2023_UGVE_pluie_externalisée_1
-fichier<-
-  "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230608100021001_SQE2023_UGVE_pluie_externalisée_1.xml"
-bon_de_commande_id <- 12
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230608100021001_SQE2023_UGVE_pluie_externalisée_1.xml"
+# bon_de_commande_id <- 12
 
 # SQE2023_UGVE_pluie_externalisée_2
 # fichier<-
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405121240001_SQE2023_UGVE_pluie_externalisée_1.xml"
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230817095922001_SQE2023_UGVE_pluie_externalisée_2.xml"
 # bon_de_commande_id <- 13
 
 # SQE2023_UGVE_pluie_externalisée_3
 # fichier<-
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405121240001_SQE2023_UGVE_pluie_externalisée_1.xml"
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230817100922001_SQE2023_UGVE_pluie_externalisée_3.xml"
 # bon_de_commande_id <- 14
 
 # SQE2023_UGVE_pluie_externalisée_4
 # fichier<-
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405121240001_SQE2023_UGVE_pluie_externalisée_1.xml"
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230725123611001_SQE2023_UGVE_pluie_externalisée_4.xml"
 # bon_de_commande_id <- 15
 
 # SQE2023_UGVE_pluie_externalisée_5
@@ -248,17 +258,17 @@ bon_de_commande_id <- 12
 
 # SQE2023_UGVA_pluie_1
 # fichier<-
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230608094853001_SQE2023_UGVA_pluie_1.xml"
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230628152139001_SQE2023_UGVA_pluie_1.xml"
 # bon_de_commande_id <- 69
 
 # SQE2023_UGVO_pluie_1
 # fichier<-
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230608100512001_SQE2023_UGVO_pluie_1.xml"
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230622172605001_SQE2023_UGVO_pluie_1.xml"
 # bon_de_commande_id <- 41
 
 # SQE2023_UGVO_pluie_2
-# fichier<-
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230608100756001_SQE2023_UGVO_pluie_2.xml"
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230622173018001_SQE2023_UGVO_pluie_2.xml"
 # bon_de_commande_id <- 42
 
 #
@@ -568,11 +578,13 @@ Rapport$nom_cd_parametre_analyses <- Parametres %>%
   ) |
     statut_parametre_dans_SANDRE != "Validé"
   ) %>%
-  dplyr::select(cdparametre,
-                rendu_dans_xml,
-                attendu,
-                nom_court_attendu,
-                statut_parametre_dans_SANDRE)
+  dplyr::select(
+    cdparametre,
+    rendu_dans_xml,
+    attendu,
+    nom_court_attendu,
+    statut_parametre_dans_SANDRE
+  )
 
 #### Res_env #####
 Parametres <- Res_env %>%
@@ -784,7 +796,7 @@ incoherence_cd_rq <-
   ) &
   ifelse(is.na(Analyses$lqana) | is.na(Analyses$rsana), FALSE, TRUE)
 
-Rapport$cd_rq_ou_lq_incoherent <- Analyses[incoherence_cd_rq, ]
+Rapport$cd_rq_ou_lq_incoherent <- Analyses[incoherence_cd_rq,]
 
 
 
@@ -795,66 +807,72 @@ analyses_a_tester <-
                         cdsupport == "3" &
                         cdinsituana == "1") %>% unique()
 
-if(nrow(analyses_a_tester)>0){
-analyses_a_tester <-
-  analyses_a_tester %>% tidyr::pivot_wider(
-    id_cols = c(
-      cdstationmesureinterne,
-      dateprel,
-      heureprel,
-      codeprel,
-      cdrdd,
-      RefEchantillonCommanditaire,
-      RefEchantillonPrel,
-      RefEchantillonLabo
-    ),
-    names_from = cdparametre,
-    names_prefix = "p",
-    values_from = rsana,
-    values_fn = max
-  )
-
-analyses_a_tester <-
-  analyses_a_tester %>% subset(!is.na(p1301) &
-                                 !is.na(p1311) & !is.na(p1312))
-
-
-fct_test_O2 <-
-  function(x) {
-    func_test_metier_coherenceO2(O2 = analyses_a_tester[["p1311"]][x],
-                                 satO2 = analyses_a_tester[["p1312"]][x],
-                                 temp = analyses_a_tester[["p1301"]][x])
-  }
-
-fct_test_O2_val <-
-  function(x) {
-    func_test_metier_coherenceO2(
-      O2 = analyses_a_tester[["p1311"]][x],
-      satO2 = analyses_a_tester[["p1312"]][x],
-      temp = analyses_a_tester[["p1301"]][x],
-      export = "value"
+if (nrow(analyses_a_tester) > 0) {
+  analyses_a_tester <-
+    analyses_a_tester %>% tidyr::pivot_wider(
+      id_cols = c(
+        cdstationmesureinterne,
+        dateprel,
+        heureprel,
+        codeprel,
+        cdrdd,
+        RefEchantillonCommanditaire,
+        RefEchantillonPrel,
+        RefEchantillonLabo
+      ),
+      names_from = cdparametre,
+      names_prefix = "p",
+      values_from = rsana,
+      values_fn = max
     )
+
+
+  #on teste seulement si on a des données à la fois sur O2 dissous, sat O2 et température
+  if (all(c("p1311", "p1312", "p1301") %in% names(analyses_a_tester)))
+  {
+    analyses_a_tester <-
+      analyses_a_tester %>% subset(!is.na(p1301) &
+                                     !is.na(p1311) & !is.na(p1312))
+
+    fct_test_O2 <-
+      function(x) {
+        func_test_metier_coherenceO2(O2 = analyses_a_tester[["p1311"]][x],
+                                     satO2 = analyses_a_tester[["p1312"]][x],
+                                     temp = analyses_a_tester[["p1301"]][x])
+      }
+
+    fct_test_O2_val <-
+      function(x) {
+        func_test_metier_coherenceO2(
+          O2 = analyses_a_tester[["p1311"]][x],
+          satO2 = analyses_a_tester[["p1312"]][x],
+          temp = analyses_a_tester[["p1301"]][x],
+          export = "value"
+        )
+      }
+
+    analyses_a_tester$testO2 <-
+      sapply(seq_along(analyses_a_tester$cdstationmesureinterne),
+             FUN = fct_test_O2)
+    analyses_a_tester$test_satO2_attendu <-
+      sapply(seq_along(analyses_a_tester$cdstationmesureinterne),
+             FUN = fct_test_O2_val)
+
+    analyses_a_tester <-
+      analyses_a_tester %>% dplyr::rename(O2 = p1311,
+                                          satO2 = p1312,
+                                          temperature = p1301)
+    analyses_a_tester$testO2 <- analyses_a_tester$testO2 %>%
+      dplyr::case_match("1" ~ "correcte", "2" ~ "incertain", "3" ~ "incorrect")
+
+    analyses_a_tester$test_satO2_attendu <-
+      round(analyses_a_tester$test_satO2_attendu, 1)
+
+
+    Rapport$coherence_O2_temp <-
+      analyses_a_tester %>% subset(testO2 != "correcte")
   }
-
-analyses_a_tester$testO2 <-
-  sapply(seq_along(analyses_a_tester$cdstationmesureinterne),
-         FUN = fct_test_O2)
-analyses_a_tester$test_satO2_attendu <-
-  sapply(seq_along(analyses_a_tester$cdstationmesureinterne),
-         FUN = fct_test_O2_val)
-
-analyses_a_tester <-
-  analyses_a_tester %>% dplyr::rename(O2 = p1311,
-                                      satO2 = p1312,
-                                      temperature = p1301)
-analyses_a_tester$testO2 <- analyses_a_tester$testO2 %>%
-  dplyr::case_match("1" ~ "correcte", "2" ~ "incertain", "3" ~ "incorrect")
-
-analyses_a_tester$test_satO2_attendu<-round(analyses_a_tester$test_satO2_attendu,1)
-
-
-Rapport$coherence_O2_temp <-
-  analyses_a_tester %>% subset(testO2 != "correcte")}
+}
 
 ##### test cohérence Ptot PO4 #####
 
@@ -868,115 +886,122 @@ analyses_a_tester <-
                            cdsupport == "3")
   ) %>% unique()
 
-if(nrow(analyses_a_tester)>0)
+if (nrow(analyses_a_tester) > 0)
 {
-incertitudes_a_tester <-
-  analyses_a_tester %>% tidyr::pivot_wider(
-    id_cols = c(
-      cdstationmesureinterne,
-      dateprel,
-      heureprel,
-      codeprel,
-      cdrdd,
-      RefEchantillonCommanditaire,
-      RefEchantillonPrel,
-      RefEchantillonLabo
-    ),
-    names_from = cdparametre,
-    names_prefix =
-      "incer",
-    values_from = incertitude,
-    values_fn = max
-  )
-
-analyses_a_tester <-
-  analyses_a_tester %>% tidyr::pivot_wider(
-    id_cols = c(
-      cdstationmesureinterne,
-      dateprel,
-      heureprel,
-      codeprel,
-      cdrdd,
-      RefEchantillonCommanditaire,
-      RefEchantillonPrel,
-      RefEchantillonLabo
-    ),
-    names_from =
-      cdparametre,
-    names_prefix =
-      "p",
-    values_from = rsana,
-    values_fn = max
-  )
-
-analyses_a_tester <- dplyr::left_join(
-  analyses_a_tester,
-  incertitudes_a_tester,
-  by = c(
-    "cdstationmesureinterne",
-    "dateprel",
-    "heureprel",
-    "codeprel",
-    "cdrdd",
-    "RefEchantillonCommanditaire",
-    "RefEchantillonPrel",
-    "RefEchantillonLabo"
-  )
-)
-
-analyses_a_tester <-
-  analyses_a_tester %>% subset(!is.na(p1350) & !is.na(p1433))
-
-
-fct_test_P <-
-  function(x) {
-    print(analyses_a_tester[["cdstationmesureinterne"]][x])
-    func_test_metier_coherenceP(
-      Ptot = analyses_a_tester[["p1350"]][x],
-      PO4 = analyses_a_tester[["p1433"]][x],
-      incertPtot = analyses_a_tester[["incer1350"]][x],
-      incertPO4 = analyses_a_tester[["incer1350"]][x],
-      forceincert = TRUE
+  incertitudes_a_tester <-
+    analyses_a_tester %>% tidyr::pivot_wider(
+      id_cols = c(
+        cdstationmesureinterne,
+        dateprel,
+        heureprel,
+        codeprel,
+        cdrdd,
+        RefEchantillonCommanditaire,
+        RefEchantillonPrel,
+        RefEchantillonLabo
+      ),
+      names_from = cdparametre,
+      names_prefix =
+        "incer",
+      values_from = incertitude,
+      values_fn = max
     )
-  }
 
-fct_test_P_val <-
-  function(x) {
-    func_test_metier_coherenceP(
-      Ptot = analyses_a_tester[["p1350"]][x],
-      PO4 = analyses_a_tester[["p1433"]][x],
-      incertPtot = analyses_a_tester[["incer1350"]][x],
-      incertPO4 = analyses_a_tester[["incer1350"]][x],
-      export = "value",
-      forceincert = TRUE
+  analyses_a_tester <-
+    analyses_a_tester %>% tidyr::pivot_wider(
+      id_cols = c(
+        cdstationmesureinterne,
+        dateprel,
+        heureprel,
+        codeprel,
+        cdrdd,
+        RefEchantillonCommanditaire,
+        RefEchantillonPrel,
+        RefEchantillonLabo
+      ),
+      names_from =
+        cdparametre,
+      names_prefix =
+        "p",
+      values_from = rsana,
+      values_fn = max
     )
-  }
 
-
-analyses_a_tester$testPtot_PO4 <-
-  sapply(seq_along(analyses_a_tester$cdstationmesureinterne),
-         FUN = fct_test_P)
-analyses_a_tester$PO4_en_PPO4 <-
-  sapply(seq_along(analyses_a_tester$cdstationmesureinterne),
-         FUN = fct_test_P_val)
-
-analyses_a_tester$pourcentage_PO4_sur_Ptot <-
-  round(analyses_a_tester$PO4_en_PPO4 / analyses_a_tester$p1350 * 100,
-        1)
-
-analyses_a_tester <-
-  analyses_a_tester %>% dplyr::rename(
-    Ptot = p1350,
-    PO4 = p1433,
-    incertitude_Ptot = incer1350,
-    incertitude_PO4 = incer1433
+  analyses_a_tester <- dplyr::left_join(
+    analyses_a_tester,
+    incertitudes_a_tester,
+    by = c(
+      "cdstationmesureinterne",
+      "dateprel",
+      "heureprel",
+      "codeprel",
+      "cdrdd",
+      "RefEchantillonCommanditaire",
+      "RefEchantillonPrel",
+      "RefEchantillonLabo"
+    )
   )
-analyses_a_tester$testPtot_PO4 <- analyses_a_tester$testPtot_PO4 %>%
-  dplyr::case_match("1" ~ "correcte", "2" ~ "dans marge incertitude", "3" ~ "incorrect")
 
-Rapport$coherence_Ptot_PO4 <-
-  analyses_a_tester %>% subset(testPtot_PO4 != "correcte")}
 
+  #on teste seulement si on a des données à la fois sur PO4 et Ptot
+  if (all(c("p1350", "p1433") %in% names(analyses_a_tester)))
+  {
+    analyses_a_tester <-
+      analyses_a_tester %>% subset(!is.na(p1350) & !is.na(p1433))
+
+    fct_test_P <-
+      function(x) {
+        print(analyses_a_tester[["cdstationmesureinterne"]][x])
+        func_test_metier_coherenceP(
+          Ptot = analyses_a_tester[["p1350"]][x],
+          PO4 = analyses_a_tester[["p1433"]][x],
+          incertPtot = analyses_a_tester[["incer1350"]][x],
+          incertPO4 = analyses_a_tester[["incer1350"]][x],
+          forceincert = TRUE
+        )
+      }
+
+    fct_test_P_val <-
+      function(x) {
+        func_test_metier_coherenceP(
+          Ptot = analyses_a_tester[["p1350"]][x],
+          PO4 = analyses_a_tester[["p1433"]][x],
+          incertPtot = analyses_a_tester[["incer1350"]][x],
+          incertPO4 = analyses_a_tester[["incer1350"]][x],
+          export = "value",
+          forceincert = TRUE
+        )
+      }
+
+
+    analyses_a_tester$testPtot_PO4 <-
+      sapply(seq_along(analyses_a_tester$cdstationmesureinterne),
+             FUN = fct_test_P)
+    analyses_a_tester$PO4_en_PPO4 <-
+      sapply(seq_along(analyses_a_tester$cdstationmesureinterne),
+             FUN = fct_test_P_val)
+
+    analyses_a_tester$pourcentage_PO4_sur_Ptot <-
+      round(analyses_a_tester$PO4_en_PPO4 / analyses_a_tester$p1350 * 100,
+            1)
+
+    analyses_a_tester <-
+      analyses_a_tester %>% dplyr::rename(
+        Ptot = p1350,
+        PO4 = p1433,
+        incertitude_Ptot = incer1350,
+        incertitude_PO4 = incer1433
+      )
+    analyses_a_tester$testPtot_PO4 <-
+      analyses_a_tester$testPtot_PO4 %>%
+      dplyr::case_match("1" ~ "correcte",
+                        "2" ~ "dans marge incertitude",
+                        "3" ~ "incorrect")
+
+    Rapport$coherence_Ptot_PO4 <-
+      analyses_a_tester %>% subset(testPtot_PO4 != "correcte")
+  }
+}
 
 ##### Test vraissemblance des résultats d'analyses #####
 Analyses$cle_frac_unit <- paste0(
@@ -1368,7 +1393,7 @@ analyses_attendues$station <- func_ajoute_nom_sandre(connexion,
                                                      code = analyses_attendues$res_stm_cdstationmesureinterne,
                                                      out = "nom_station")
 
-Rapport$stations_commandees_non_analysees <- analyses_attendues %>%
+Rapport$stations_manquantes <- analyses_attendues %>%
   subset(!(
     res_stm_cdstationmesureinterne %in% Analyses$cdstationmesureinterne
   )) %>%
@@ -1380,7 +1405,7 @@ Rapport$stations_commandees_non_analysees <- analyses_attendues %>%
 Rapport$analyses_hors_bon_de_commande <- Analyses %>%
   subset((!cle %in% analyses_attendues$cle) &
            (
-             !cdstationmesureinterne %in% Rapport$stations_commandees_non_analysees$cdstationmesureinterne
+             !cdstationmesureinterne %in% Rapport$stations_manquantes$cdstationmesureinterne
            )
   ) %>%
   dplyr::select(
@@ -1408,7 +1433,7 @@ Rapport$analyses_hors_bon_de_commande <- Analyses %>%
     "RefEchantillonCommanditaire",
     "cdrdd",
     "nomrdd"
-  )%>%unique()
+  ) %>% unique()
 
 ##### Analyses en doublon #####
 doublons <- Analyses %>%
@@ -1443,13 +1468,13 @@ Rapport$analyses_en_doublon <- Analyses %>%
     "RefEchantillonCommanditaire",
     "cdrdd",
     "nomrdd"
-  )%>%unique()
+  ) %>% unique()
 
 ##### Analyses manquantes #####
 nb_analyses_attendues <- analyses_attendues %>%
   subset(
     !res_stm_cdstationmesureinterne %in%
-      Rapport$stations_commandees_non_analysees$cdstationmesureinterne
+      Rapport$stations_manquantes$cdstationmesureinterne
   ) %>%
   unique %>%
   dplyr::group_by(cle) %>%
@@ -1511,7 +1536,9 @@ Rapport$analyses_manquantes <-
     "rea_cdlaboratoire",
     "nomlabo",
     "rea_rdd_cdrdd"
-  )%>%unique()
+  ) %>% unique()%>%
+  subset(!res_stm_cdstationmesureinterne%in%
+           Rapport$stations_manquantes$res_stm_cdstationmesureinterne)
 
 ##### Vérification dispositif de collecte #####
 Rapport$reseaux_de_mesures <- Analyses %>%
@@ -1521,11 +1548,13 @@ Rapport$reseaux_de_mesures <- Analyses %>%
 
 ##### Vérification respect des LQ contractuelles #####
 
-compar_perf_anal <- dplyr::inner_join(Analyses,
-                                      analyses_attendues%>%subset(!is.na(rea_par_cdparametre)),
-                                      by = "cle",
-                                      suffix = c("", ".attendu"),
-                                      multiple = "all")
+compar_perf_anal <- dplyr::inner_join(
+  Analyses,
+  analyses_attendues %>% subset(!is.na(rea_par_cdparametre)),
+  by = "cle",
+  suffix = c("", ".attendu"),
+  multiple = "all"
+)
 
 
 Rapport$lq_non_conforme <- compar_perf_anal %>%
@@ -1557,7 +1586,7 @@ Rapport$lq_non_conforme <- compar_perf_anal %>%
     "cdrdd",
     "nomrdd"
   ) %>%
-  dplyr::rename("lq_au_bpu" = "rea_lqprev")%>%
+  dplyr::rename("lq_au_bpu" = "rea_lqprev") %>%
   unique()
 
 ##### Vérification respect des accréditations #####
@@ -1602,9 +1631,10 @@ if (nrow(compar_perf_anal %>%
   Rapport$taux_result_accredites_sur_attendus <-
     nrow(compar_perf_anal %>%
            subset(rea_cdaccreanaprev ==
-                    "true" & cdaccreana == "1")) / nrow(compar_perf_anal %>%
-                                                          subset(rea_cdaccreanaprev ==
-                                                                   "true")) * 100
+                    "true" &
+                    cdaccreana == "1")) / nrow(compar_perf_anal %>%
+                                                 subset(rea_cdaccreanaprev ==
+                                                          "true")) * 100
 }
 
 ##### Vérification des incertitudes contractuelles #####
@@ -1638,7 +1668,7 @@ Rapport$incertitude_non_conforme <- compar_perf_anal %>%
     "cdrdd",
     "nomrdd"
   ) %>%
-  dplyr::rename("incertitude_au_bpu" = "rea_incertitudeprev")%>%
+  dplyr::rename("incertitude_au_bpu" = "rea_incertitudeprev") %>%
   unique()
 
 
@@ -1647,9 +1677,10 @@ compar_perf_anal$methode_au_bpu <- func_ajoute_nom_sandre(connexion,
                                                           code = compar_perf_anal$rea_cdmethode,
                                                           out = "nom_methode")
 
-compar_perf_anal$methode_analyse <- func_ajoute_nom_sandre(connexion,
-                                                           code = compar_perf_anal$cdmethode,
-                                                           out = "nom_methode")
+compar_perf_anal$methode_analyse <-
+  func_ajoute_nom_sandre(connexion,
+                         code = compar_perf_anal$cdmethode,
+                         out = "nom_methode")
 
 Rapport$methode_non_conforme <- compar_perf_anal %>%
   subset(cdmethode != rea_cdmethode) %>%
@@ -1682,7 +1713,7 @@ Rapport$methode_non_conforme <- compar_perf_anal %>%
     "cdrdd",
     "nomrdd"
   ) %>%
-  dplyr::rename("cd_methode_au_bpu" = "rea_cdmethode")%>%
+  dplyr::rename("cd_methode_au_bpu" = "rea_cdmethode") %>%
   unique()
 
 
@@ -1718,11 +1749,12 @@ for (i in 1:length(Rapport)) {
     }
   }
 }
-saveWorkbook(wb, paste0(basename(Rapport$fichier), ".xlsx"), overwrite=TRUE)
+saveWorkbook(wb, paste0(basename(Rapport$fichier), ".xlsx"), overwrite =
+               TRUE)
 
 ##### Sauvegarde au format xls des données d'analyses #####
 export <- Analyses %>%
-   dplyr::select(
+  dplyr::select(
     "cdstationmesureinterne",
     "station",
     "dateprel",
@@ -1752,17 +1784,18 @@ export <- Analyses %>%
 
 write.xlsx(export,
            paste0(basename(Rapport$fichier), "_data.xlsx"),
-           overwrite=TRUE)
+           overwrite = TRUE)
 
 
 
 ##### Sauvegarde des données correctes en QUESU v3.1 #####
 
 names(Analyses)
-cd_emetteur<-"25440124300012"
-nom_emetteur<-"ETABLISSEMENT PUBLIC TERRITORIAL DU BASSIN DE LA VILAINE (EPTB)"
-cd_destinataire<-"22350001800013" #CD35
-nom_destinataire<-"DEPARTEMENT D ILLE ET VILAINE"
+cd_emetteur <- "25440124300012"
+nom_emetteur <-
+  "ETABLISSEMENT PUBLIC TERRITORIAL DU BASSIN DE LA VILAINE (EPTB)"
+cd_destinataire <- "22350001800013" #CD35
+nom_destinataire <- "DEPARTEMENT D ILLE ET VILAINE"
 
 # Charger la bibliothèque xml2
 library(xml2)
@@ -1772,9 +1805,17 @@ doc <- xml_new_document(version = "1.0", encoding = "UTF-8")
 quesu <- xml_new_root("QUESU", doc = doc)
 
 # Ajouter les attributs à la balise QUESU
-xml_set_attr(quesu, "xmlns", "http://xml.sandre.eaufrance.fr/scenario/quesu/3.1")
-xml_set_attr(quesu, "xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance")
-xml_set_attr(quesu, "xsi:schemalocation", "http://xml.sandre.eaufrance.fr/scenario/quesu/3.1 http://xml.sandre.eaufrance.fr/scenario/quesu/3.1/sandre_sc_quesu.xsd")
+xml_set_attr(quesu,
+             "xmlns",
+             "http://xml.sandre.eaufrance.fr/scenario/quesu/3.1")
+xml_set_attr(quesu,
+             "xmlns:xsi",
+             "http://www.w3.org/2001/XMLSchema-instance")
+xml_set_attr(
+  quesu,
+  "xsi:schemalocation",
+  "http://xml.sandre.eaufrance.fr/scenario/quesu/3.1 http://xml.sandre.eaufrance.fr/scenario/quesu/3.1/sandre_sc_quesu.xsd"
+)
 
 # Créer l'élément Scenario
 scenario <- xml_add_child(quesu, "Scenario")
@@ -1782,8 +1823,14 @@ scenario <- xml_add_child(quesu, "Scenario")
 # Ajouter les balises enfant de Scenario
 xml_add_child(scenario, "CodeScenario", "QUESU_PHY")
 xml_add_child(scenario, "VersionScenario", "3.1")
-xml_add_child(scenario, "NomScenario", "Qualité des eaux superficielles continentales – Données physico-chimiques et microbiologiques")
-xml_add_child(scenario, "DateCreationFichier", format(Sys.Date(), "%Y-%m-%d"))
+xml_add_child(
+  scenario,
+  "NomScenario",
+  "Qualité des eaux superficielles continentales – Données physico-chimiques et microbiologiques"
+)
+xml_add_child(scenario,
+              "DateCreationFichier",
+              format(Sys.Date(), "%Y-%m-%d"))
 
 # Ajouter les balises Emetteur et Destinataire sous l'élément Scenario
 emetteur <- xml_add_child(scenario, "Emetteur")
@@ -1803,43 +1850,60 @@ for (i in seq_along(stations)) {
   # <ResPC>
   respc <- xml_add_child(quesu, "ResPC")
   # <StationMesureEauxSurface>
-  station<-xml_add_child(respc, "StationMesureEauxSurface")
-  cd_station <- xml_add_child(station, "CdStationMesureEauxSurface", stations[i])
+  station <- xml_add_child(respc, "StationMesureEauxSurface")
+  cd_station <-
+    xml_add_child(station, "CdStationMesureEauxSurface", stations[i])
   xml_set_attr(cd_station, "schemeID", "STQ")
   xml_set_attr(cd_station, "schemeAgencyID", "AE")
   # <OperationPrel>
-  oper<-Operation%>%subset(StationPrelevement_CdStationPrelevement==stations[i])
-  oper$dateheure<-paste0(oper$DatePrel, oper$HeurePrel)
+  oper <-
+    Operation %>% subset(StationPrelevement_CdStationPrelevement == stations[i])
+  oper$dateheure <- paste0(oper$DatePrel, oper$HeurePrel)
   for (j in seq_along(unique(oper$dateheure))) {
     operationprel <- xml_add_child(respc, "OperationPrel")
-    xml_set_attr(operationprel,"Action", "A")
+    xml_set_attr(operationprel, "Action", "A")
     xml_add_child(operationprel, "DateDebutOperationPrel", oper$DatePrel[j])
-    xml_add_child(operationprel, "HeureDebutOperationPrel", oper$HeurePrel[j])
-    xml_add_child(operationprel, "DifficultePrel", 0)%>%
+    xml_add_child(operationprel,
+                  "HeureDebutOperationPrel",
+                  oper$HeurePrel[j])
+    xml_add_child(operationprel, "DifficultePrel", 0) %>%
       xml_set_attr("listID", "67")
-    xml_add_child(operationprel, "AccredPrel", oper$AccredPrel[j])%>%
+    xml_add_child(operationprel, "AccredPrel", oper$AccredPrel[j]) %>%
       xml_set_attr("listID", "333")
-    xml_add_child(operationprel, "CommentairesPrel", oper$CommentairesPrel[j])
+    xml_add_child(operationprel,
+                  "CommentairesPrel",
+                  oper$CommentairesPrel[j])
     pointprel <- xml_add_child(operationprel, "PointPrel")
-    CdPointEauxSurf <-xml_add_child(pointprel, "CdPointEauxSurf", "pt renseignement non traité")
-      xml_set_attr(CdPointEauxSurf, "schemeID", "STM")
-      xml_set_attr(CdPointEauxSurf, "schemeAgencyID", "AE")
+    CdPointEauxSurf <-
+      xml_add_child(pointprel, "CdPointEauxSurf", "pt renseignement non traité")
+    xml_set_attr(CdPointEauxSurf, "schemeID", "STM")
+    xml_set_attr(CdPointEauxSurf, "schemeAgencyID", "AE")
     support <- xml_add_child(operationprel, "Support")
-    xml_add_child(support, "CdSupport", oper$Support_CdSupport[j])%>%
+    xml_add_child(support, "CdSupport", oper$Support_CdSupport[j]) %>%
       xml_set_attr("schemeID", "SUP")
-    producprel<-xml_add_child(operationprel, "ProducteurPrelevement")
-    product<-xml_add_child(producprel, "CdIntervenant", Demande$Commanditaire_CdIntervenant)
-      xml_set_attr(product, "schemeAgencyID", "SIRET")
-      xml_set_attr(product, "schemeID", "INT")
-    preleveur<-xml_add_child(operationprel, "Preleveur")
-      prel<-xml_add_child(preleveur, "CdIntervenant", oper$Preleveur_CdIntervenant[j])
-      xml_set_attr(product, "schemeAgencyID", "SIRET")
-      xml_set_attr(product, "schemeID", "INT")
+    producprel <-
+      xml_add_child(operationprel, "ProducteurPrelevement")
+    product <-
+      xml_add_child(producprel,
+                    "CdIntervenant",
+                    Demande$Commanditaire_CdIntervenant)
+    xml_set_attr(product, "schemeAgencyID", "SIRET")
+    xml_set_attr(product, "schemeID", "INT")
+    preleveur <- xml_add_child(operationprel, "Preleveur")
+    prel <-
+      xml_add_child(preleveur,
+                    "CdIntervenant",
+                    oper$Preleveur_CdIntervenant[j])
+    xml_set_attr(product, "schemeAgencyID", "SIRET")
+    xml_set_attr(product, "schemeID", "INT")
 
     prelevement <- xml_add_child(operationprel, "Prelevement")
 
-    anal<-Analyses%>%subset(cdstationmesureinterne==stations[i] &
-                              dateprel==oper$DatePrel[j] & heureprel==oper$HeurePrel[j])
+    anal <- Analyses %>% subset(
+      cdstationmesureinterne == stations[i] &
+        dateprel == oper$DatePrel[j] &
+        heureprel == oper$HeurePrel[j]
+    )
 
     #<Prelevement>
     xml_add_child(prelevement, "CdPrelevement", anal$codeprel[1])
@@ -1849,104 +1913,122 @@ for (i in seq_along(stations)) {
     #<Analyse>
 
     for (k in seq_along(anal$cdparametre))
-    {analyse<-xml_add_child(prelevement, "Analyse")
-    xml_add_child(analyse, "RefAnaProd", anal$RefAna[k])
-    xml_add_child(analyse, "DateAna", anal$dateana[k])
-    xml_add_child(analyse, "HeureAna", anal$heureana[k])
-    parametre<-xml_add_child(analyse, "Parametre")
-    cdparametre<-xml_add_child(parametre, "CdParametre", anal$cdparametre[k])
-    xml_set_attr(product, "schemeID", "PAR")
-    xml_set_attr(product, "schemeAgencyID", "SANDRE")
-    fractionanalysee<-xml_add_child(analyse, "FractionAnalysee")
-    cdfraction<-xml_add_child(fractionanalysee, "CdFractionAnalysee", anal$cdfractionanalysee[k])
-    xml_set_attr(cdfraction, "schemeID", "FAN")
-    xml_add_child(analyse, "RsAna", anal$rsana[k])
-    unitemesure<-xml_add_child(analyse, "UniteMesure")
-    CdUniteMesure<-xml_add_child(unitemesure, "CdUniteMesure", anal$cdfractionanalysee[k])
-    xml_set_attr(CdUniteMesure, "schemeID", "URF")
-    xml_add_child(analyse, "RqAna", anal$cdrqana[k])%>%
-      xml_set_attr("listID", "155")
-    xml_add_child(analyse, "InsituAna", anal$insitu[k])%>%
-      xml_set_attr("listID", "156")
-    xml_add_child(analyse, "DifficulteAna", 0)%>%
-      xml_set_attr("listID", "43")
-    xml_add_child(analyse, "QualAna", anal$cdqualana[k])%>%
-      xml_set_attr("listID", "414")
-    xml_add_child(analyse, "CommentairesAna", anal$commentairesana[k])
-    xml_add_child(analyse, "ComResultatAna", "commentaire resultat ana à implémenter")
-    xml_add_child(analyse, "StatutAna", "statut ana à implémenter")%>%
-      xml_set_attr("listID", "446")
-    xml_add_child(analyse, "AccreAna", anal$cdaccreana[k])%>%
-      xml_set_attr("listID", "299")
-    xml_add_child(analyse, "LDAna", anal$ldana[k])
-    xml_add_child(analyse, "LQAna", anal$lqana[k])
-    xml_add_child(analyse, "LSAna", anal$lsana[k])
-    xml_add_child(analyse, "IncertAna", anal$incertitude[k])
-    xml_add_child(analyse, "AgreAna", "agrement ana à implémenter")
-    rdd<-xml_add_child(analyse, "Rsx")
-    cdrdd<-xml_add_child(rdd, "CodeSandreRdd", anal$cdrdd[1])
-    xml_set_attr(product, "schemeID", "RSX")
-      }
+    {
+      analyse <- xml_add_child(prelevement, "Analyse")
+      xml_add_child(analyse, "RefAnaProd", anal$RefAna[k])
+      xml_add_child(analyse, "DateAna", anal$dateana[k])
+      xml_add_child(analyse, "HeureAna", anal$heureana[k])
+      parametre <- xml_add_child(analyse, "Parametre")
+      cdparametre <-
+        xml_add_child(parametre, "CdParametre", anal$cdparametre[k])
+      xml_set_attr(product, "schemeID", "PAR")
+      xml_set_attr(product, "schemeAgencyID", "SANDRE")
+      fractionanalysee <- xml_add_child(analyse, "FractionAnalysee")
+      cdfraction <-
+        xml_add_child(fractionanalysee,
+                      "CdFractionAnalysee",
+                      anal$cdfractionanalysee[k])
+      xml_set_attr(cdfraction, "schemeID", "FAN")
+      xml_add_child(analyse, "RsAna", anal$rsana[k])
+      unitemesure <- xml_add_child(analyse, "UniteMesure")
+      CdUniteMesure <-
+        xml_add_child(unitemesure, "CdUniteMesure", anal$cdfractionanalysee[k])
+      xml_set_attr(CdUniteMesure, "schemeID", "URF")
+      xml_add_child(analyse, "RqAna", anal$cdrqana[k]) %>%
+        xml_set_attr("listID", "155")
+      xml_add_child(analyse, "InsituAna", anal$insitu[k]) %>%
+        xml_set_attr("listID", "156")
+      xml_add_child(analyse, "DifficulteAna", 0) %>%
+        xml_set_attr("listID", "43")
+      xml_add_child(analyse, "QualAna", anal$cdqualana[k]) %>%
+        xml_set_attr("listID", "414")
+      xml_add_child(analyse, "CommentairesAna", anal$commentairesana[k])
+      xml_add_child(analyse,
+                    "ComResultatAna",
+                    "commentaire resultat ana à implémenter")
+      xml_add_child(analyse, "StatutAna", "statut ana à implémenter") %>%
+        xml_set_attr("listID", "446")
+      xml_add_child(analyse, "AccreAna", anal$cdaccreana[k]) %>%
+        xml_set_attr("listID", "299")
+      xml_add_child(analyse, "LDAna", anal$ldana[k])
+      xml_add_child(analyse, "LQAna", anal$lqana[k])
+      xml_add_child(analyse, "LSAna", anal$lsana[k])
+      xml_add_child(analyse, "IncertAna", anal$incertitude[k])
+      xml_add_child(analyse, "AgreAna", "agrement ana à implémenter")
+      rdd <- xml_add_child(analyse, "Rsx")
+      cdrdd <- xml_add_child(rdd, "CodeSandreRdd", anal$cdrdd[1])
+      xml_set_attr(product, "schemeID", "RSX")
+    }
   }
 }
 
 # Enregistrer le document XML dans un fichier
-write_xml(quesu, paste0(basename(Rapport$fichier),"_quesu3.1.xml"))
+write_xml(quesu, paste0(basename(Rapport$fichier), "_quesu3.1.xml"))
 
 ##### Temporaire enregistrement format RDS #####
-analyses_Eaux_Vilaine <- readRDS("~/R_Anthony/Naiades/bdd_locale/analyses_Eaux_Vilaine.rds")
+analyses_Eaux_Vilaine <-
+  readRDS("~/R_Anthony/Naiades/bdd_locale/analyses_Eaux_Vilaine.rds")
 names(analyses_Eaux_Vilaine)
 names(Analyses)[grepl("labo", names(Analyses))]
 
 
-analyses_rds<-Analyses%>%
-  dplyr::rename(CdStationMesureEauxSurface=cdstationmesureinterne,
-                CdSupport=cdsupport,
-                CdFractionAnalysee=cdfractionanalysee,
-                CdPrelevement=codeprel,
-                DatePrel=dateprel,
-                HeurePrel=heureprel,
-                DateAna=dateana,
-                HeureAna=heureana,
-                CdParametre=cdparametre,
-                RsAna=rsana,
-                CdUniteMesure=cdunitemesure,
-                CdRqAna=cdrqana,
-                CdInsituAna=cdinsituana,
-                ProfondeurPrel=profondeurpre,
-                LdAna=ldana,
-                LqAna=lqana,
-                LsAna=lsana,
-                IncertAna=incertitude,
-                CdMetFractionnement=cdmetfractionnement,
-                CdMethode=cdmethode,
-                RdtExtraction=rdtextraction,
-                CdMethodeExtraction=cdmethodeextraction,
-                CdAccreAna=cdaccreana,
-                AgreAna=agreana,
-                CommentairesAna=commentairesana,
-                ComResultatAna=CommentairesEchant,
-                CdRdd=cdrdd,
-                CdProducteur=cdproducteur,
-                CdPreleveur=cdpreleveur,
-                CdLaboratoire=cdlaboratoire
-                  )
+analyses_rds <- Analyses %>%
+  dplyr::rename(
+    CdStationMesureEauxSurface = cdstationmesureinterne,
+    CdSupport = cdsupport,
+    CdFractionAnalysee = cdfractionanalysee,
+    CdPrelevement = codeprel,
+    DatePrel = dateprel,
+    HeurePrel = heureprel,
+    DateAna = dateana,
+    HeureAna = heureana,
+    CdParametre = cdparametre,
+    RsAna = rsana,
+    CdUniteMesure = cdunitemesure,
+    CdRqAna = cdrqana,
+    CdInsituAna = cdinsituana,
+    ProfondeurPrel = profondeurpre,
+    LdAna = ldana,
+    LqAna = lqana,
+    LsAna = lsana,
+    IncertAna = incertitude,
+    CdMetFractionnement = cdmetfractionnement,
+    CdMethode = cdmethode,
+    RdtExtraction = rdtextraction,
+    CdMethodeExtraction = cdmethodeextraction,
+    CdAccreAna = cdaccreana,
+    AgreAna = agreana,
+    CommentairesAna = commentairesana,
+    ComResultatAna = CommentairesEchant,
+    CdRdd = cdrdd,
+    CdProducteur = cdproducteur,
+    CdPreleveur = cdpreleveur,
+    CdLaboratoire = cdlaboratoire
+  )
 
-analyses_rds$CdDifficulteAna<-"0"
-analyses_rds$CdStatutAna<-"1"
-analyses_rds$CdQualAna<-"1"
-analyses_rds$DatePrel<-as.Date(analyses_rds$DatePrel)
-analyses_rds$DateAna<-as.Date(analyses_rds$DateAna)
-analyses_rds$ProfondeurPrel<-as.numeric(analyses_rds$ProfondeurPrel)
-analyses_rds$IncertAna<-as.character(analyses_rds$IncertAna)
-analyses_rds$AgreAna<-ifelse(analyses_rds$AgreAna=="1", TRUE, FALSE)
+analyses_rds$CdDifficulteAna <- "0"
+analyses_rds$CdStatutAna <- "1"
+analyses_rds$CdQualAna <- "1"
+analyses_rds$DatePrel <- as.Date(analyses_rds$DatePrel)
+analyses_rds$DateAna <- as.Date(analyses_rds$DateAna)
+analyses_rds$ProfondeurPrel <- as.numeric(analyses_rds$ProfondeurPrel)
+analyses_rds$IncertAna <- as.character(analyses_rds$IncertAna)
+analyses_rds$AgreAna <- ifelse(analyses_rds$AgreAna == "1", TRUE, FALSE)
 
-analyses_Eaux_Vilaine<-dplyr::bind_rows(analyses_Eaux_Vilaine, analyses_rds)
-analyses_Eaux_Vilaine<-unique(analyses_Eaux_Vilaine)
+analyses_Eaux_Vilaine <-
+  dplyr::bind_rows(analyses_Eaux_Vilaine, analyses_rds)
+analyses_Eaux_Vilaine <- unique(analyses_Eaux_Vilaine)
 
-analyses_CD35_2020_2021 <- readRDS("~/R_Anthony/Naiades/bdd_locale/analyses_CD35_2020_2021.rds")
-analyses_Eaux_Vilaine$source<-"E&V"
-analyses_Eaux_Vilaine<-analyses_Eaux_Vilaine%>%dplyr::select(names(analyses_CD35_2020_2021))
+analyses_CD35_2020_2021 <-
+  readRDS("~/R_Anthony/Naiades/bdd_locale/analyses_CD35_2020_2021.rds")
+analyses_Eaux_Vilaine$source <- "E&V"
+analyses_Eaux_Vilaine <-
+  analyses_Eaux_Vilaine %>%
+  dplyr::select(names(analyses_CD35_2020_2021)) %>%
+  unique()
 
 
-saveRDS(analyses_Eaux_Vilaine, "~/R_Anthony/Naiades/bdd_locale/analyses_Eaux_Vilaine.rds")
+saveRDS(
+  analyses_Eaux_Vilaine,
+  "~/R_Anthony/Naiades/bdd_locale/analyses_Eaux_Vilaine.rds"
+)
