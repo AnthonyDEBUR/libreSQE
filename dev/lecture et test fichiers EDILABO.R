@@ -62,7 +62,7 @@ library(openxlsx)
 
 # SQE2023_UGVE_calend_1
 # fichier<-
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102332001_SQE2023-UGVO_calend_1.xml"
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102242001_SQE2023_UGVE_calend_1.xml"
 # bon_de_commande_id <- 20
 
 # SQE2023_UGVE_calend_2
@@ -91,9 +91,9 @@ library(openxlsx)
 # bon_de_commande_id <- 25
 
 # SQE2023_UGVE_calend_6 _ station manquante
- fichier<-
-   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230817094253001_SQE2023_UGVE_calend_6_04374005_RICORDEL A ESSE.xml"
- bon_de_commande_id <- 25
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230817094253001_SQE2023_UGVE_calend_6_04374005_RICORDEL A ESSE.xml"
+# bon_de_commande_id <- 25
 
 # SQE2023_UGVE_calend_7
 # fichier<-
@@ -145,10 +145,10 @@ library(openxlsx)
 #   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230701144019001_SQE2023_UGVO_calend_4.xml"
 # bon_de_commande_id <- 38
 
- # SQE2023_UGVO_calend_4 données manquantes sur Tréffineu
- # fichier<-
- #   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230817140035001_SQE2023_UGVO_calend_4_TREFINEU A GUIPRY.xml"
- # bon_de_commande_id <- 38
+# SQE2023_UGVO_calend_4 données manquantes sur Tréffineu
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230817140035001_SQE2023_UGVO_calend_4_TREFINEU A GUIPRY.xml"
+# bon_de_commande_id <- 38
 
 # SQE2023_UGVO_calend_5
 # fichier<-
@@ -192,9 +192,9 @@ library(openxlsx)
 
 
 # Careil 1
-# fichier<-
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230608094052001_SQE2023-UGVO-CAREIL_pluie-1.xml"
-# bon_de_commande_id <- 77
+fichier<-
+  "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230608094052001_SQE2023-UGVO-CAREIL_pluie-1.xml"
+bon_de_commande_id <- 77
 
 # Careil 2
 # fichier<-
@@ -796,7 +796,7 @@ incoherence_cd_rq <-
   ) &
   ifelse(is.na(Analyses$lqana) | is.na(Analyses$rsana), FALSE, TRUE)
 
-Rapport$cd_rq_ou_lq_incoherent <- Analyses[incoherence_cd_rq,]
+Rapport$cd_rq_ou_lq_incoherent <- Analyses[incoherence_cd_rq, ]
 
 
 
@@ -1536,9 +1536,11 @@ Rapport$analyses_manquantes <-
     "rea_cdlaboratoire",
     "nomlabo",
     "rea_rdd_cdrdd"
-  ) %>% unique()%>%
-  subset(!res_stm_cdstationmesureinterne%in%
-           Rapport$stations_manquantes$res_stm_cdstationmesureinterne)
+  ) %>% unique() %>%
+  subset(
+    !res_stm_cdstationmesureinterne %in%
+      Rapport$stations_manquantes$res_stm_cdstationmesureinterne
+  )
 
 ##### Vérification dispositif de collecte #####
 Rapport$reseaux_de_mesures <- Analyses %>%
@@ -1796,13 +1798,24 @@ nom_emetteur <-
   "ETABLISSEMENT PUBLIC TERRITORIAL DU BASSIN DE LA VILAINE (EPTB)"
 cd_destinataire <- "22350001800013" #CD35
 nom_destinataire <- "DEPARTEMENT D ILLE ET VILAINE"
+# On passe les analyses en contrôlées niveau 1
+Analyses$statutana <- 2
+
+# ces codes n'étant pas renseignés on passe tous les codes points de prélèvement à 999
+code_pt_prelevement<-"999"
+
+#méthode de prélèvement : par défaut Prélèvement eau brute (code 720)
+code_methode_prelevement<-"720"
+
 
 # Charger la bibliothèque xml2
 library(xml2)
 
-# Créer le document XML
-doc <- xml_new_document(version = "1.0", encoding = "UTF-8")
-quesu <- xml_new_root("QUESU", doc = doc)
+# # Créer le document XML
+# doc <- xml_new_document(version = "1.0", encoding = "UTF-8")
+# quesu <- xml_new_root("QUESU", doc = doc)
+
+quesu <- xml_new_root("QUESU")
 
 # Ajouter les attributs à la balise QUESU
 xml_set_attr(quesu,
@@ -1811,11 +1824,11 @@ xml_set_attr(quesu,
 xml_set_attr(quesu,
              "xmlns:xsi",
              "http://www.w3.org/2001/XMLSchema-instance")
-xml_set_attr(
-  quesu,
-  "xsi:schemalocation",
-  "http://xml.sandre.eaufrance.fr/scenario/quesu/3.1 http://xml.sandre.eaufrance.fr/scenario/quesu/3.1/sandre_sc_quesu.xsd"
-)
+# xml_set_attr(
+#   quesu,
+#   "xsi:schemalocation",
+#   "http://xml.sandre.eaufrance.fr/scenario/quesu/3.1 http://xml.sandre.eaufrance.fr/scenario/quesu/3.1/sandre_sc_quesu.xsd"
+# )
 
 # Créer l'élément Scenario
 scenario <- xml_add_child(quesu, "Scenario")
@@ -1863,41 +1876,18 @@ for (i in seq_along(stations)) {
     operationprel <- xml_add_child(respc, "OperationPrel")
     xml_set_attr(operationprel, "Action", "A")
     xml_add_child(operationprel, "DateDebutOperationPrel", oper$DatePrel[j])
-    xml_add_child(operationprel,
-                  "HeureDebutOperationPrel",
-                  oper$HeurePrel[j])
-    xml_add_child(operationprel, "DifficultePrel", 0) %>%
-      xml_set_attr("listID", "67")
-    xml_add_child(operationprel, "AccredPrel", oper$AccredPrel[j]) %>%
-      xml_set_attr("listID", "333")
-    xml_add_child(operationprel,
-                  "CommentairesPrel",
-                  oper$CommentairesPrel[j])
-    pointprel <- xml_add_child(operationprel, "PointPrel")
-    CdPointEauxSurf <-
-      xml_add_child(pointprel, "CdPointEauxSurf", "pt renseignement non traité")
-    xml_set_attr(CdPointEauxSurf, "schemeID", "STM")
-    xml_set_attr(CdPointEauxSurf, "schemeAgencyID", "AE")
-    support <- xml_add_child(operationprel, "Support")
-    xml_add_child(support, "CdSupport", oper$Support_CdSupport[j]) %>%
-      xml_set_attr("schemeID", "SUP")
-    producprel <-
-      xml_add_child(operationprel, "ProducteurPrelevement")
-    product <-
-      xml_add_child(producprel,
-                    "CdIntervenant",
-                    Demande$Commanditaire_CdIntervenant)
-    xml_set_attr(product, "schemeAgencyID", "SIRET")
-    xml_set_attr(product, "schemeID", "INT")
-    preleveur <- xml_add_child(operationprel, "Preleveur")
-    prel <-
-      xml_add_child(preleveur,
-                    "CdIntervenant",
-                    oper$Preleveur_CdIntervenant[j])
-    xml_set_attr(product, "schemeAgencyID", "SIRET")
-    xml_set_attr(product, "schemeID", "INT")
+    xml_add_child(
+      operationprel,
+      "HeureDebutOperationPrel",
+      paste0(oper$DatePrel[j],
+             "T",
+             oper$HeurePrel[j])
+    )
+
+
 
     prelevement <- xml_add_child(operationprel, "Prelevement")
+
 
     anal <- Analyses %>% subset(
       cdstationmesureinterne == stations[i] &
@@ -1906,9 +1896,84 @@ for (i in seq_along(stations)) {
     )
 
     #<Prelevement>
-    xml_add_child(prelevement, "CdPrelevement", anal$codeprel[1])
+    xml_add_child(
+      prelevement,
+      "CdPrelevement",
+      ifelse(anal$codeprel[1] != "",
+             anal$codeprel[1],
+             "000000")
+    )
     xml_add_child(prelevement, "DatePrel", oper$DatePrel[j])
-    xml_add_child(prelevement, "HeurePrel", oper$HeurePrel[j])
+    xml_add_child(prelevement,
+                  "HeurePrel",
+                  paste0(oper$DatePrel[j], "T", oper$HeurePrel[j]))
+    xml_add_child(prelevement, "DifficultePrel", 0) %>%
+      xml_set_attr("listID", "67")
+    xml_add_child(prelevement, "AccredPrel", oper$AccredPrel[j]) %>%
+      xml_set_attr("listID", "333")
+    xml_add_child(prelevement, "FinalitePrel","0")%>%
+      xml_set_attr("listID", "645")
+
+    # methode_plt<-xml_add_child(prelevement, "MethodePrlvt")
+    # xml_add_child(methode_plt, "CdMethode", code_methode_prelevement)%>%
+    #   xml_set_attr("schemeID", "MET")
+
+
+    pointprel<-xml_add_child(prelevement, "PointPrel")
+
+    CdPointEauxSurf <-
+      xml_add_child(pointprel,
+                    "CdPointEauxSurf",
+                    code_pt_prelevement)
+    xml_set_attr(CdPointEauxSurf, "schemeID", "STM")
+    xml_set_attr(CdPointEauxSurf, "schemeAgencyID", "AE")
+
+
+    support <- xml_add_child(prelevement, "Support")
+    xml_add_child(support, "CdSupport", oper$Support_CdSupport[j]) %>%
+      xml_set_attr("schemeID", "SUP")
+
+    producprel <-
+      xml_add_child(prelevement, "ProducteurPrelevement")
+    product <-
+      xml_add_child(producprel,
+                    "CdIntervenant",
+                    Demande$Commanditaire_CdIntervenant)
+    xml_set_attr(product, "schemeAgencyID", "SIRET")
+    xml_set_attr(product, "schemeID", "INT")
+
+
+    preleveur <- xml_add_child(prelevement, "Preleveur")
+    prel <-
+      xml_add_child(preleveur,
+                    "CdIntervenant",
+                    oper$Preleveur_CdIntervenant[j])
+    xml_set_attr(prel, "schemeAgencyID", "SIRET")
+    xml_set_attr(prel, "schemeID", "INT")
+
+
+    # # Diviser la valeur en parties individuelles
+    # cdrdd_parts <- strsplit(anal$cdrdd[1], "/") %>% unlist()
+    #
+    rdd <- xml_add_child(prelevement, "Rsx")
+    cdrdd <- xml_add_child(rdd, "CodeSandreRdd", anal$cdrdd[1])
+    #
+    # # Parcourir les parties et ajouter des éléments CodeSandreRdd
+    # # for (i in seq_along(cdrdd_parts)) {
+    # #         xml_add_child(rdd, "CodeSandreRdd", cdrdd_parts[i])%>%xml_set_attr("schemeID", "RSX")
+    # # }
+    #
+    # # provisoire pour débuguer
+    # xml_add_child(rdd, "CodeSandreRdd", cdrdd_parts[1]) %>%
+    #   xml_set_attr("schemeID", "RSX")
+
+
+
+    if (oper$CommentairesPrel[j] != "") {
+      xml_add_child(prelevement,
+                    "CommentairesPrel",
+                    oper$CommentairesPrel[j])
+    }
 
     #<Analyse>
 
@@ -1917,12 +1982,18 @@ for (i in seq_along(stations)) {
       analyse <- xml_add_child(prelevement, "Analyse")
       xml_add_child(analyse, "RefAnaProd", anal$RefAna[k])
       xml_add_child(analyse, "DateAna", anal$dateana[k])
-      xml_add_child(analyse, "HeureAna", anal$heureana[k])
+      if (anal$heureana[k] != "") {
+        xml_add_child(analyse,
+                      "HeureAna",
+                      paste0(anal$dateana[k],
+                             "T",
+                             anal$heureana[k]))
+      }
       parametre <- xml_add_child(analyse, "Parametre")
       cdparametre <-
         xml_add_child(parametre, "CdParametre", anal$cdparametre[k])
-      xml_set_attr(product, "schemeID", "PAR")
-      xml_set_attr(product, "schemeAgencyID", "SANDRE")
+      xml_set_attr(cdparametre, "schemeID", "PAR")
+      xml_set_attr(cdparametre, "schemeAgencyID", "SANDRE")
       fractionanalysee <- xml_add_child(analyse, "FractionAnalysee")
       cdfraction <-
         xml_add_child(fractionanalysee,
@@ -1936,28 +2007,66 @@ for (i in seq_along(stations)) {
       xml_set_attr(CdUniteMesure, "schemeID", "URF")
       xml_add_child(analyse, "RqAna", anal$cdrqana[k]) %>%
         xml_set_attr("listID", "155")
-      xml_add_child(analyse, "InsituAna", anal$insitu[k]) %>%
+      xml_add_child(analyse,
+                    "InsituAna",
+                    ifelse(
+                      anal$insitu[k] == "In situ",
+                      1,
+                      ifelse(
+                        anal$insitu[k] == "Laboratoire",
+                        2,
+                        ifelse(anal$insitu[k] == "Sans objet", 3, 0)
+                      )
+                    )) %>%
         xml_set_attr("listID", "156")
       xml_add_child(analyse, "DifficulteAna", 0) %>%
         xml_set_attr("listID", "43")
-      xml_add_child(analyse, "QualAna", anal$cdqualana[k]) %>%
+      xml_add_child(analyse, "QualAna", ifelse(!is.na(anal$cdqualana[k]),
+                                               anal$cdqualana[k],
+                                               0)) %>%
         xml_set_attr("listID", "414")
-      xml_add_child(analyse, "CommentairesAna", anal$commentairesana[k])
+      if (length(anal$commentairesana[k]) > 1) {
+        xml_add_child(analyse, "CommentairesAna", anal$commentairesana[k])
+      }
       xml_add_child(analyse,
                     "ComResultatAna",
                     "commentaire resultat ana à implémenter")
-      xml_add_child(analyse, "StatutAna", "statut ana à implémenter") %>%
+      xml_add_child(analyse, "StatutAna", anal$statutana[k]) %>%
         xml_set_attr("listID", "446")
-      xml_add_child(analyse, "AccreAna", anal$cdaccreana[k]) %>%
+      xml_add_child(analyse,
+                    "AccreAna",
+                    ifelse(anal$cdaccreana[k] != "", anal$cdaccreana[k], 0)) %>%
         xml_set_attr("listID", "299")
-      xml_add_child(analyse, "LDAna", anal$ldana[k])
-      xml_add_child(analyse, "LQAna", anal$lqana[k])
-      xml_add_child(analyse, "LSAna", anal$lsana[k])
-      xml_add_child(analyse, "IncertAna", anal$incertitude[k])
-      xml_add_child(analyse, "AgreAna", "agrement ana à implémenter")
-      rdd <- xml_add_child(analyse, "Rsx")
-      cdrdd <- xml_add_child(rdd, "CodeSandreRdd", anal$cdrdd[1])
-      xml_set_attr(product, "schemeID", "RSX")
+      if (!is.na(anal$ldana[k])) {
+        xml_add_child(analyse, "LDAna", anal$ldana[k])
+      }
+      if (!is.na(anal$ldana[k])) {
+        xml_add_child(analyse, "LQAna", anal$lqana[k])
+      }
+      if (!is.na(anal$ldana[k])) {
+        xml_add_child(analyse, "LSAna", anal$lsana[k])
+      }
+      if (!is.na(anal$ldana[k])) {
+        xml_add_child(analyse, "IncertAna", anal$incertitude[k])
+      }
+      xml_add_child(analyse, "AgreAna", ifelse(anal[k, ]$agreana == "1", 1, 0))
+
+      # # Diviser la valeur en parties individuelles
+      # cdrdd_parts <- strsplit(anal$cdrdd[1], "/") %>% unlist()
+      #
+      # rdd <- xml_add_child(analyse, "Rsx")
+      #
+      # # cdrdd <- xml_add_child(rdd, "CodeSandreRdd", anal$cdrdd[1])
+      #
+      # # Parcourir les parties et ajouter des éléments CodeSandreRdd
+      # # for (i in seq_along(cdrdd_parts)) {
+      # #         xml_add_child(rdd, "CodeSandreRdd", cdrdd_parts[i])%>%xml_set_attr("schemeID", "RSX")
+      # # }
+      #
+      # # provisoire pour débuguer
+      # xml_add_child(rdd, "CodeSandreRdd", cdrdd_parts[1]) %>%
+      #   xml_set_attr("schemeID", "RSX")
+
     }
   }
 }
@@ -1966,69 +2075,68 @@ for (i in seq_along(stations)) {
 write_xml(quesu, paste0(basename(Rapport$fichier), "_quesu3.1.xml"))
 
 ##### Temporaire enregistrement format RDS #####
-analyses_Eaux_Vilaine <-
-  readRDS("~/R_Anthony/Naiades/bdd_locale/analyses_Eaux_Vilaine.rds")
-names(analyses_Eaux_Vilaine)
-names(Analyses)[grepl("labo", names(Analyses))]
-
-
-analyses_rds <- Analyses %>%
-  dplyr::rename(
-    CdStationMesureEauxSurface = cdstationmesureinterne,
-    CdSupport = cdsupport,
-    CdFractionAnalysee = cdfractionanalysee,
-    CdPrelevement = codeprel,
-    DatePrel = dateprel,
-    HeurePrel = heureprel,
-    DateAna = dateana,
-    HeureAna = heureana,
-    CdParametre = cdparametre,
-    RsAna = rsana,
-    CdUniteMesure = cdunitemesure,
-    CdRqAna = cdrqana,
-    CdInsituAna = cdinsituana,
-    ProfondeurPrel = profondeurpre,
-    LdAna = ldana,
-    LqAna = lqana,
-    LsAna = lsana,
-    IncertAna = incertitude,
-    CdMetFractionnement = cdmetfractionnement,
-    CdMethode = cdmethode,
-    RdtExtraction = rdtextraction,
-    CdMethodeExtraction = cdmethodeextraction,
-    CdAccreAna = cdaccreana,
-    AgreAna = agreana,
-    CommentairesAna = commentairesana,
-    ComResultatAna = CommentairesEchant,
-    CdRdd = cdrdd,
-    CdProducteur = cdproducteur,
-    CdPreleveur = cdpreleveur,
-    CdLaboratoire = cdlaboratoire
-  )
-
-analyses_rds$CdDifficulteAna <- "0"
-analyses_rds$CdStatutAna <- "1"
-analyses_rds$CdQualAna <- "1"
-analyses_rds$DatePrel <- as.Date(analyses_rds$DatePrel)
-analyses_rds$DateAna <- as.Date(analyses_rds$DateAna)
-analyses_rds$ProfondeurPrel <- as.numeric(analyses_rds$ProfondeurPrel)
-analyses_rds$IncertAna <- as.character(analyses_rds$IncertAna)
-analyses_rds$AgreAna <- ifelse(analyses_rds$AgreAna == "1", TRUE, FALSE)
-
-analyses_Eaux_Vilaine <-
-  dplyr::bind_rows(analyses_Eaux_Vilaine, analyses_rds)
-analyses_Eaux_Vilaine <- unique(analyses_Eaux_Vilaine)
-
-analyses_CD35_2020_2021 <-
-  readRDS("~/R_Anthony/Naiades/bdd_locale/analyses_CD35_2020_2021.rds")
-analyses_Eaux_Vilaine$source <- "E&V"
-analyses_Eaux_Vilaine <-
-  analyses_Eaux_Vilaine %>%
-  dplyr::select(names(analyses_CD35_2020_2021)) %>%
-  unique()
-
-
-saveRDS(
-  analyses_Eaux_Vilaine,
-  "~/R_Anthony/Naiades/bdd_locale/analyses_Eaux_Vilaine.rds"
-)
+# analyses_Eaux_Vilaine <-
+#   readRDS("~/R_Anthony/Naiades/bdd_locale/analyses_Eaux_Vilaine.rds")
+#
+# analyses_rds <- Analyses %>%
+#   dplyr::rename(
+#     CdStationMesureEauxSurface = cdstationmesureinterne,
+#     CdSupport = cdsupport,
+#     CdFractionAnalysee = cdfractionanalysee,
+#     CdPrelevement = codeprel,
+#     DatePrel = dateprel,
+#     HeurePrel = heureprel,
+#     DateAna = dateana,
+#     HeureAna = heureana,
+#     CdParametre = cdparametre,
+#     RsAna = rsana,
+#     CdUniteMesure = cdunitemesure,
+#     CdRqAna = cdrqana,
+#     CdInsituAna = cdinsituana,
+#     ProfondeurPrel = profondeurpre,
+#     LdAna = ldana,
+#     LqAna = lqana,
+#     LsAna = lsana,
+#     IncertAna = incertitude,
+#     CdMetFractionnement = cdmetfractionnement,
+#     CdMethode = cdmethode,
+#     RdtExtraction = rdtextraction,
+#     CdMethodeExtraction = cdmethodeextraction,
+#     CdAccreAna = cdaccreana,
+#     AgreAna = agreana,
+#     CommentairesAna = commentairesana,
+#     ComResultatAna = CommentairesEchant,
+#     CdRdd = cdrdd,
+#     CdProducteur = cdproducteur,
+#     CdPreleveur = cdpreleveur,
+#     CdLaboratoire = cdlaboratoire
+#   )
+#
+# analyses_rds$CdDifficulteAna <- "0"
+# analyses_rds$CdStatutAna <- "1"
+# analyses_rds$CdQualAna <- "1"
+# analyses_rds$DatePrel <- as.Date(analyses_rds$DatePrel)
+# analyses_rds$DateAna <- as.Date(analyses_rds$DateAna)
+# analyses_rds$ProfondeurPrel <-
+#   as.numeric(analyses_rds$ProfondeurPrel)
+# analyses_rds$IncertAna <- as.character(analyses_rds$IncertAna)
+# analyses_rds$AgreAna <-
+#   ifelse(analyses_rds$AgreAna == "1", TRUE, FALSE)
+#
+# analyses_Eaux_Vilaine <-
+#   dplyr::bind_rows(analyses_Eaux_Vilaine, analyses_rds)
+# analyses_Eaux_Vilaine <- unique(analyses_Eaux_Vilaine)
+#
+# analyses_CD35_2020_2021 <-
+#   readRDS("~/R_Anthony/Naiades/bdd_locale/analyses_CD35_2020_2021.rds")
+# analyses_Eaux_Vilaine$source <- "E&V"
+# analyses_Eaux_Vilaine <-
+#   analyses_Eaux_Vilaine %>%
+#   dplyr::select(names(analyses_CD35_2020_2021)) %>%
+#   unique()
+#
+#
+# saveRDS(
+#   analyses_Eaux_Vilaine,
+#   "~/R_Anthony/Naiades/bdd_locale/analyses_Eaux_Vilaine.rds"
+# )
