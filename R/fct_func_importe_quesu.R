@@ -10,8 +10,7 @@
 #' Res_env qui contient les informations environnementales du prélèvement,
 #  Operation qui détaille le contenu des opérations
 #'
-#' @noRd
-#
+#' @export
 func_importe_quesu <- function(fichier, stations_a_traiter = NULL) {
   if (!("character" %in% class(fichier))) {
     stop(

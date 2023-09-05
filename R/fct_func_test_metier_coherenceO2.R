@@ -27,11 +27,11 @@ func_test_metier_coherenceO2<-function(O2=NULL, satO2=NULL, temp=NULL, export="c
   if(length(O2)!=1){stop("func_test_metier_coherenceO2 : O2 must be of length 1")}
   if(length(satO2)!=1){stop("func_test_metier_coherenceO2 : satO2 must be of length 1")}
   if(length(temp)!=1){stop("func_test_metier_coherenceO2 : temp must be of length 1")}
-  if(satO2<0 | satO2>250){stop("func_test_metier_coherenceO2 : satO2 should be a numeric between 0 and 250")}
-  # la valeur d'O2 dissous doit être entre 0 et la concentration de saturation à 100°C (27 mg O2/L)
-  if(O2<0 | O2>27){stop("func_test_metier_coherenceO2 : O2 should be between 0 and 27 mg O2/L")}
-  #la valeur de température prise en compte doit être entre 0 et 100 °C
-  if(temp<0 | temp>100){stop("func_test_metier_coherenceO2 : temp should be between 0 and 100°C")}
+  # if(satO2<0 | satO2>250){stop("func_test_metier_coherenceO2 : satO2 should be a numeric between 0 and 250")}
+  # # la valeur d'O2 dissous doit être entre 0 et la concentration de saturation à 100°C (27 mg O2/L)
+  # if(O2<0 | O2>27){stop("func_test_metier_coherenceO2 : O2 should be between 0 and 27 mg O2/L")}
+  # #la valeur de température prise en compte doit être entre 0 et 100 °C
+  # if(temp<0 | temp>100){stop("func_test_metier_coherenceO2 : temp should be between 0 and 100°C")}
   if(!(export %in%c("code", "value"))){stop("func_test_metier_coherenceO2 : unknown export value")}
 
  # équation de calcul selon le SANDRE https://mdm.sandre.eaufrance.fr/node/414781

@@ -7,23 +7,9 @@
 func_ajoute_nom_sandre(connexion = connexion, code, out = "nom_parametre")
 }
 \arguments{
-\item{out}{: name of the required output. Can be :
-- nom_parametre to add parameter short name
-- nom_long_parametre to add parameter long name
-- code_cas to add cass number of parameter
-- nom_fraction to add fraction name
-- nom_intervenant to add intervenant short name
-- nom_long_intervenant to add intervenant full name
-- nom_methode to add methode name
-- nom_qualif_ana to add name of the qualification of analysis
-- nom_rdd to add name of the dispositif de collecte
-- nom_station to add name of the measurement station
-- nom_statut to add name of statut of analysis
-- nom_unite to add symbole of unit}
+\item{connexion}{: DBI connexion to active LibreSQE database}
 
-\item{DBI}{connexion to active LibreSQE database}
-
-\item{a}{vector containing the code to convert}
+\item{code}{: a vector containing the code to convert}
 }
 \value{
 vector of same length as input with corresponding name.

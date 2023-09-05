@@ -1,6 +1,9 @@
 library(LibreSQE)
 library(openxlsx)
 
+#ajouter tests cohérence NGL / NH4 / NO2 / NO3 / NTK
+# voir ex Careil 2 qd 1 pesticide commandé sur station prélevée à plusieurs dates et plusieurs pest rendus, on ne détecte pas les pest en trop
+
 #####Fichier a tester #####
 # file.choose()
 
@@ -30,20 +33,21 @@ library(openxlsx)
 # bon_de_commande_id <- 61
 
 # SQE2023_UGVA_calend_6
-# fichier
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102131001_SQE2023-UGVA_calend_1.xml"
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230828160100001_SQE2023-UGVA_calend_6.xml"
 # bon_de_commande_id <- 62
 
 # SQE2023_UGVA_calend_7
 # fichier <-
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102131001_SQE2023-UGVA_calend_1.xml"
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230828160542001_SQE2023-UGVA_calend_7.xml"
 # bon_de_commande_id <- 63
 
 # SQE2023_UGVA_calend_8
 # fichier <-
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102131001_SQE2023-UGVA_calend_1.xml"
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230828160831001_SQE2023-UGVA_calend_8.xml"
 # bon_de_commande_id <- 64
-# # SQE2023_UGVE_calend_9
+
+# SQE2023_UGVE_calend_9
 
 # SQE2023_UGVA_calend_10
 # fichier <-
@@ -67,7 +71,7 @@ library(openxlsx)
 
 # SQE2023_UGVE_calend_2
 # fichier<-
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102332001_SQE2023-UGVO_calend_1.xml"
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405120836001_SQE2023-UGVE-calend-2.xml"
 # bon_de_commande_id <- 21
 
 # SQE2023_UGVE_calend_3
@@ -97,12 +101,12 @@ library(openxlsx)
 
 # SQE2023_UGVE_calend_7
 # fichier<-
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102332001_SQE2023-UGVO_calend_1.xml"
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230828163549001_SQE2023-UGVE_calend_7.xml"
 # bon_de_commande_id <- 26
 
 # SQE2023_UGVE_calend_8
 # fichier<-
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102332001_SQE2023-UGVO_calend_1.xml"
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230828175200001_SQE2023_UGVE_calend_8.xml"
 # bon_de_commande_id <- 27
 
 # SQE2023_UGVE_calend_9
@@ -155,6 +159,11 @@ library(openxlsx)
 #   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230701144251001_SQE2023_UGVO_calend_5.xml"
 # bon_de_commande_id <- 34
 
+# SQE2023_UGVO_calend_5 station manquante
+fichier<-
+  "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230817121330001_SQE2023_UGVO_calend_5_04208180_RAU DE GRENEDAN.xml"
+bon_de_commande_id <- 34
+
 # SQE2023_UGVO_calend_6
 # fichier<-
 #   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230717151911001_SQE2023_UGVO_calend_6.xml"
@@ -162,12 +171,12 @@ library(openxlsx)
 
 # SQE2023_UGVO_calend_7
 # fichier<-
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102332001_SQE2023-UGVO_calend_1.xml"
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230828165010001_SQE2023_UGVO_calend_7.xml"
 # bon_de_commande_id <- 35
 
 # SQE2023_UGVO_calend_8
 # fichier<-
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405102332001_SQE2023-UGVO_calend_1.xml"
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230831105807001_UGVO_Calend_8_corrigé.xml"
 # bon_de_commande_id <- 40
 
 # SQE2023_UGVO_calend_9
@@ -191,30 +200,70 @@ library(openxlsx)
 # bon_de_commande_id <- 3
 
 
-# Careil 1
-fichier<-
-  "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230608094052001_SQE2023-UGVO-CAREIL_pluie-1.xml"
-bon_de_commande_id <- 77
+# # Careil 1
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230608094052001_SQE2023-UGVO-CAREIL_pluie-1.xml"
+# bon_de_commande_id <- 77
 
 # Careil 2
 # fichier<-
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230608094052001_SQE2023-UGVO-CAREIL_pluie-1.xml"
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230828095240001_SQE2023-UGVO-CAREIL_pluie-2.xml"
 # bon_de_commande_id <- 78
 
 # Careil 3
 # fichier<-
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230608094052001_SQE2023-UGVO-CAREIL_pluie-1.xml"
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230828113342001_SQE2023-UGVO-CAREIL_pluie-3.xml"
 # bon_de_commande_id <- 79
 
 # Careil 4
 # fichier<-
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230608094052001_SQE2023-UGVO-CAREIL_pluie-1.xml"
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230828113659001_SQE2023-UGVO-CAREIL_pluie-4.xml"
 # bon_de_commande_id <- 80
 
 # Careil 5
 # fichier<-
 #   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230608094052001_SQE2023-UGVO-CAREIL_pluie-1.xml"
 # bon_de_commande_id <- 81
+
+# SQE2023_UGVA_pluie_1
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230828154320001_SQE2023_UGVA_pluie_3.xml"
+# bon_de_commande_id <- 69
+
+# SQE2023_UGVA_pluie_2
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230828154320001_SQE2023_UGVA_pluie_3.xml"
+# bon_de_commande_id <- 70
+
+# SQE2023_UGVA_pluie_3
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230828154320001_SQE2023_UGVA_pluie_3.xml"
+# bon_de_commande_id <- 71
+
+# SQE2023_UGVA_pluie_4
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230828161747001_SQE2023_UGVA_pluie_4.xml"
+# bon_de_commande_id <- 72
+
+# SQE2023_UGVA_pluie_5
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230828154320001_SQE2023_UGVA_pluie_3.xml"
+# bon_de_commande_id <- 73
+
+# SQE2023_UGVA_pluie_6
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230828154320001_SQE2023_UGVA_pluie_3.xml"
+# bon_de_commande_id <- 74
+
+# SQE2023_UGVA_pluie_7
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230828154320001_SQE2023_UGVA_pluie_3.xml"
+# bon_de_commande_id <- 75
+
+# SQE2023_UGVA_pluie_8
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230828154320001_SQE2023_UGVA_pluie_3.xml"
+# bon_de_commande_id <- 76
 
 # SQE2023_UGVE_pluie_externalisée_1
 # fichier<-
@@ -233,17 +282,17 @@ bon_de_commande_id <- 77
 
 # SQE2023_UGVE_pluie_externalisée_4
 # fichier<-
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230725123611001_SQE2023_UGVE_pluie_externalisée_4.xml"
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230828154652001_SQE2023_UGVE_pluie_externalisée_4.xml"
 # bon_de_commande_id <- 15
 
 # SQE2023_UGVE_pluie_externalisée_5
 # fichier<-
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405121240001_SQE2023_UGVE_pluie_externalisée_1.xml"
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230828155159001_SQE2023_UGVE_pluie_externalisée_5.xml"
 # bon_de_commande_id <- 16
 
 # SQE2023_UGVE_pluie_externalisée_6
 # fichier<-
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230405121240001_SQE2023_UGVE_pluie_externalisée_1.xml"
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230828164647001_SQE2023_UGVE_pluie_externalisée_6_rendu_comme_7.xml"
 # bon_de_commande_id <- 17
 
 # SQE2023_UGVE_pluie_externalisée_7
@@ -261,15 +310,116 @@ bon_de_commande_id <- 77
 #   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230628152139001_SQE2023_UGVA_pluie_1.xml"
 # bon_de_commande_id <- 69
 
+# SQE2023_UGVE_pluie_1
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230828152720001_SQE2023_UGVE_pluie_1.xml"
+# bon_de_commande_id <- 49
+
+# SQE2023_UGVE_pluie_2
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230828153509001_SQE2023_UGVE_pluie_2.xml"
+# bon_de_commande_id <- 50
+
+# SQE2023_UGVE_pluie_3
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230828164422001_SQE2023_UGVE_pluie_3.xml"
+# bon_de_commande_id <- 51
+
+# SQE2023_UGVE_pluie_4
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230828152720001_SQE2023_UGVE_pluie_1.xml"
+# bon_de_commande_id <- 52
+
+# SQE2023_UGVE_pluie_5
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230828152720001_SQE2023_UGVE_pluie_1.xml"
+# bon_de_commande_id <- 53
+
+# SQE2023_UGVE_pluie_6
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230828152720001_SQE2023_UGVE_pluie_1.xml"
+# bon_de_commande_id <- 54
+
+# SQE2023_UGVE_pluie_7
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230828152720001_SQE2023_UGVE_pluie_1.xml"
+# bon_de_commande_id <- 55
+
+# SQE2023_UGVE_pluie_8
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230828152720001_SQE2023_UGVE_pluie_1.xml"
+# bon_de_commande_id <- 56
+
+# SQE2023_UGVE_captages_pluie_1
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230828114759001_SQE2023_UGVE-captages_pluie_1.xml"
+# bon_de_commande_id <- 4
+
+# SQE2023_UGVE_captages_pluie_2
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230828114759001_SQE2023_UGVE-captages_pluie_1.xml"
+# bon_de_commande_id <- 5
+
+# SQE2023_UGVE_captages_pluie_3
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230828114759001_SQE2023_UGVE-captages_pluie_1.xml"
+# bon_de_commande_id <- 6
+
+# SQE2023_UGVE_captages_pluie_4
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230828114759001_SQE2023_UGVE-captages_pluie_1.xml"
+# bon_de_commande_id <- 7
+
+# SQE2023_UGVE_captages_pluie_5
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230828114759001_SQE2023_UGVE-captages_pluie_1.xml"
+# bon_de_commande_id <- 8
+
+
 # SQE2023_UGVO_pluie_1
 # fichier<-
 #   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230622172605001_SQE2023_UGVO_pluie_1.xml"
 # bon_de_commande_id <- 41
 
+# SQE2023_UGVO_pluie_1_bis
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230622173018001_SQE2023_UGVO_pluie_1bis.xml"
+# bon_de_commande_id <- 41
+
 # SQE2023_UGVO_pluie_2
-# fichier <-
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230622173018001_SQE2023_UGVO_pluie_2.xml"
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230828153935001_SQE2023_UGVO_pluie_2_rendue_comme3.xml"
 # bon_de_commande_id <- 42
+
+# SQE2023_UGVO_pluie_3
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230828165828001_SQE2023_UGVO_pluie_3_rendu_initialement_comme_4.xml"
+# bon_de_commande_id <- 43
+
+# SQE2023_UGVO_pluie_4
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230828152720001_SQE2023_UGVE_pluie_1.xml"
+# bon_de_commande_id <- 44
+
+# SQE2023_UGVO_pluie_5
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230828152720001_SQE2023_UGVE_pluie_1.xml"
+# bon_de_commande_id <- 45
+
+# SQE2023_UGVO_pluie_6
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230828152720001_SQE2023_UGVE_pluie_1.xml"
+# bon_de_commande_id <- 46
+
+# SQE2023_UGVO_pluie_7
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230828152720001_SQE2023_UGVE_pluie_1.xml"
+# bon_de_commande_id <- 47
+
+# SQE2023_UGVO_pluie_8
+# fichier<-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_230828152720001_SQE2023_UGVE_pluie_1.xml"
+# bon_de_commande_id <- 48
 
 #
 #
@@ -1801,8 +1951,8 @@ nom_destinataire <- "DEPARTEMENT D ILLE ET VILAINE"
 # On passe les analyses en contrôlées niveau 1
 Analyses$statutana <- 2
 
-# ces codes n'étant pas renseignés on passe tous les codes points de prélèvement à 999
-code_pt_prelevement<-"999"
+# ces codes n'étant pas renseignés on passe tous les codes points de prélèvement à 031
+code_pt_prelevement<-"031"
 
 #méthode de prélèvement : par défaut Prélèvement eau brute (code 720)
 code_methode_prelevement<-"720"
@@ -1953,19 +2103,18 @@ for (i in seq_along(stations)) {
 
 
     # # Diviser la valeur en parties individuelles
-    # cdrdd_parts <- strsplit(anal$cdrdd[1], "/") %>% unlist()
+    #  cdrdd_parts <- strsplit(anal$cdrdd[1], "/") %>% unlist()
     #
-    rdd <- xml_add_child(prelevement, "Rsx")
-    cdrdd <- xml_add_child(rdd, "CodeSandreRdd", anal$cdrdd[1])
+    #
+    # # cdrdd <- xml_add_child(rdd, "CodeSandreRdd", anal$cdrdd[1])
     #
     # # Parcourir les parties et ajouter des éléments CodeSandreRdd
-    # # for (i in seq_along(cdrdd_parts)) {
-    # #         xml_add_child(rdd, "CodeSandreRdd", cdrdd_parts[i])%>%xml_set_attr("schemeID", "RSX")
-    # # }
-    #
-    # # provisoire pour débuguer
-    # xml_add_child(rdd, "CodeSandreRdd", cdrdd_parts[1]) %>%
-    #   xml_set_attr("schemeID", "RSX")
+    # for (i in seq_along(cdrdd_parts)) {
+    #   rdd <- xml_add_child(prelevement, "Rsx")
+    #         xml_add_child(rdd, "CodeSandreRdd", cdrdd_parts[i])%>%xml_set_attr("schemeID", "RSX")
+    # }
+
+
 
 
 
@@ -2050,22 +2199,47 @@ for (i in seq_along(stations)) {
         xml_add_child(analyse, "IncertAna", anal$incertitude[k])
       }
       xml_add_child(analyse, "AgreAna", ifelse(anal[k, ]$agreana == "1", 1, 0))
+      if (anal$cdmetfractionnement[k]!="") {
+        metfra<-xml_add_child(analyse, "MetFractionnement")
+        xml_add_child(metfra, "CdMethode", anal$cdmetfractionnement[k])%>%xml_set_attr("schemeID", "MET")
+      }
+      if (anal$cdmethode[k]!="") {
+        met<-xml_add_child(analyse, "Methode")
+        xml_add_child(met, "CdMethode", anal$cdmethode[k])%>%xml_set_attr("schemeID", "MET")
+      } else
+      {met<-xml_add_child(analyse, "Methode")
+      xml_add_child(met, "CdMethode", "0")%>%xml_set_attr("schemeID", "MET")}
 
-      # # Diviser la valeur en parties individuelles
-      # cdrdd_parts <- strsplit(anal$cdrdd[1], "/") %>% unlist()
-      #
-      # rdd <- xml_add_child(analyse, "Rsx")
-      #
-      # # cdrdd <- xml_add_child(rdd, "CodeSandreRdd", anal$cdrdd[1])
-      #
-      # # Parcourir les parties et ajouter des éléments CodeSandreRdd
-      # # for (i in seq_along(cdrdd_parts)) {
-      # #         xml_add_child(rdd, "CodeSandreRdd", cdrdd_parts[i])%>%xml_set_attr("schemeID", "RSX")
-      # # }
-      #
-      # # provisoire pour débuguer
-      # xml_add_child(rdd, "CodeSandreRdd", cdrdd_parts[1]) %>%
-      #   xml_set_attr("schemeID", "RSX")
+      produc <-
+        xml_add_child(analyse, "Producteur")
+      product <-
+        xml_add_child(produc,
+                      "CdIntervenant",
+                      anal$cdproducteur[k])
+      xml_set_attr(product, "schemeAgencyID", "SIRET")
+      xml_set_attr(product, "schemeID", "INT")
+
+      if(anal$cdlaboratoire[k]!="")
+      {labo <-
+        xml_add_child(analyse, "Laboratoire")
+      product <-
+        xml_add_child(labo,
+                      "CdIntervenant",
+                      anal$cdlaboratoire[k])
+      xml_set_attr(product, "schemeAgencyID", "SIRET")
+      xml_set_attr(product, "schemeID", "INT")}
+
+
+      # Diviser la valeur en parties individuelles
+      cdrdd_parts <- strsplit(anal$cdrdd[1], "/") %>% unlist()
+
+
+      # Parcourir les parties et ajouter des éléments CodeSandreRdd
+      for (i in seq_along(cdrdd_parts)) {
+        rdd <- xml_add_child(analyse, "Rsx")
+               xml_add_child(rdd, "CodeSandreRdd", cdrdd_parts[i])%>%xml_set_attr("schemeID", "RSX")
+      }
+
 
     }
   }

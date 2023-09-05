@@ -1,3 +1,24 @@
+#####Pour aspect chartre graphique E&V
+#
+# navbarPage(
+#   #tags$script(src = "https://kit.fontawesome.com/abe2acc83c.js"),
+#   theme = bslib::bs_theme(version = 5, primary = "#00218f", success = "#33b5ff",
+#                           info = "#00C9C4", warning = "#ffb428", base_font = "Segoe UI Symbol",
+#                           heading_font = "Georgia", font_scale = NULL, `enable-gradients` = TRUE,
+#                           bootswatch = "cerulean"),
+#   title="SIVA",
+#   # pour les icones j'ai tout essayé ? pas d'icone si icon in navbar
+#   #              div(id="img-id",
+#   #                  htmltools::img(src=system.file("app/www/favicon.png", package = "SIVAshiny"),
+#   #                      #alt="logo-SIVA",
+#   #                      style = "position: fixed;
+#   #                          left: 10px;
+#   #                          top: 20px;"),
+#   #                 "SIVA"
+#   #              ),
+
+
+
 #
 # Prototype de l'interface de libreSQE
 
