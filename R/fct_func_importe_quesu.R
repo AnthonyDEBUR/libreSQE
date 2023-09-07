@@ -592,10 +592,15 @@ if(!(is.null(stations_a_traiter) |
             if (length(CdRddNodes) > 1) {
               CdRddValues <- sapply(CdRddNodes, function(x) xml2::xml_text(x))
               CdRddAna <- paste(CdRddValues, collapse = "/")
-            } else {
+            } else if (length(CdRddNodes) == 1) {
               CdRddAna <- xml2::xml_text(CdRddNodes[[1]])
+            } else {
+              # si pas de code réseau dans les balises Analyse, on les remplace par celles au niveau de Prélèvement
+                            CdRddAna <- CdRdd
+              }
             }
-          }
+
+
 
           # si plusieurs nom Rdd on les fusionne en 1 seul séparé par des /
           for (k in 1:length(nodes_analyses)) {
@@ -606,21 +611,10 @@ if(!(is.null(stations_a_traiter) |
             if (length(CdRddNodes) > 1) {
               CdRddValues <- sapply(CdRddNodes, function(x) xml2::xml_text(x))
               NomRddAna <- paste(CdRddValues, collapse = "/")
-            } else {
+            } else if (length(CdRddNodes) == 1){
               NomRddAna <- xml2::xml_text(CdRddNodes[[1]])
-            }
-          }
-
-          # NomRddAna <-
-          #   f_lit_attributs("Rsx", "NomRdd", node = nodes_analyses)
-
-          # si pas de code réseau dans les balises Analyse, on les remplace par celles au niveau de Prélèvement
-          if (all(is.na(CdRddAna))) {
-            CdRddAna <- CdRdd
-          }
-
-          if (all(is.na(NomRddAna))) {
-            NomRddAna <- NomRdd
+            } else
+            {NomRddAna <- NomRdd}
           }
 
 
