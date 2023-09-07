@@ -580,17 +580,50 @@ if(!(is.null(stations_a_traiter) |
             f_lit_attributs("Laboratoire", "CdIntervenant", node = nodes_analyses)
           LbLaboratoire <-
             f_lit_attributs("Laboratoire", "NomIntervenant", node = nodes_analyses)
-          CdRddAna <-
-            f_lit_attributs("Rsx", "CodeSandreRdd", node = nodes_analyses)
-          NomRddAna <-
-            f_lit_attributs("Rsx", "NomRdd", node = nodes_analyses)
+          # CdRddAna <-
+          #   f_lit_attributs("Rsx", "CodeSandreRdd", node = nodes_analyses)
 
+# si plusieurs codes Rdd on les fusionne en 1 seul séparé par des /
+          for (k in 1:length(nodes_analyses)) {
+            liste_analyse <- nodes_analyses[[k]]
+
+            # Traitement des balises CodeSandreRdd
+            CdRddNodes <- xml2::xml_find_all(liste_analyse, ".//CodeSandreRdd")
+            if (length(CdRddNodes) > 1) {
+              CdRddValues <- sapply(CdRddNodes, function(x) xml2::xml_text(x))
+              CdRddAna <- paste(CdRddValues, collapse = "/")
+            } else {
+              CdRddAna <- xml2::xml_text(CdRddNodes[[1]])
+            }
+          }
+
+          # si plusieurs nom Rdd on les fusionne en 1 seul séparé par des /
+          for (k in 1:length(nodes_analyses)) {
+            liste_analyse <- nodes_analyses[[k]]
+
+            # Traitement des balises CodeSandreRdd
+            CdRddNodes <- xml2::xml_find_all(liste_analyse, ".//NomRdd")
+            if (length(CdRddNodes) > 1) {
+              CdRddValues <- sapply(CdRddNodes, function(x) xml2::xml_text(x))
+              NomRddAna <- paste(CdRddValues, collapse = "/")
+            } else {
+              NomRddAna <- xml2::xml_text(CdRddNodes[[1]])
+            }
+          }
+
+          # NomRddAna <-
+          #   f_lit_attributs("Rsx", "NomRdd", node = nodes_analyses)
+
+          # si pas de code réseau dans les balises Analyse, on les remplace par celles au niveau de Prélèvement
           if (all(is.na(CdRddAna))) {
             CdRddAna <- CdRdd
           }
+
           if (all(is.na(NomRddAna))) {
             NomRddAna <- NomRdd
           }
+
+
 
           out <-
             data.frame(
