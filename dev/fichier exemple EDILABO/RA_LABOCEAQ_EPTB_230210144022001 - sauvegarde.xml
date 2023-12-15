@@ -1,0 +1,598 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <LABO_DEST xmlns="http://xml.sandre.eaufrance.fr/scenario/labo_dest/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <Scenario>
+      <CodeScenario>LABO_DEST</CodeScenario>
+      <VersionScenario>1</VersionScenario>
+      <NomScenario>Echanges informatisés entre laboratoires et commanditaires</NomScenario>
+      <DateCreationFichier>2023-02-10</DateCreationFichier>
+      <ReferenceFichierEnvoi>RA_LABOCEAQ_EPTB_230210144022001.xml</ReferenceFichierEnvoi>
+      <Emetteur>
+        <CdIntervenant schemeAgencyID="SIRET">13000208200019</CdIntervenant>
+      </Emetteur>
+      <Destinataire>
+        <CdIntervenant schemeAgencyID="SIRET">25440124300020</CdIntervenant>
+      </Destinataire>
+      <Referentiel schemeID="PAR" schemeAgencyID="SANDRE" version="2022-09-26"></Referentiel>
+      <Referentiel schemeID="MET" schemeAgencyID="SANDRE" version="2022-09-26"></Referentiel>
+      <Referentiel schemeID="FAN" schemeAgencyID="SANDRE" version="2022-09-26"></Referentiel>
+      <Referentiel schemeID="SUP" schemeAgencyID="SANDRE" version="2022-09-26"></Referentiel>
+      <Referentiel schemeID="URF" schemeAgencyID="SANDRE" version="2022-09-26"></Referentiel>
+    </Scenario>
+    <Intervenant>
+      <CdIntervenant schemeAgencyID="SIRET">13000208200019</CdIntervenant>
+      <NomIntervenant>IDHESA Bretagne Océane - Site de Quimper</NomIntervenant>
+    </Intervenant>
+    <Intervenant>
+      <CdIntervenant schemeAgencyID="SIRET">25440124300020</CdIntervenant>
+      <NomIntervenant>Institut d'Aménagement de la Vilaine</NomIntervenant>
+      <RueIntervenant>ACTIVITE EAUX ENVIRONNEMENT</RueIntervenant>
+      <VilleIntervenant>REDON</VilleIntervenant>
+      <CPIntervenant>35600</CPIntervenant>
+    </Intervenant>
+    <Intervenant>
+      <CdIntervenant schemeAgencyID="SIRET">13000208200068</CdIntervenant>
+      <NomIntervenant>LABOCEA COMBOURG</NomIntervenant>
+      <RueIntervenant>LABOCEA</RueIntervenant>
+      <VilleIntervenant>COMBOURG</VilleIntervenant>
+      <CPIntervenant>35270</CPIntervenant>
+    </Intervenant>
+    <StationPrelevement>
+      <CdStationPrelevement schemeAgencyID="1">04377004</CdStationPrelevement>
+      <LbStationPrelevement>04377004 - RAU VENANT DU MOULIN ALAIN À GUIPRY</LbStationPrelevement>
+      <AdresseStationPrelevement>ACTIVITE EAUX ENVIRONNEMENT</AdresseStationPrelevement>
+      <Commune>
+        <CdCommune>35236</CdCommune>
+        <LbCommune>REDON</LbCommune>
+      </Commune>
+    </StationPrelevement>
+    <Demande>
+      <Commanditaire>
+        <CdIntervenant schemeAgencyID="SIRET">25440124300020</CdIntervenant>
+      </Commanditaire>
+      <Prestataire>
+        <CdIntervenant schemeAgencyID="SIRET">13000208200019</CdIntervenant>
+      </Prestataire>
+      <TypeDemande>2</TypeDemande>
+      <ContexteCodification>2</ContexteCodification>
+      <Prelevement>
+        <DatePrel>2023-01-18</DatePrel>
+        <HeurePrel>10:00:00</HeurePrel>
+        <AccredPrel>1</AccredPrel>
+        <CommentairesPrel>réception à 7°C</CommentairesPrel>
+        <StationPrelevement>
+          <CdStationPrelevement schemeAgencyID="1">04377004</CdStationPrelevement>
+        </StationPrelevement>
+        <Support>
+          <CdSupport>3</CdSupport>
+        </Support>
+        <Preleveur>
+          <CdIntervenant schemeAgencyID="SIRET">13000208200068</CdIntervenant>
+        </Preleveur>
+        <MesureEnvironnementale>
+          <RsParEnv>1</RsParEnv>
+          <DateParEnv>2023-01-18</DateParEnv>
+          <Parametre>
+            <CdParametre>1410</CdParametre>
+            <NomParametre>Aspect des abords</NomParametre>
+          </Parametre>
+          <UniteReference>
+            <CdUniteReference>X</CdUniteReference>
+          </UniteReference>
+        </MesureEnvironnementale>
+        <MesureEnvironnementale>
+          <RsParEnv>2</RsParEnv>
+          <DateParEnv>2023-01-18</DateParEnv>
+          <Parametre>
+            <CdParametre>1424</CdParametre>
+            <NomParametre>Présence de tout corps ou produit ne faisant pas l'objet d'une observation spécifique</NomParametre>
+          </Parametre>
+          <UniteReference>
+            <CdUniteReference>X</CdUniteReference>
+          </UniteReference>
+        </MesureEnvironnementale>
+        <MesureEnvironnementale>
+          <RsParEnv>2</RsParEnv>
+          <DateParEnv>2023-01-18</DateParEnv>
+          <Parametre>
+            <CdParametre>1423</CdParametre>
+            <NomParametre>Présence de boues organiques flottantes</NomParametre>
+          </Parametre>
+          <UniteReference>
+            <CdUniteReference>X</CdUniteReference>
+          </UniteReference>
+        </MesureEnvironnementale>
+        <MesureEnvironnementale>
+          <RsParEnv>2</RsParEnv>
+          <DateParEnv>2023-01-18</DateParEnv>
+          <Parametre>
+            <CdParametre>1428</CdParametre>
+            <NomParametre>Coloration apparente de l'eau</NomParametre>
+          </Parametre>
+          <UniteReference>
+            <CdUniteReference>X</CdUniteReference>
+          </UniteReference>
+        </MesureEnvironnementale>
+        <MesureEnvironnementale>
+          <RsParEnv>1</RsParEnv>
+          <DateParEnv>2023-01-18</DateParEnv>
+          <Parametre>
+            <CdParametre>1425</CdParametre>
+            <NomParametre>Conditions météorologiques pendant le prélèvement</NomParametre>
+          </Parametre>
+          <UniteReference>
+            <CdUniteReference>X</CdUniteReference>
+          </UniteReference>
+        </MesureEnvironnementale>
+        <MesureEnvironnementale>
+          <RsParEnv>2</RsParEnv>
+          <DateParEnv>2023-01-18</DateParEnv>
+          <Parametre>
+            <CdParametre>1413</CdParametre>
+            <NomParametre>Présence de produits ligneux ou herbacés frais</NomParametre>
+          </Parametre>
+          <UniteReference>
+            <CdUniteReference>X</CdUniteReference>
+          </UniteReference>
+        </MesureEnvironnementale>
+        <MesureEnvironnementale>
+          <RsParEnv>2</RsParEnv>
+          <DateParEnv>2023-01-18</DateParEnv>
+          <Parametre>
+            <CdParametre>1411</CdParametre>
+            <NomParametre>Irisations sur l'eau</NomParametre>
+          </Parametre>
+          <UniteReference>
+            <CdUniteReference>X</CdUniteReference>
+          </UniteReference>
+        </MesureEnvironnementale>
+        <MesureEnvironnementale>
+          <RsParEnv>2</RsParEnv>
+          <DateParEnv>2023-01-18</DateParEnv>
+          <Parametre>
+            <CdParametre>1422</CdParametre>
+            <NomParametre>Limpidité de l'eau</NomParametre>
+          </Parametre>
+          <UniteReference>
+            <CdUniteReference>X</CdUniteReference>
+          </UniteReference>
+        </MesureEnvironnementale>
+        <MesureEnvironnementale>
+          <RsParEnv>2</RsParEnv>
+          <DateParEnv>2023-01-18</DateParEnv>
+          <Parametre>
+            <CdParametre>1412</CdParametre>
+            <NomParametre>Présence de mousse de détergents à la surface</NomParametre>
+          </Parametre>
+          <UniteReference>
+            <CdUniteReference>X</CdUniteReference>
+          </UniteReference>
+        </MesureEnvironnementale>
+        <MesureEnvironnementale>
+          <RsParEnv>1</RsParEnv>
+          <DateParEnv>2023-01-18</DateParEnv>
+          <Parametre>
+            <CdParametre>1416</CdParametre>
+            <NomParametre>Odeur</NomParametre>
+          </Parametre>
+          <UniteReference>
+            <CdUniteReference>X</CdUniteReference>
+          </UniteReference>
+        </MesureEnvironnementale>
+        <MesureEnvironnementale>
+          <RsParEnv>2</RsParEnv>
+          <DateParEnv>2023-01-18</DateParEnv>
+          <Parametre>
+            <CdParametre>1415</CdParametre>
+            <NomParametre>Importance de l'ombrage aux alentours de la station de mesure</NomParametre>
+          </Parametre>
+          <UniteReference>
+            <CdUniteReference>X</CdUniteReference>
+          </UniteReference>
+        </MesureEnvironnementale>
+        <MesureEnvironnementale>
+          <RsParEnv>2</RsParEnv>
+          <DateParEnv>2023-01-18</DateParEnv>
+          <Parametre>
+            <CdParametre>1948</CdParametre>
+            <NomParametre>Presence d'un seuil</NomParametre>
+          </Parametre>
+          <UniteReference>
+            <CdUniteReference>X</CdUniteReference>
+          </UniteReference>
+        </MesureEnvironnementale>
+        <MesureEnvironnementale>
+          <RsParEnv>4</RsParEnv>
+          <DateParEnv>2023-01-18</DateParEnv>
+          <Parametre>
+            <CdParametre>1726</CdParametre>
+            <NomParametre>Situation hydrologique apparente</NomParametre>
+          </Parametre>
+          <UniteReference>
+            <CdUniteReference>X</CdUniteReference>
+          </UniteReference>
+        </MesureEnvironnementale>
+        <MesureEnvironnementale>
+          <RsParEnv>1</RsParEnv>
+          <DateParEnv>2023-01-18</DateParEnv>
+          <Parametre>
+            <CdParametre>1947</CdParametre>
+            <NomParametre>Type de prélèvement</NomParametre>
+          </Parametre>
+          <UniteReference>
+            <CdUniteReference>X</CdUniteReference>
+          </UniteReference>
+        </MesureEnvironnementale>
+        <Echantillon>
+          <RefEchantillonCommanditaire>04377004</RefEchantillonCommanditaire>
+          <RefEchantillonLabo>23011800598401/428011/1</RefEchantillonLabo>
+          <AcceptabiliteEchant>1</AcceptabiliteEchant>
+          <DateReceptionEchant>2023-01-18</DateReceptionEchant>
+          <HeureReceptionEchant>09:45:00</HeureReceptionEchant>
+          <Laboratoire>
+            <CdIntervenant schemeAgencyID="SIRET">13000208200019</CdIntervenant>
+          </Laboratoire>
+          <CompletEchant>1</CompletEchant>
+          <Analyse>
+            <DateAna>2023-01-19</DateAna>
+            <RsAna>18</RsAna>
+            <RqAna>1</RqAna>
+            <LQAna>2</LQAna>
+            <AccreAna>1</AccreAna>
+            <RefAna>18 mg/L</RefAna>
+            <InsituAna>2</InsituAna>
+            <Parametre>
+              <CdParametre>1305</CdParametre>
+              <NomParametre>Matières en suspension</NomParametre>
+            </Parametre>
+            <FractionAnalysee>
+              <CdFractionAnalysee>23</CdFractionAnalysee>
+            </FractionAnalysee>
+            <Methode>
+              <CdMethode>610</CdMethode>
+            </Methode>
+            <UniteReference>
+              <CdUniteReference>162</CdUniteReference>
+            </UniteReference>
+          </Analyse>
+          <Analyse>
+            <DateAna>2023-01-19</DateAna>
+            <RsAna>2</RsAna>
+            <RqAna>1</RqAna>
+            <LQAna>0.5</LQAna>
+            <AccreAna>1</AccreAna>
+            <RefAna>2 mg(O2)/L</RefAna>
+            <InsituAna>2</InsituAna>
+            <Parametre>
+              <CdParametre>1313</CdParametre>
+              <NomParametre>Demande Biochimique en oxygène en 5 jours (D.B.O.5)</NomParametre>
+            </Parametre>
+            <FractionAnalysee>
+              <CdFractionAnalysee>23</CdFractionAnalysee>
+            </FractionAnalysee>
+            <Methode>
+              <CdMethode>315</CdMethode>
+            </Methode>
+            <UniteReference>
+              <CdUniteReference>175</CdUniteReference>
+            </UniteReference>
+          </Analyse>
+          <Analyse>
+            <DateAna>2023-01-19</DateAna>
+            <RsAna>1.4</RsAna>
+            <RqAna>1</RqAna>
+            <LQAna>0.5</LQAna>
+            <AccreAna>1</AccreAna>
+            <RefAna>1.4 mg(N)/L</RefAna>
+            <InsituAna>2</InsituAna>
+            <Parametre>
+              <CdParametre>1319</CdParametre>
+              <NomParametre>Azote Kjeldahl</NomParametre>
+            </Parametre>
+            <FractionAnalysee>
+              <CdFractionAnalysee>23</CdFractionAnalysee>
+            </FractionAnalysee>
+            <Methode>
+              <CdMethode>240</CdMethode>
+            </Methode>
+            <UniteReference>
+              <CdUniteReference>168</CdUniteReference>
+            </UniteReference>
+          </Analyse>
+          <Analyse>
+            <DateAna>2023-01-19</DateAna>
+            <RsAna>0.12</RsAna>
+            <RqAna>1</RqAna>
+            <LQAna>0.01</LQAna>
+            <AccreAna>1</AccreAna>
+            <RefAna>0.12 mg(NH4)/L</RefAna>
+            <InsituAna>2</InsituAna>
+            <Parametre>
+              <CdParametre>1335</CdParametre>
+              <NomParametre>Ammonium</NomParametre>
+            </Parametre>
+            <FractionAnalysee>
+              <CdFractionAnalysee>3</CdFractionAnalysee>
+            </FractionAnalysee>
+            <Methode>
+              <CdMethode>871</CdMethode>
+            </Methode>
+            <UniteReference>
+              <CdUniteReference>169</CdUniteReference>
+            </UniteReference>
+          </Analyse>
+          <Analyse>
+            <DateAna>2023-01-19</DateAna>
+            <RsAna>0.13</RsAna>
+            <RqAna>1</RqAna>
+            <LQAna>0.01</LQAna>
+            <AccreAna>1</AccreAna>
+            <RefAna>0.13 mg(NO2)/L</RefAna>
+            <InsituAna>2</InsituAna>
+            <Parametre>
+              <CdParametre>1339</CdParametre>
+              <NomParametre>Nitrites</NomParametre>
+            </Parametre>
+            <FractionAnalysee>
+              <CdFractionAnalysee>3</CdFractionAnalysee>
+            </FractionAnalysee>
+            <Methode>
+              <CdMethode>871</CdMethode>
+            </Methode>
+            <UniteReference>
+              <CdUniteReference>171</CdUniteReference>
+            </UniteReference>
+          </Analyse>
+          <Analyse>
+            <DateAna>2023-01-19</DateAna>
+            <RsAna>46</RsAna>
+            <RqAna>1</RqAna>
+            <LQAna>0.5</LQAna>
+            <AccreAna>1</AccreAna>
+            <RefAna>46 mg(NO3)/L</RefAna>
+            <InsituAna>2</InsituAna>
+            <Parametre>
+              <CdParametre>1340</CdParametre>
+              <NomParametre>Nitrates</NomParametre>
+            </Parametre>
+            <FractionAnalysee>
+              <CdFractionAnalysee>3</CdFractionAnalysee>
+            </FractionAnalysee>
+            <Methode>
+              <CdMethode>871</CdMethode>
+            </Methode>
+            <UniteReference>
+              <CdUniteReference>173</CdUniteReference>
+            </UniteReference>
+          </Analyse>
+          <Analyse>
+            <DateAna>2023-01-19</DateAna>
+            <RsAna>0.21</RsAna>
+            <RqAna>1</RqAna>
+            <LQAna>0.02</LQAna>
+            <AccreAna>1</AccreAna>
+            <RefAna>0.21 mg(PO4)/L</RefAna>
+            <InsituAna>2</InsituAna>
+            <Parametre>
+              <CdParametre>1433</CdParametre>
+              <NomParametre>Orthophosphates (PO4)</NomParametre>
+            </Parametre>
+            <FractionAnalysee>
+              <CdFractionAnalysee>3</CdFractionAnalysee>
+            </FractionAnalysee>
+            <Methode>
+              <CdMethode>871</CdMethode>
+            </Methode>
+            <UniteReference>
+              <CdUniteReference>176</CdUniteReference>
+            </UniteReference>
+          </Analyse>
+          <Analyse>
+            <DateAna>2023-01-19</DateAna>
+            <RsAna>0.15</RsAna>
+            <RqAna>1</RqAna>
+            <LQAna>0.01</LQAna>
+            <AccreAna>1</AccreAna>
+            <RefAna>0.15 mg(P)/L</RefAna>
+            <InsituAna>2</InsituAna>
+            <Parametre>
+              <CdParametre>1350</CdParametre>
+              <NomParametre>Phosphore total</NomParametre>
+            </Parametre>
+            <FractionAnalysee>
+              <CdFractionAnalysee>23</CdFractionAnalysee>
+            </FractionAnalysee>
+            <Methode>
+              <CdMethode>718</CdMethode>
+            </Methode>
+            <UniteReference>
+              <CdUniteReference>177</CdUniteReference>
+            </UniteReference>
+          </Analyse>
+          <Analyse>
+            <DateAna>2023-01-19</DateAna>
+            <RsAna>8.2</RsAna>
+            <RqAna>1</RqAna>
+            <LQAna>0.3</LQAna>
+            <AccreAna>1</AccreAna>
+            <RefAna>8.2 mg(C)/L</RefAna>
+            <InsituAna>2</InsituAna>
+            <Parametre>
+              <CdParametre>1841</CdParametre>
+              <NomParametre>Carbone Organique</NomParametre>
+            </Parametre>
+            <FractionAnalysee>
+              <CdFractionAnalysee>3</CdFractionAnalysee>
+            </FractionAnalysee>
+            <Methode>
+              <CdMethode>274</CdMethode>
+            </Methode>
+            <UniteReference>
+              <CdUniteReference>163</CdUniteReference>
+            </UniteReference>
+          </Analyse>
+        </Echantillon>
+        <Echantillon>
+          <RefEchantillonCommanditaire>04377004</RefEchantillonCommanditaire>
+          <RefEchantillonLabo>23011800598401/428011/1/IS</RefEchantillonLabo>
+          <AcceptabiliteEchant>1</AcceptabiliteEchant>
+          <DateReceptionEchant>2023-01-18</DateReceptionEchant>
+          <HeureReceptionEchant>09:45:00</HeureReceptionEchant>
+          <Laboratoire>
+            <CdIntervenant schemeAgencyID="SIRET">13000208200068</CdIntervenant>
+          </Laboratoire>
+          <CompletEchant>1</CompletEchant>
+          <Analyse>
+            <DateAna>2023-01-18</DateAna>
+            <RsAna>362</RsAna>
+            <RqAna>1</RqAna>
+            <LQAna>1</LQAna>
+            <AccreAna>1</AccreAna>
+            <RefAna>362 µS/cm</RefAna>
+            <InsituAna>1</InsituAna>
+            <Parametre>
+              <CdParametre>1303</CdParametre>
+              <NomParametre>Conductivité à 25°C</NomParametre>
+            </Parametre>
+            <FractionAnalysee>
+              <CdFractionAnalysee>23</CdFractionAnalysee>
+            </FractionAnalysee>
+            <Methode>
+              <CdMethode>231</CdMethode>
+            </Methode>
+            <UniteReference>
+              <CdUniteReference>147</CdUniteReference>
+            </UniteReference>
+          </Analyse>
+          <Analyse>
+            <DateAna>2023-01-18</DateAna>
+            <RsAna>11.84</RsAna>
+            <RqAna>1</RqAna>
+            <AccreAna>1</AccreAna>
+            <RefAna>11.84 mg(O2)/L</RefAna>
+            <InsituAna>1</InsituAna>
+            <Parametre>
+              <CdParametre>1311</CdParametre>
+              <NomParametre>Oxygène dissous</NomParametre>
+            </Parametre>
+            <FractionAnalysee>
+              <CdFractionAnalysee>23</CdFractionAnalysee>
+            </FractionAnalysee>
+            <Methode>
+              <CdMethode>752</CdMethode>
+            </Methode>
+            <UniteReference>
+              <CdUniteReference>175</CdUniteReference>
+            </UniteReference>
+          </Analyse>
+          <Analyse>
+            <DateAna>2023-01-18</DateAna>
+            <RsAna>98.4</RsAna>
+            <RqAna>1</RqAna>
+            <AccreAna>2</AccreAna>
+            <RefAna>98.4 %</RefAna>
+            <InsituAna>1</InsituAna>
+            <Parametre>
+              <CdParametre>1312</CdParametre>
+              <NomParametre>Taux de saturation en oxygène</NomParametre>
+            </Parametre>
+            <FractionAnalysee>
+              <CdFractionAnalysee>23</CdFractionAnalysee>
+            </FractionAnalysee>
+            <Methode>
+              <CdMethode>752</CdMethode>
+            </Methode>
+            <UniteReference>
+              <CdUniteReference>243</CdUniteReference>
+            </UniteReference>
+          </Analyse>
+          <Analyse>
+            <DateAna>2023-01-18</DateAna>
+            <RsAna>7.1</RsAna>
+            <RqAna>1</RqAna>
+            <AccreAna>1</AccreAna>
+            <RefAna>7.1 unité pH</RefAna>
+            <InsituAna>1</InsituAna>
+            <Parametre>
+              <CdParametre>1302</CdParametre>
+              <NomParametre>Potentiel en Hydrogène (pH)</NomParametre>
+            </Parametre>
+            <FractionAnalysee>
+              <CdFractionAnalysee>23</CdFractionAnalysee>
+            </FractionAnalysee>
+            <Methode>
+              <CdMethode>814</CdMethode>
+            </Methode>
+            <UniteReference>
+              <CdUniteReference>264</CdUniteReference>
+            </UniteReference>
+          </Analyse>
+          <Analyse>
+            <DateAna>2023-01-18</DateAna>
+            <RsAna>7.0</RsAna>
+            <RqAna>1</RqAna>
+            <AccreAna>1</AccreAna>
+            <RefAna>7.0 °C</RefAna>
+            <InsituAna>1</InsituAna>
+            <Parametre>
+              <CdParametre>6484</CdParametre>
+              <NomParametre>Température de mesure du pH</NomParametre>
+            </Parametre>
+            <FractionAnalysee>
+              <CdFractionAnalysee>23</CdFractionAnalysee>
+            </FractionAnalysee>
+            <Methode>
+              <CdMethode>275</CdMethode>
+            </Methode>
+            <UniteReference>
+              <CdUniteReference>27</CdUniteReference>
+            </UniteReference>
+          </Analyse>
+          <Analyse>
+            <DateAna>2023-01-18</DateAna>
+            <RsAna>7.0</RsAna>
+            <RqAna>1</RqAna>
+            <AccreAna>1</AccreAna>
+            <RefAna>7.0 °C</RefAna>
+            <InsituAna>1</InsituAna>
+            <Parametre>
+              <CdParametre>1301</CdParametre>
+              <NomParametre>Température de l'Eau</NomParametre>
+            </Parametre>
+            <FractionAnalysee>
+              <CdFractionAnalysee>23</CdFractionAnalysee>
+            </FractionAnalysee>
+            <Methode>
+              <CdMethode>275</CdMethode>
+            </Methode>
+            <UniteReference>
+              <CdUniteReference>27</CdUniteReference>
+            </UniteReference>
+          </Analyse>
+          <Analyse>
+            <DateAna>2023-01-18</DateAna>
+            <RsAna>8</RsAna>
+            <RqAna>1</RqAna>
+            <RefAna>[ 8] Marron clair</RefAna>
+            <InsituAna>1</InsituAna>
+            <Parametre>
+              <CdParametre>1739</CdParametre>
+              <NomParametre>Teinte de l'eau</NomParametre>
+            </Parametre>
+            <FractionAnalysee>
+              <CdFractionAnalysee>23</CdFractionAnalysee>
+            </FractionAnalysee>
+            <Methode>
+              <CdMethode>0</CdMethode>
+            </Methode>
+            <UniteReference>
+              <CdUniteReference>X</CdUniteReference>
+            </UniteReference>
+          </Analyse>
+        </Echantillon>
+        <Commemoratif>
+          <CdCommemoratif>123</CdCommemoratif>
+          <ValCommemoratif>0400000923</ValCommemoratif>
+        </Commemoratif>
+      </Prelevement>
+    </Demande>
+  </LABO_DEST>

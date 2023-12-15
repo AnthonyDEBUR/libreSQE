@@ -10,7 +10,7 @@
 #'
 #' @return Un fichier xlsx
 #'
-#' @noRd
+#' @export
 func_genere_bdc_xlsx<-function(bdc_id, pre_id, connexion, bdc_type, out_file_name)
 {
   pru_datedebut<-pru_datefin<-pru_valeur<-prs_label_prestation<-NULL

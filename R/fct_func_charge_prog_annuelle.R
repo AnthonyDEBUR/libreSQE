@@ -21,16 +21,6 @@ func_charge_prog_annuelle <-
   function(fichier_prog, connexion, mar_id, annee, frequence_bdc="mensuelle", prefixe="")
   {
 
-    # tables à mettre à jour si changement
-    # sqe.t_resultat_res (cascade) --> t_resultatanalyse_rea
-    # t_boncommande_pgm_bcp
-    # t_boncommande_quantitatif_bcq (cascade) -> view_bdc_quantitatif et view_bdc_quantif_par_staq
-    # t_boncommande_bco
-    # t_progannuelle_pga
-    # t_calendrierprog_cal
-    #
-
-    # func_charge_prog_annuelle(fichier_prog, connexion, mar_id, frequence_bdc="mensuelle", prefixe="SQE2023")
 
     janvier<-fevrier<-mars<-avril<-mai<-juin<-NULL
     juillet<-aout<-septembre<-octobre<-novembre<-decembre<-NULL
@@ -41,22 +31,22 @@ func_charge_prog_annuelle <-
     ppt_pre_id<-ppt_analyseinsitu<-NULL
 
 
-    frequence_bdc="mensuelle"
-    prefixe<-"SQE2023"
+    # frequence_bdc="mensuelle"
+    # prefixe<-"SQE2023"
 
-    fichier_prog <-
-      "C:\\workspace\\LibreSQE\\dev\\fichier_exemple_commande\\v2 prog EPTB2023_version dev libreSQE.xlsx"
-    mar_id = 18
-    connexion <- pool::dbPool(
-      RPostgres::Postgres(),
-      dbname = "libresqe",
-      host = "localhost",
-      port = 5432,
-      user = "postgres",
-      password = "postgres"
-    )
+    # fichier_prog <-
+    #   "C:\\workspace\\LibreSQE\\dev\\fichier_exemple_commande\\v2 prog EPTB2023_version dev libreSQE.xlsx"
+    # mar_id = 18
+    # connexion <- pool::dbPool(
+    #   RPostgres::Postgres(),
+    #   dbname = "libresqe",
+    #   host = "localhost",
+    #   port = 5432,
+    #   user = "postgres",
+    #   password = "postgres"
+    # )
 
-    annee <- 2023
+    # annee <- 2023
 
     if (!frequence_bdc %in% c("mensuelle",
                               "bimestrielle",
@@ -227,6 +217,19 @@ func_charge_prog_annuelle <-
     ##### ENREGISTREMENT DE LA PROG ANNUELLE #####
     func_lit_le_fichier(fichier_prog = fichier_prog, "programme_annuel")
 
+    if (!all(programme_annuel$type_station %in% calendrier$cal_typestation)) {
+      stop(
+        paste0(
+          "Les types_stations suivants du programme annuel n'existent pas dans le calendrier : ",
+          paste(programme_annuel$type_station[!programme_annuel$type_station %in%
+                                                calendrier$cal_typestation] %>%
+                  unique(), collapse = " - ")
+        )
+      )
+    }
+
+
+
     programme_annuel$pga_mar_id <- mar_id
     programme_annuel$pga_cal_refannee <- annee
 
@@ -263,7 +266,8 @@ func_charge_prog_annuelle <-
 prog_annuelle<-dplyr::left_join(programme_annuel,
                                 calendrier,
                                 by=c("pga_cal_typestation"='cal_typestation'),
-                                multiple = "all")
+                                multiple = "all",
+                                relationship = "many-to-many")
 
     prog_annuelle$mois1<-as.factor(prog_annuelle$mois)%>%dplyr::recode_factor(
       "janvier"="1",
@@ -455,7 +459,8 @@ liste_pgm_types <- pool::dbGetQuery(
 tmp<-dplyr::left_join(tmp,
                       liste_pgm_types,
                       by=c("cal_prs_id"="ppt_prs_id"),
-                      multiple = "all")
+                      multiple = "all",
+                      relationship = "many-to-many")
 
 # récupération de la table des prestataires
 conn <-  pool::poolCheckout(connexion)

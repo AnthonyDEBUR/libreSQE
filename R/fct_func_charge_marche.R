@@ -19,17 +19,6 @@ func_charge_marche <- function(fichier_prog, connexion, mar_id)
   pre_id<- run_nom <- run_met_code <- run_prestataire <- prr_mar_id <- NULL
   prr_run_id<- pru_datedebut<- pru_datefin <- pru_valeur<- NULL
 
-  # func_charge_marche(fichier_prog, connexion, mar_id)
-
-# fichier_prog<-"C:\\workspace\\LibreSQE\\dev\\fichier_exemple_commande\\v2 prog EPTB2023_version dev libreSQE.xlsx"
-# mar_id=18
-# connexion <- pool::dbPool(RPostgres::Postgres(),
-#                             dbname="libresqe",
-#                             host="localhost",
-#                             port=5432,
-#                             user= "postgres",
-#                             password= "postgres")
-
 
   ##### ENREGISTREMENT INITIAL DE LA TABLE run analytique #####
   func_lit_le_fichier(fichier_prog=fichier_prog, "cout_run_analytiques")
