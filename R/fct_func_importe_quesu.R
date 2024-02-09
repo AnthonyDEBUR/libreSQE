@@ -12,7 +12,7 @@
 #'
 #' @export
 func_importe_quesu <- function(fichier, stations_a_traiter = NULL) {
-  if (!("character" %in% class(fichier))) {
+    if (!("character" %in% class(fichier))) {
     stop(
       "func_importe_quesu : le paramètre fichier doit être un
                                           character spécifiant le chemin d'accès au fichier à importer"
@@ -258,7 +258,7 @@ if(!(is.null(stations_a_traiter) |
           xml2::xml_find_all(lit_bloc, ".//Prelevement")
 
         # on traite pour chaque opérations de prélèvement
-        for (j in length(liste_prelevements_all)) {
+        for (j in 1:length(liste_prelevements_all)) {
           liste_prelevements <- liste_prelevements_all[[j]]
           CdPrelevement <-
             xml2::xml_text(xml2::xml_find_first(liste_prelevements, ".//CdPrelevement"))

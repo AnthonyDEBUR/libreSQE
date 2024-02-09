@@ -32,7 +32,7 @@ func_charge_prog_annuelle <-
 
 
     # frequence_bdc="mensuelle"
-    # prefixe<-"SQE2023"
+    # prefixe<-"SQE2024"
 
     # fichier_prog <-
     #   "C:\\workspace\\LibreSQE\\dev\\fichier_exemple_commande\\v2 prog EPTB2023_version dev libreSQE.xlsx"
