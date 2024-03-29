@@ -3,7 +3,12 @@ library(LibreSQE)
 library(tidyverse)
 library(xml2)
 
-nomfichier<-paste0(Sys.Date(),"_Eaux_et_Vilaine_2023")
+annee<-"2023"
+mois<-c(1,12) # mois de debut et de fin de l'export
+
+nomfichier<-paste0(Sys.Date(),"_Eaux_et_Vilaine_",
+                   paste(unique(c(min(mois), max(mois))), collapse = "_", sep=""),
+                   "_",annee)
 cd_emetteur <- "25440124300012"
 nom_emetteur <-
   "ETABLISSEMENT PUBLIC TERRITORIAL DU BASSIN DE LA VILAINE (EPTB)"
@@ -15,17 +20,103 @@ Analyses <- readRDS("~/R_Anthony/Naiades/bdd_locale/analyses_Eaux_Vilaine.rds")
 Res_env <- readRDS("~/R_Anthony/Naiades/bdd_locale/cond_env_Eaux_Vilaine.rds")
 Operation <- readRDS("~/R_Anthony/Naiades/bdd_locale/operations_Eaux_Vilaine.rds")
 
+
 #bdd lieux de qualité
 lieux_qual <- readRDS("C:/workspace/LibreSQE/lieux_qual_1970_au_20240126.rds")
 
-# on ne conserve que l'année 2023
-annee<-"2023"
-date_debut<-as.Date(paste0(annee,"-01-01"))
-date_fin<-as.Date(paste0(annee,"-12-31"))
+# on ne conserve que les données entre la date de début et de fin
+mois_chr<-ifelse(min(mois)<9, paste0("0", min(mois)), paste0(min(mois)))
+mois_chr1<-ifelse(max(mois)<8, paste0("0", max(mois)+1), paste0(max(mois)+1))
 
-Analyses<-Analyses%>%subset(DatePrel>=date_debut & DatePrel<=date_fin)%>%subset(CdStationMesureEauxSurface=="04376006")
-Res_env<-Res_env%>%subset(DateParEnv>=date_debut & DateParEnv<=date_fin)%>%subset(CdStationMesureEauxSurface=="04376006")
-Operation<-Operation%>%subset(DatePrel>=date_debut & DatePrel<=date_fin)%>%subset(CdStationMesureEauxSurface=="04376006")
+date_debut<-as.Date(paste0(annee,"-",mois_chr,"-01"))
+date_fin<-as.Date(ifelse(mois_chr1=="13",
+                                paste0(as.numeric(annee)+1,"-01-01"),
+                                paste0(annee,"-",mois_chr1,"-01")))
+
+
+Analyses<-Analyses%>%subset(DatePrel>=date_debut & DatePrel<date_fin)
+Res_env<-Res_env%>%subset(DateParEnv>=date_debut & DateParEnv<date_fin)
+Operation<-Operation%>%subset(DatePrel>=date_debut & DatePrel<date_fin)
+
+# recherche de doublons dans Operation
+# Sélection des colonnes spécifiées
+cols <- c("CdStationMesureEauxSurface", "DatePrel", "PointPrel")
+
+# Trouver les lignes en doublons pour les colonnes spécifiées
+doublons <- Operation[duplicated(Operation[, cols]) | duplicated(Operation[, cols], fromLast = TRUE), ]
+Operation<-Operation[!(duplicated(Operation[, cols])), ]
+
+# recherche de doublons dans Operation
+# Sélection des colonnes spécifiées
+cols <- c("CdStationMesureEauxSurface", "DateParEnv", "CdParametreEnv")
+
+# Trouver les lignes en doublons pour les colonnes spécifiées
+doublons <- Res_env[duplicated(Res_env[, cols]) | duplicated(Res_env[, cols], fromLast = TRUE) &
+                      is.na(Res_env$HeureParEnv), ]
+Res_env<-Res_env[!(duplicated(Res_env[, cols]) |
+                      duplicated(Res_env[, cols],
+                                 fromLast = TRUE) &
+                      is.na(Res_env$HeureParEnv)), ]
+
+
+
+# recherche de doublons dans analyses
+# Sélection des colonnes spécifiées
+cols <- c("CdStationMesureEauxSurface", "CdSupport", "CdFractionAnalysee",
+          "CdPrelevement", "HeurePrel", "CdParametre", "RsAna", "CdRqAna", "CdInsituAna")
+
+# Trouver les lignes en doublons pour les colonnes spécifiées
+doublons <- Analyses[duplicated(Analyses[, cols]) | duplicated(Analyses[, cols], fromLast = TRUE), ]
+
+# Suppression des doublons à l'exemption de la colonne IncertitudeAna (on supprime les lignes ou incertitudeAna n'a aps été renseigné)
+Analyses <- Analyses[!(((duplicated(Analyses[, cols]) &
+                                   !duplicated(Analyses[, c(cols, "IncertAna")])) |
+                                   (duplicated(Analyses[, cols], fromLast = TRUE) &
+                                   !duplicated(Analyses[, c(cols, "IncertAna")], fromLast = TRUE))) &
+                                   is.na(Analyses$IncertAna)), ]
+
+# suppression des doublons sur un suivi avec mauvais code réseau
+# Trouver les lignes en doublons pour les colonnes spécifiées
+Analyses <- Analyses[!((duplicated(Analyses[, cols]) |
+                       duplicated(Analyses[, cols], fromLast = TRUE))
+                     & Analyses$CdRdd=="0400000922/0400003223"), ]
+
+# recherche d'analyses avec date analyse < date prel
+# on remplace dateAnal par datePrel
+Analyses <- Analyses %>%
+  mutate(HeureAna = ifelse(!is.na(HeureAna) & HeureAna < HeurePrel, HeurePrel, HeureAna))
+
+# correction des absences d'heure de prel
+Analyses <- Analyses %>%
+  mutate(HeurePrel = ifelse(substr(HeurePrel, nchar(HeurePrel), nchar(HeurePrel)) == "T",
+                            paste0(HeurePrel, "00:00:00"), HeurePrel))
+
+Operation <- Operation %>%
+  mutate(HeurePrel = ifelse(substr(HeurePrel, nchar(HeurePrel), nchar(HeurePrel)) == "T",
+                            paste0(HeurePrel, "00:00:00"), HeurePrel))
+
+# Analyses dont le résultat n'est pas un nombrev alors qu'il devrait
+Analyses<-Analyses%>%subset(!(is.na(as.numeric(RsAna))&CdRqAna=="1"))
+
+# Analyses dont le CdRq est 10 et le RsAna<Lq, alors RsAna = LQ
+Analyses <- Analyses %>%
+  mutate(RsAna = ifelse(CdRqAna == "10" & RsAna < LqAna, LqAna, RsAna))
+
+# Suppression des doublons à l'exception d'un des RsAna non renseigné
+cols <- c("CdStationMesureEauxSurface", "CdSupport", "CdFractionAnalysee",
+          "CdPrelevement", "HeurePrel", "CdParametre", "CdRqAna", "CdInsituAna")
+
+# suppression des valeurs NA
+Analyses <- Analyses[!(((duplicated(Analyses[, cols]) &
+                           !duplicated(Analyses[, c(cols, "RsAna")])) |
+                          (duplicated(Analyses[, cols], fromLast = TRUE) &
+                             !duplicated(Analyses[, c(cols, "RsAna")], fromLast = TRUE))) &
+                         (is.na(Analyses$RsAna))), ]
+
+# suppression des valeurs NA avec un CdRq=10
+Analyses <- Analyses[!(Analyses$CdRqAna%in%c("10", "0") &
+                         is.na(Analyses$RsAna)), ]
+
 
 # changement de qualification - passage en correct, validé niveau 1
 summary(factor(Analyses$CdQualAna))
@@ -117,19 +208,20 @@ for (i in seq_along(stations)) {
   # <OperationPrel>
   oper <-
     Operation %>% subset(CdStationMesureEauxSurface == stations[i])
-  oper$dateheure <- paste0(oper$DatePrel, oper$HeurePrel)
-  for (j in seq_along(unique(oper$dateheure))) {
+  oper$dateheure <- paste0(oper$HeurePrel)
+  oper<-unique(oper)
+    for (j in seq_along(oper$dateheure)) {
     operationprel <- xml_add_child(respc, "OperationPrel")
     xml_set_attr(operationprel, "Action", "A")
     xml_add_child(operationprel, "DateDebutOperationPrel", oper$DatePrel[j])
-    xml_add_child(
+
+    if(oper$HeurePrel[j]!="")
+    {xml_add_child(
       operationprel,
       "HeureDebutOperationPrel",
-      paste0(oper$DatePrel[j],
-             "T",
-             oper$HeurePrel[j])
+      paste0(oper$HeurePrel[j])
     )
-
+}
 
 
     prelevement <- xml_add_child(operationprel, "Prelevement")
@@ -155,9 +247,9 @@ for (i in seq_along(stations)) {
              "000000")
     )
     xml_add_child(prelevement, "DatePrel", oper$DatePrel[j])
-    xml_add_child(prelevement,
+    if(oper$HeurePrel[j]!=""){xml_add_child(prelevement,
                   "HeurePrel",
-                  paste0(oper$DatePrel[j], "T", oper$HeurePrel[j]))
+                  paste0(oper$HeurePrel[j]))}
     xml_add_child(prelevement, "DifficultePrel", 0) %>%
       xml_set_attr("listID", "67")
     xml_add_child(prelevement, "AccredPrel", oper$AccredPrel[j]) %>%
@@ -241,9 +333,7 @@ for (i in seq_along(stations)) {
           "HeureParEnv",
           ifelse(
             mesenv$DateParEnv[k] != "" & mesenv$HeureParEnv[k] != "",
-            paste0(mesenv$DateParEnv[k],
-                   "T",
-                   mesenv$HeureParEnv[k]),
+            paste0(mesenv$HeureParEnv[k]),
             ""
           )
         )
@@ -254,9 +344,7 @@ for (i in seq_along(stations)) {
           "HeureParEnv",
           ifelse(
             mesenv$DateParEnv[k] != "" & mesenv$HeureParEnv[k] != "",
-            paste0(mesenv$DateParEnv[k],
-                   "T",
-                   mesenv$HeureParEnv[k]),
+            paste0(mesenv$HeureParEnv[k]),
             ""
           )
         )
@@ -304,9 +392,7 @@ for (i in seq_along(stations)) {
       if (anal$HeureAna[k] != "") {
         xml_add_child(analyse,
                       "HeureAna",
-                      paste0(anal$DateAna[k],
-                             "T",
-                             anal$HeureAna[k]))
+                      paste0(anal$HeureAna[k]))
       }
       parametre <- xml_add_child(analyse, "Parametre")
       cdparametre <-
@@ -319,7 +405,7 @@ for (i in seq_along(stations)) {
                       "CdFractionAnalysee",
                       anal$CdFractionAnalysee[k])
       xml_set_attr(cdfraction, "schemeID", "FAN")
-      xml_add_child(analyse, "RsAna", anal$RsAna[k])
+     xml_add_child(analyse, "RsAna", anal$RsAna[k])
       unitemesure <- xml_add_child(analyse, "UniteMesure")
       CdUniteMesure <-
         xml_add_child(unitemesure, "CdUniteMesure", anal$CdUniteMesure[k])
@@ -424,3 +510,23 @@ Analyses$cle<-paste0(Analyses$CdStationMesureEauxSurface, Analyses$DatePrel, Ana
 Anal_rslt$cle<-paste0(Anal_rslt$CdStationMesureEauxSurface, Anal_rslt$DatePrel, Anal_rslt$CdParametre)
 
 difference<-Analyses[!Analyses$cle%in%Anal_rslt$cle,]
+print(nrow(difference))
+
+saveRDS(Anal_rslt, "Anal_rslt_annee.rds")
+saveRDS(difference, "difference_annee.rds")
+
+Analyses$cle2<-paste0(Analyses$CdStationMesureEauxSurface, Analyses$DatePrel, Analyses$CdParametre, Analyses$RsAna, Analyses$CdRqAna)
+Anal_rslt$cle2<-paste0(Anal_rslt$CdStationMesureEauxSurface, Anal_rslt$DatePrel, Anal_rslt$CdParametre, Anal_rslt$RsAna, Anal_rslt$CdRqAna)
+
+difference2<-Analyses[!Analyses$cle2%in%Anal_rslt$cle2,]
+difference3<-Anal_rslt[!Anal_rslt$cle2%in%Analyses$cle2,]
+
+#library(tools4DCE)
+test<-ajoute_nom_param(difference2)
+
+print(nrow(difference2))
+print(nrow(difference3))
+
+# summary(Analyses$CdPointEauxSurf%>%as.factor)
+# summary(Analyses0$CdRdd%>%as.factor)
+# summary(Analyses0[Analyses0$CdStationMesureEauxSurface=="04212900",]$CdRdd%>%as.factor)

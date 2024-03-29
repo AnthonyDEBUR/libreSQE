@@ -5,7 +5,7 @@ id_marche<-20
 # dossier où sont enregistrés les bdc créés
 output<-"c:\\workspace\\bdc2024\\"
 
-
+#
 # frequence_bdc="mensuelle"
 # prefixe<-"SQE2024"
 #
@@ -22,9 +22,12 @@ output<-"c:\\workspace\\bdc2024\\"
 # )
 #
 # annee <- 2024
+
+# A exécuter si nouveau marché
 # func_charge_marche(fichier_prog, connexion, mar_id)
 
-# func_charge_prog_annuelle(fichier_prog, connexion, mar_id, annee, frequence_bdc="mensuelle", prefixe="")
+# a exécuter si nlle prog annuelle
+#func_charge_prog_annuelle(fichier_prog, connexion, mar_id, annee, frequence_bdc="mensuelle", prefixe="")
 
 
 

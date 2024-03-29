@@ -145,8 +145,8 @@ func_genere_bdc_xlsx <-
           "bcp_dateinterv"
         ),
         names_from = prs_label_prestation,
-        values_from = "qte",
-        values_fill = 0
+        # values_fill = 0,
+        values_from = "qte"
       )
 
 

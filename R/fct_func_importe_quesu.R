@@ -516,7 +516,7 @@ if(!(is.null(stations_a_traiter) |
           ###### Traitement des résultats d'analyses (QUESU_PHY 3 ou 3.1) #####
           nodes_analyses <-
             xml2::xml_find_all(liste_prelevements, ".//Analyse")
-
+          if(length(nodes_analyses)>0){
           RefAnaProd <-
             f_lit_attributs("RefAnaProd", node = nodes_analyses)
           DateAna <- f_lit_attributs("DateAna", node = nodes_analyses)
@@ -673,7 +673,7 @@ if(!(is.null(stations_a_traiter) |
           Analyses <- dplyr::bind_rows(Analyses, out)
 
 
-
+}
         }
       }
 
