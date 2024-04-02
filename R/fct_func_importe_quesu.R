@@ -438,6 +438,7 @@ if(!(is.null(stations_a_traiter) |
           CdMethodeParEnv <- f_lit_attributs("Methode", "CdMethode")
           LbMethodeParEnv <- f_lit_attributs("Methode", "LbMethode")
 
+          if(!all(is.na(c(DateParEnv, CdParametreEnv)))){
           out <-
             data.frame(
               "CdStationMesureEauxSurface" = CdStationMesureEauxSurface,
@@ -459,7 +460,7 @@ if(!(is.null(stations_a_traiter) |
               "CdPreleveur" = CdPreleveur
             )
 
-          Res_env <- dplyr::bind_rows(Res_env, out)
+          Res_env <- dplyr::bind_rows(Res_env, out)}
 
           ##### Traitement des échantillons (QUESU_PHY 3 ou 3.1) #####
           nodes_echantillon <-
