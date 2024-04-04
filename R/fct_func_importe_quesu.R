@@ -687,8 +687,33 @@ if(!(is.null(stations_a_traiter) |
 
   }
 
-  close(file_in)  # fermeture du fichier d'entrée
-  return(
+    close(file_in)  # fermeture du fichier d'entrée
+
+
+    # ajout de la colonne CdRdd aux colonnes Operation et ResEnv
+CdRdd<-Analyses%>%
+  dplyr::select(CdStationMesureEauxSurface,
+                                CdSupport,
+                                DatePrel,
+                                HeurePrel,
+                                CdPreleveur,
+                                CdRdd)%>%
+                                unique()
+
+
+
+Operation<-merge(Operation,
+                 CdRdd,
+                 by=c("CdStationMesureEauxSurface",
+                                        "CdSupport",
+                                        "DatePrel",
+                                        "HeurePrel",
+                                        "CdPreleveur"),
+                 all.x=TRUE,
+                 all.y=FALSE)
+
+
+    return(
     list(
       Analyses = Analyses,
       Echantillon = Echantillon,
