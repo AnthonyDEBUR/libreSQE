@@ -54,7 +54,8 @@ if(!(is.null(stations_a_traiter) |
     "AgrePrel" = character(0),
     "CommentairesPrel" = character(0),
     "CdMetPrlvt" = character(0),
-    "LbMetPrlvt" = character(0)
+    "LbMetPrlvt" = character(0),
+    "CdRdd" = character(0)
   )
 
 
@@ -136,9 +137,9 @@ if(!(is.null(stations_a_traiter) |
     "CdRdd" = character(0),
     "LbRdd" = character(0),
     "CdProducteur" = character(0),
-    "LblProducteur" = character(0),
+    "LbProducteur" = character(0),
     "CdPreleveur" = character(0),
-    "LblPreleveur" = character(0),
+    "LbPreleveur" = character(0),
     "CdLaboratoire" = character(0),
     "LbLaboratoire" = character(0),
     "ZoneVerticaleProspectee" = character(0)
@@ -389,6 +390,23 @@ if(!(is.null(stations_a_traiter) |
               NA
             )
 
+          # si plusieurs codes Rdd on les fusionne en 1 seul séparé par des /
+            # Traitement des balises CodeSandreRdd
+            CdRddNodes <- xml2::xml_find_all(liste_prelevements, ".//CodeSandreRdd")
+            if (length(CdRddNodes) > 1) {
+              CdRddValues <- sapply(CdRddNodes, function(x) xml2::xml_text(x))
+              CdRddPrel <- paste(unique(CdRddValues), collapse = "/")
+            } else if (length(CdRddNodes) == 1) {
+              CdRddPrel <- xml2::xml_text(CdRddNodes[[1]])
+            } else {
+              # si pas de code réseau dans les balises Prélèvement, on indique ""
+              CdRddPrel <- ""
+            }
+
+
+
+
+
           out <-
             data.frame(
               "CdStationMesureEauxSurface" = CdStationMesureEauxSurface,
@@ -410,7 +428,8 @@ if(!(is.null(stations_a_traiter) |
               "AgrePrel" = AgrePrel,
               "CommentairesPrel" = CommentairesPrel,
               "CdMetPrlvt" = CdMetPrlvt,
-              "LbMetPrlvt" = LbMetPrlvt
+              "LbMetPrlvt" = LbMetPrlvt,
+              "CdRdd" = CdRddPrel
             )
 
           Operation <- dplyr::bind_rows(Operation, out)
@@ -507,12 +526,12 @@ if(!(is.null(stations_a_traiter) |
 
           CdRdd <- f_lit_attributs("CodeSandreRdd", node = nodes_rsx)
           CdRdd <- if (!all(is.na(CdRdd))) {
-            paste(CdRdd, collapse = "/")
+            paste(unique(CdRdd), collapse = "/")
           }
 
           NomRdd <- f_lit_attributs("NomRdd", node = nodes_rsx)
           NomRdd <-
-            ifelse(!all(is.na(NomRdd)), paste(NomRdd, collapse = "/"), NA)
+            ifelse(!all(is.na(NomRdd)), paste(unique(NomRdd), collapse = "/"), NA)
 
           ###### Traitement des résultats d'analyses (QUESU_PHY 3 ou 3.1) #####
           nodes_analyses <-
@@ -690,7 +709,7 @@ if(!(is.null(stations_a_traiter) |
     close(file_in)  # fermeture du fichier d'entrée
 
 
-    # ajout de la colonne CdRdd aux colonnes Operation et ResEnv
+    # ajout de la colonne CdRdd aux colonnes ResEnv
 CdRdd<-Analyses%>%
   dplyr::select(CdStationMesureEauxSurface,
                                 CdSupport,
@@ -700,17 +719,43 @@ CdRdd<-Analyses%>%
                                 CdRdd)%>%
                                 unique()
 
+CdRddResEnv<-CdRdd%>%dplyr::select(-CdSupport)
+names(CdRddResEnv)<-c("CdStationMesureEauxSurface",
+                      "DateParEnv",
+                      "HeureParEnv",
+                      "CdPreleveur",
+                      "CdRdd")
+
+Res_env<-merge(Res_env,
+              CdRddResEnv,
+                 by=c("CdStationMesureEauxSurface",
+                      "DateParEnv",
+                      "HeureParEnv",
+                      "CdPreleveur"),
+                 all.x=TRUE,
+                 all.y=FALSE)
 
 
+# ajout de la colonne CdRdd aux colonnes Operation
 Operation<-merge(Operation,
                  CdRdd,
                  by=c("CdStationMesureEauxSurface",
-                                        "CdSupport",
-                                        "DatePrel",
-                                        "HeurePrel",
-                                        "CdPreleveur"),
+                      "CdSupport",
+                      "DatePrel",
+                      "HeurePrel",
+                      "CdPreleveur"),
                  all.x=TRUE,
                  all.y=FALSE)
+
+ifelse(Operation$CdRdd.x == "", Operation$CdRdd.y, Operation$CdRdd.x)
+
+Operation <- Operation %>%
+  dplyr::mutate(CdRdd = dplyr::case_when(CdRdd.x == c('') ~ CdRdd.y,
+                                         CdRdd.x != c('') ~ CdRdd.x))
+
+
+Operation<-Operation%>%dplyr::select(-CdRdd.x, -CdRdd.y)
+
 
 
     return(
