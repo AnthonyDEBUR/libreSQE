@@ -5,20 +5,20 @@
 #' @param connexion : DBI connexion to active LibreSQE database
 #' @param code : a vector containing the code to convert
 #' @param out Name of the required output. Possible values:
-#' \describe{
-#'   \item{\code{nom_parametre}}{To add parameter short name.}
-#'   \item{\code{nom_long_parametre}}{To add parameter long name.}
-#'   \item{\code{code_cas}}{To add cass number of parameter.}
-#'   \item{\code{nom_fraction}}{To add fraction name.}
-#'   \item{\code{nom_intervenant}}{To add intervenant short name.}
-#'   \item{\code{nom_long_intervenant}}{To add intervenant full name.}
-#'   \item{\code{nom_methode}}{To add methode name.}
-#'   \item{\code{nom_qualif_ana}}{To add name of the qualification of analysis.}
-#'   \item{\code{nom_rdd}}{To add name of the dispositif de collecte.}
-#'   \item{\code{nom_station}}{To add name of the measurement station.}
-#'   \item{\code{nom_statut}}{To add name of statut of analysis.}
-#'  \item{\code{nom_unite}}{To add unit symbol.}
-#'   \item{\code{insitu}}{To add signification of insitu code.}
+#' @param \describe{
+#' @param \item{\code{nom_parametre}}{To add parameter short name.}
+#' @param \item{\code{nom_long_parametre}}{To add parameter long name.}
+#' @param \item{\code{code_cas}}{To add cass number of parameter.}
+#' @param \item{\code{nom_fraction}}{To add fraction name.}
+#' @param \item{\code{nom_intervenant}}{To add intervenant short name.}
+#' @param \item{\code{nom_long_intervenant}}{To add intervenant full name.}
+#' @param \item{\code{nom_methode}}{To add methode name.}
+#' @param \item{\code{nom_qualif_ana}}{To add name of the qualification of analysis.}
+#' @param \item{\code{nom_rdd}}{To add name of the dispositif de collecte.}
+#' @param \item{\code{nom_station}}{To add name of the measurement station.}
+#' @param \item{\code{nom_statut}}{To add name of statut of analysis.}
+#' @param \item{\code{nom_unite}}{To add unit symbol.}
+#' @param \item{\code{insitu}}{To add signification of insitu code.}
 #' @return vector of same length as input with corresponding name.
 #' If code is missing, value return is NA
 #'

@@ -5,6 +5,12 @@ library(openxlsx)
 # voir ex Careil 2 qd 1 pesticide commandé sur station prélevée à plusieurs dates et plusieurs pest rendus, on ne détecte pas les pest en trop
 
 # ajouter un test sur la présence d'une LQ renseignée pour les codes remarques 1 ou 10
+# ajouter test sohérence entre code remarque, LQ et résultat d'analyse, y compris pour les CDRq = 10
+
+#ajouter onglet stations assec
+
+# ajouter test date analyse postérieure à date de prélèvement
+# test si CdRq=1 ou 10 et absence de RsAna (RsAna=NA)
 
 #####Fichier a tester #####
 # file.choose()
@@ -317,15 +323,9 @@ library(openxlsx)
 # bon_de_commande_id <- 18
 
 # SQE2023_UGVE_pluie_externalisée_8
-fichier<-
-  "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_240502182315001_SQE2023-UGVE_pluie_externalisée_8.xml"
-bon_de_commande_id <- 19
-
-# SQE2023_UGVE_pluie_externalisée_9
 # fichier<-
 #   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_240112104517001_SQE2023-UGVE_pluie externalisée_8 (rendue 9).xml"
 # bon_de_commande_id <- 19
-
 
 # SQE2023_UGVA_pluie_1
 # fichier<-
@@ -360,9 +360,9 @@ bon_de_commande_id <- 19
 # bon_de_commande_id <- 53
 
 # SQE2023_UGVE_pluie_6
-# fichier<-
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_240123175057001_SQE2023-UGVE_pluie_6.xml"
-# bon_de_commande_id <- 54
+fichier<-
+  "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2023\\marché et commande\\05_livrables\\RA_LABOCEAQ_EPTB_240123175057001_SQE2023-UGVE_pluie_6.xml"
+bon_de_commande_id <- 54
 
 # SQE2023_UGVE_pluie_7
 # fichier<-

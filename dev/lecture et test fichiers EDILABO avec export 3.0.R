@@ -905,7 +905,7 @@ Rapport$nom_cd_unites_analyses <- Unites %>%
                 Sym_attendu)
 
 
-# test cohérence code / nom intervenants
+##### test cohérence code / nom intervenants #####
 cdintervenants <-
   paste0("'", unique(Intervenants$CdIntervenant), "'", collapse = ", ")
 requete <-

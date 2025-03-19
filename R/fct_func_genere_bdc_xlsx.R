@@ -9,7 +9,6 @@
 #' @param out_file_name : chemin d'enregistrement du fichier
 #'
 #' @return Un fichier xlsx
-#'
 #' @export
 func_genere_bdc_xlsx <-
   function(bdc_id,

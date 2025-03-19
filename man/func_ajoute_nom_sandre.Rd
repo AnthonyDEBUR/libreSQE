@@ -10,6 +10,34 @@ func_ajoute_nom_sandre(connexion = connexion, code, out = "nom_parametre")
 \item{connexion}{: DBI connexion to active LibreSQE database}
 
 \item{code}{: a vector containing the code to convert}
+
+\item{out}{Name of the required output. Possible values:}
+
+\item{\item{\code{nom_parametre}}{To}{}
+
+\item{\item{\code{nom_long_parametre}}{To}{}
+
+\item{\item{\code{code_cas}}{To}{}
+
+\item{\item{\code{nom_fraction}}{To}{}
+
+\item{\item{\code{nom_intervenant}}{To}{}
+
+\item{\item{\code{nom_long_intervenant}}{To}{}
+
+\item{\item{\code{nom_methode}}{To}{}
+
+\item{\item{\code{nom_qualif_ana}}{To}{}
+
+\item{\item{\code{nom_rdd}}{To}{}
+
+\item{\item{\code{nom_station}}{To}{}
+
+\item{\item{\code{nom_statut}}{To}{}
+
+\item{\item{\code{nom_unite}}{To}{}
+
+\item{\item{\code{insitu}}{To}{}
 }
 \value{
 vector of same length as input with corresponding name.

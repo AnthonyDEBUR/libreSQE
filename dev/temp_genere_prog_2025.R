@@ -1,17 +1,17 @@
-# temporaire - génère BDC 2024
+# temporaire - génère BDC 2025
 library(LibreSQE)
 
-id_marche<-20
+id_marche<-23
 # dossier où sont enregistrés les bdc créés
-output<-"c:\\workspace\\bdc2024\\"
+output<-"c:\\workspace\\bdc2025\\"
 
 
 frequence_bdc="mensuelle"
-prefixe<-"SQE2024"
+prefixe<-"SQE2025"
 
 fichier_prog <-
-  "C:\\workspace\\LibreSQE\\dev\\fichier_exemple_commande\\v2 prog EPTB2024_version dev libreSQE.xlsx"
-mar_id = 20
+  "C:\\workspace\\LibreSQE\\dev\\fichier_exemple_commande\\v2 prog EPTB2025_version dev libreSQE.xlsx"
+mar_id = id_marche
 connexion <- pool::dbPool(
   RPostgres::Postgres(),
   dbname = "libresqe",
@@ -21,13 +21,13 @@ connexion <- pool::dbPool(
   password = "postgres"
 )
 
-annee <- 2024
+annee <- 2025
 
 # A exécuter si nouveau marché
 # func_charge_marche(fichier_prog, connexion, mar_id)
 
 # a exécuter si nlle prog annuelle
-# func_charge_prog_annuelle(fichier_prog, connexion, mar_id, annee, frequence_bdc="mensuelle", prefixe=prefixe)
+ # func_charge_prog_annuelle(fichier_prog, connexion, mar_id, annee, frequence_bdc="mensuelle", prefixe=prefixe)
 
 
 

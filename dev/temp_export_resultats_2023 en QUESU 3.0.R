@@ -5,7 +5,7 @@ library(xml2)
 
 annee <- "2023"
 mois <- c(1, 12) # mois de debut et de fin de l'export
-# mois<-7
+ mois<-1
 
 nomfichier <- paste0(Sys.Date(),
                      "_Eaux_et_Vilaine_",

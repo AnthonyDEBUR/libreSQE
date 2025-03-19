@@ -705,7 +705,7 @@ Le résultat des deux tests précédents sont agrégés selon les règles suivan
 
 Codes de qualification (<https://www.sandre.eaufrance.fr/definition/ALQ/2.2/QualAna>)
 
-Code ! Mnémonique ! Libellé \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-- 0 ! non définissable ! Qualification non définissable 1 ! Correcte ! Correcte 2 ! Incorrecte ! Incorrecte 3 ! Incertaine ! Incertaine 4 ! Non qualifié ! Non qualifié
+Code ! Mnémonique ! Libellé ---------------------------------------------------------------------- 0 ! non définissable ! Qualification non définissable 1 ! Correcte ! Correcte 2 ! Incorrecte ! Incorrecte 3 ! Incertaine ! Incertaine 4 ! Non qualifié ! Non qualifié
 
 ```{r}
 

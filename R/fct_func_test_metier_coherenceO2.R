@@ -56,9 +56,9 @@ func_test_metier_coherenceO2<-function(O2=NULL, satO2=NULL, temp=NULL, export="c
   if(export=="code")
  { delta<-abs(satO2-satO2theorique)
 
-  out <- ifelse(delta < 3, "1",
-                ifelse(delta < 6, "2",
-                       ifelse(delta >= 6, "3", "0")))}
+  out <- ifelse(delta < 5, "1",
+                ifelse(delta < 8, "2",
+                       ifelse(delta >= 8, "3", "0")))}
   if(export=="value"){out<-satO2theorique}
 
   return(out)

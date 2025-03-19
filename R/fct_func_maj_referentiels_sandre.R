@@ -123,6 +123,4 @@ if(!is.null(table_sandre))
                       connexion=connexion)}
 
 
-
-
 }
