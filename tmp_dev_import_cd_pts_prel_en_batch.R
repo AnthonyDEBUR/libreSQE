@@ -3,43 +3,27 @@ library(xml2)
 library(tidyverse)
 library(progress)
 
-staq.xml.gz <- tempfile()
+setwd("C:\\workspace\\LibreSQE\\")
 
+# date debut referentiel : 1965-09-19
+# chargement des données precedemment traitees
+lieux_qual_1970_au_20240126<-readRDS("lieux_qual_1970_au_20240126.rds")
+
+staq.xml.gz <- tempfile()
 
 # telechargement du referentiel fraction sandre
 downloader::download(
   paste0(
-    "https://api.sandre.eaufrance.fr/referentiels/v1/stq.xml?outputSchema=SANDREv3.1&compress=true&derniereDateDeMAJ=1965-09-19"
+    "https://api.sandre.eaufrance.fr/referentiels/v1/stq.xml?outputSchema=SANDREv3.1&compress=true&derniereDateDeMAJ=2024-01-01"
   ),
   staq.xml.gz,
   mode = "wb",
   cacheOK = T
 )
-# 2023-09-20 OK
-# 2023-09-19 KO
-
-# Staq en cause potentielle d'erreur
-# 02061290
-# 2023-09-19
-# 2
-
-# 02048975
-# 2023-09-19
-
-# 3
-# 02061275
-# 2023-09-19
-
-# 4
-# O2705023
-# 2023-09-19
-
-# 5
-# 03169992
-# 2023-09-19
 
 # Charger le fichier XML
 xml_file <- read_xml(staq.xml.gz)
+
 
 # structure du xml
 # xml_structure(xml_file)
@@ -123,5 +107,9 @@ for (batch in batches) {
 # Concaténer les résultats de chaque lot en un seul data frame final
 data <- bind_rows(result_list)
 
-saveRDS(data, "lieux_qual_1970_au_20240126.rds")
+data<-rbind(lieux_qual_1970_au_20240126, data)
+data<-unique(data)
+
+saveRDS(data, "lieux_qual_1970_au_20250409.rds")
+
 

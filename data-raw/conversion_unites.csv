@@ -1,0 +1,5 @@
+﻿CdUniteIn;SymUniteIn;CdUniteOut;SymUniteOut;ConversionInOut
+162;mg/L;133;µg/L;1000
+133;µg/L;162;mg/L;0.001
+133;µg/L;390;ng/L;1000
+390;ng/L;133;µg/L;0.001

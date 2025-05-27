@@ -215,9 +215,14 @@ library(stringi) # pour comparer les noms de stations sans prendre en compte les
 #  "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2024\\7_livrables\\2024-10\\QUESU3_EPTB_VILAINE-CAB_2024-10-28_0400003223.xml"
 # bon_de_commande_id <- 2278
 
-# UGVE Calendaire 11
+# UGVE Calendaire 11 - part 1
 # fichier <-
-#  "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2024\\7_livrables\\2024-11\\QUESU3_EPTB_VILAINE-CAB_2024-11-28_0400003223.xml"
+#  "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2024\\7_livrables\\2024-11\\QUESU3_EPTB_VILAINE-CAB_2024-11-28__UGVE_calend_11_0400003223.xml"
+# bon_de_commande_id <- 2273
+
+# UGVE Calendaire 11 - part 2
+# fichier <-
+#  "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2024\\7_livrables\\2024-11\\QUESU3_EPTB_VILAINE-CAB_2024-11-26_0400003223.xml"
 # bon_de_commande_id <- 2273
 
 # UGVE Calendaire 12 - part 1
@@ -331,7 +336,7 @@ library(stringi) # pour comparer les noms de stations sans prendre en compte les
 
 ##### UGVE Pluie 6 régie (novembre) #####
 # fichier <-
-#  "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2024\\7_livrables\\2024-11\\QUESU3_EPTB_VILAINE-CAB_2024-11-28_0400003223.xml"
+#  "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2024\\7_livrables\\2024-11\\QUESU3_EPTB_VILAINE-CAB_2024-11-28__UGVE_pluie_6_0400003223.xml"
 # bon_de_commande_id <- 2293
 
 
@@ -440,7 +445,7 @@ library(stringi) # pour comparer les noms de stations sans prendre en compte les
 
 # UGVO Calendaire 12
 # fichier <-
-#  "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2024\\7_livrables\\2024-12\\QUESU3_EPTB_VILAINE-CAB_2024-12-23_0400003224.xml"
+#  "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2024\\7_livrables\\2024-12\\QUESU3_EPTB_VILAINE-CAB_2024-12-23_2024_UGVO_calend_12_0400003224.xml"
 # bon_de_commande_id <- 2248
 
 ##### UGVO Careil calendaire #####
@@ -487,7 +492,7 @@ library(stringi) # pour comparer les noms de stations sans prendre en compte les
 
 ##### UGVO Careil calendaire 12
 # fichier <-
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2024\\7_livrables\\2024-12\\QUESU3_EPTB_VILAINE-CAB_2024-12-23_0400003224_CAREIL.xml"
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2024\\7_livrables\\2024-12\\QUESU3_EPTB_VILAINE-CAB_2024-12-23_2024_UGVO-CAREIL_calend_12_0400003224_CAREIL.xml"
 # bon_de_commande_id <- 2268
 
 ##### UGVO CAREIL PLUIE #####
@@ -555,7 +560,7 @@ library(stringi) # pour comparer les noms de stations sans prendre en compte les
 
 # UGVO PLUIE 7 (décembre)
 # fichier <-
-#  "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2024\\7_livrables\\2024-12\\QUESU3_EPTB_VILAINE-CAB_2024-12-09_0400003224.xml"
+#  "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2024\\7_livrables\\2024-12\\QUESU3_EPTB_VILAINE-CAB_2024-12-09_UGVO_PLUIE_7_0400003224.xml"
 # bon_de_commande_id <- 2241
 
 

@@ -1,36 +1,102 @@
 library(LibreSQE)
 library(openxlsx)
 library(stringi) # pour comparer les noms de stations sans prendre en compte les accents
+library(readr) # pour lire csv conversion unites
 
 #ajouter tests cohérence NGL / NH4 / NO2 / NO3 / NTK
 # ajouter tests sur valeurs numériques des paramètres environnementaux (pression atmo)
-
+# en cas de correction d'unités (ex. fichiers EPH), il faut réenregistrer un nouvel xml en remplacement de celui d'origine
 
 #####Fichier a tester #####
 
 ##### EPH (0400003263) #####
 # EPH Calendaire 1
 # fichier <-
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-01\\QUESU3_EPTB_VILAINE-CAB_2025-01-14_0400003263.xml"
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-01\\QUESU3_EPTB_VILAINE-CAB_2025-01-14_SQE2025_EPH_Calend_1_0400003263.xml"
 # bon_de_commande_id <- 2585
+
+# EPH Calendaire 2
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-02\\QUESU3_EPTB_VILAINE-CAB_2025-02-12_SQE2025_EPH_Calend_2_0400003263.xml"
+# bon_de_commande_id <- 2586
+
+# EPH Calendaire 3
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-03\\QUESU3_EPTB_VILAINE-CAB_2025-03-13_SQE2025_EPH_Calend_3_0400003263.xml"
+# bon_de_commande_id <- 2587
 
 ##### UGVA (04000003185) #####
 # UGVA Calendaire 1
 # fichier <-
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-01\\QUESU3_EPTB_VILAINE-CAB_2025-01-23_0400003185.xml"
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-01\\QUESU3_EPTB_VILAINE-CAB_2025-01-23_SQE2025_UGVA_calend_1_0400003185.xml"
 # bon_de_commande_id <- 2597
+
+# UGVA Calendaire 2 (mars)
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-03\\QUESU3_EPTB_VILAINE-CAB_2025-03-19__UGVA_calend_2_0400003185.xml"
+# bon_de_commande_id <- 2598
+
+# UGVA Calendaire 3
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-04\\QUESU3_EPTB_VILAINE-CAB_2025-01-23_SQE2025_UGVA_calend_1_0400003185.xml"
+# bon_de_commande_id <- 2599
 
 ##### UGVE (04000003223) #####
 # UGVE Calendaire 1
 # fichier <-
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-01\\QUESU3_EPTB_VILAINE-CAB_2025-01-29_0400003223.xml"
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-01\\QUESU3_EPTB_VILAINE-CAB_2025-01-29_SQE2025_UGVE_calend_1_0400003223.xml"
 # bon_de_commande_id <- 2633
+
+# UGVE Calendaire 2
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-02\\QUESU3_EPTB_VILAINE-CAB_2025-02-17_SQE2025_UGVE_calend_2_0400003223.xml"
+# bon_de_commande_id <- 2647
+
+# UGVE Calendaire 3 (part 1)
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-03\\QUESU3_EPTB_VILAINE-CAB_2025-03-24_SQE2025_UGVE_calend_3_0400003223.xml"
+# bon_de_commande_id <- 2634
+
+# UGVE Calendaire 3 (part 2)
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-03\\QUESU3_EPTB_VILAINE-CAB_2025-03-25_SQE2025_UGVE_calend_3_0400003223.xml"
+# bon_de_commande_id <- 2634
+
+##### UGVE Pluie externalisée #####
+# UGVE pluie externalisé 0 - part 1 (prélevé et analysé à tord par CARSO en mars, non facturé)
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-03\\QUESU3_EPTB_VILAINE-CAB_2025-03-24_SQE2025_UGVE_pluie_externalisée_1_0400003223.xml"
+# bon_de_commande_id <- 2653
+
+# UGVE pluie externalisé 0 - part 2 (prélevé et analysé à tord par CARSO en mars, non facturé)
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-03\\QUESU3_EPTB_VILAINE-CAB_2025-03-25_SQE2025_UGVE_pluie_externalisée_1_0400003223.xml"
+# bon_de_commande_id <- 2653
+
+# UGVE pluie externalisé 1 (prélevé en mai)
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-05\\QUESU3_EPTB_VILAINE-CAB_2025-03-24_SQE2025_UGVE_pluie_externalisée_1_0400003223.xml"
+# bon_de_commande_id <- 2653
+
+
 
 ##### UGVE captages (04000003223) #####
 # UGVE Captages 1
 # fichier <-
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-01\\QUESU3_EPTB_VILAINE-CAB_2025-01-28_0400003223.xml"
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-01\\QUESU3_EPTB_VILAINE-CAB_2025-01-28__0400003223.xml"
 # bon_de_commande_id <- 2660
+
+# UGVE Captages 2
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-02\\QUESU3_EPTB_VILAINE-CAB_2025-02-25_SQE2025_UGVE-CAPTAGES_calend_2_0400003223.xml"
+# bon_de_commande_id <- 2661
+
+# UGVE Captages 3
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-03\\QUESU3_EPTB_VILAINE-CAB_2025-03-24_SQE2025_UGVE-CAPTAGES_calend_3_0400003223.xml"
+# bon_de_commande_id <- 2662
+
+
 
 ##### UGVO (04000003224) #####
 # UGVO Calendaire 1
@@ -38,13 +104,67 @@ library(stringi) # pour comparer les noms de stations sans prendre en compte les
 #   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-01\\QUESU3_EPTB_VILAINE-CAB_2025-01-29_0400003223.xml"
 # bon_de_commande_id <- 2617
 
+# UGVO Calendaire 2
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-02\\QUESU3_EPTB_VILAINE-CAB_2025-02-26_SQE2025_UGVO_calend_2_0400003224.xml"
+# bon_de_commande_id <- 2618
+
+# UGVO Calendaire 3
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-03\\QUESU3_EPTB_VILAINE-CAB_2025-03-26_SQE2025_UGVO_calend_3_0400003224.xml"
+# bon_de_commande_id <- 2619
+
+
 ##### SCDI Calendaire (04000003033) #####
 # SCDI Calendaire 1
 # fichier <-
 #   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-01\\QUESU3_SMBV_CHERE_DON-CAB_2024-01-26_0400003033.xml"
 # bon_de_commande_id <- 2607
 
+# SCDI Calendaire 2
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-02\\QUESU3_SMBV_CHERE_DON-CAB_2025-02-20_SQE2025_SCDI_calend_2_0400003033.xml"
+# bon_de_commande_id <- 2608
 
+# SCDI Calendaire 3
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-03\\QUESU3_SMBV_CHERE_DON-CAB_2025-03-18_SQE2025_SCDI_calend_3_0400003033.xml"
+# bon_de_commande_id <- 2609
+
+# SCDI Calendaire 4
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-03\\QUESU3_SMBV_CHERE_DON-CAB_2025-03-18_SQE2025_SCDI_calend_3_0400003033.xml"
+# bon_de_commande_id <- 2610
+
+# SCDI Calendaire 5
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-03\\QUESU3_SMBV_CHERE_DON-CAB_2025-03-18_SQE2025_SCDI_calend_3_0400003033.xml"
+# bon_de_commande_id <- 2611
+
+# SCDI Calendaire 6
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-03\\QUESU3_SMBV_CHERE_DON-CAB_2025-03-18_SQE2025_SCDI_calend_3_0400003033.xml"
+# bon_de_commande_id <- 2612
+
+# SCDI Calendaire 7
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-03\\QUESU3_SMBV_CHERE_DON-CAB_2025-03-18_SQE2025_SCDI_calend_3_0400003033.xml"
+# bon_de_commande_id <- 2613
+
+# SCDI Calendaire 8
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-03\\QUESU3_SMBV_CHERE_DON-CAB_2025-03-18_SQE2025_SCDI_calend_3_0400003033.xml"
+# bon_de_commande_id <- 2614
+
+# SCDI Calendaire 9
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-03\\QUESU3_SMBV_CHERE_DON-CAB_2025-03-18_SQE2025_SCDI_calend_3_0400003033.xml"
+# bon_de_commande_id <- 2615
+
+# SCDI Calendaire 10
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-03\\QUESU3_SMBV_CHERE_DON-CAB_2025-03-18_SQE2025_SCDI_calend_3_0400003033.xml"
+# bon_de_commande_id <- 2616
 
 
 ##### Connexion bdd #####
@@ -896,7 +1016,336 @@ if (nrow(analyses_a_tester) > 0)
   }
 }
 
-##### Test vraissemblance des résultats d'analyses #####
+
+
+
+##### Comparaison bon de commande - réalisé #####
+
+analyses_attendues$cle <-
+  paste0(
+    analyses_attendues$res_stm_cdstationmesureinterne,
+    "_",
+    analyses_attendues$rea_cdfractionanalysee,
+    "_",
+    analyses_attendues$rea_par_cdparametre,
+    "_",
+    analyses_attendues$rea_cdunitemesure,
+    "_",
+    analyses_attendues$rea_cdinsituana
+  )
+
+Analyses$cle <-
+  paste0(
+    Analyses$cdstationmesureinterne,
+    "_",
+    Analyses$cdfractionanalysee,
+    "_",
+    Analyses$cdparametre,
+    "_",
+    Analyses$cdunitemesure,
+    "_",
+    Analyses$cdinsituana
+  )
+
+##### conversion d'unités si pertinent #####
+# on regarde si un couple paramètre/fraction est rendu dans une unité différente de celle attendue.
+# Si une seule unité attendue pour le couple concerné et si l'unité de rendu est différente, alors
+# on convertit rsAna, LQAna, LDAna dans l'unité attendue et on change le code unité en conséquent
+
+# tableau facteur de conversion à créer sous forme data
+# mg/L en µg/L et inversement
+# ng/L en mg/L et inversement
+# mg N-NO3/L en mg NO3/L et inversement
+# ...
+
+conversion_unites <- readr::read_delim(
+  "data-raw/conversion_unites.csv",
+  delim = ";",
+  escape_double = FALSE,
+  col_types = readr::cols(CdUniteIn = col_character(), CdUniteOut = col_character()),
+  trim_ws = TRUE
+)
+
+##### Création des clés alternatives avec conversion d'unités #####
+conversion_possibles <- dplyr::inner_join(
+  Analyses,
+  conversion_unites,
+  by = c("cdunitemesure" = "CdUniteIn"),
+  relationship = "many-to-many"
+)
+
+conversion_possibles <- conversion_possibles %>%
+  dplyr::mutate(
+    cle = paste0(
+      cdstationmesureinterne, "_",
+      cdfractionanalysee, "_",
+      cdparametre, "_",
+      CdUniteOut, "_",
+      cdinsituana
+    ),
+    cle_origine = paste0(
+      cdstationmesureinterne, "_",
+      cdfractionanalysee, "_",
+      cdparametre, "_",
+      cdunitemesure, "_",
+      cdinsituana
+    ),
+    rsana = rsana * ConversionInOut,
+    lqana = lqana * ConversionInOut,
+    ldana = ldana * ConversionInOut,
+    cdunitemesure = CdUniteOut,
+    SymUnite = SymUniteOut,
+    unite=SymUniteOut
+  )
+
+# Fusion des analyses originales et converties
+Analyses_completes <- dplyr::bind_rows(
+  Analyses,
+  conversion_possibles%>%
+    dplyr::select(-CdUniteOut, -SymUniteOut, -ConversionInOut, -SymUniteIn)
+
+)
+
+##### Rapport des analyses converties utiles #####
+
+# 1. Clés attendues
+cles_attendues <- unique(analyses_attendues$cle)
+
+# 2. Clés présentes dans les analyses originales (sans conversion)
+cles_rendues_originales <- unique(Analyses$cle)
+
+# 3. Clés manquantes avant conversion
+cles_manquantes_avant_conversion <- setdiff(cles_attendues, cles_rendues_originales)
+
+# 4. Clés rendues après conversion
+cles_rendues_converties <- unique(conversion_possibles$cle)
+
+# 5. Clés qui comblent les manques
+cles_comblees_par_conversion <- intersect(cles_manquantes_avant_conversion, cles_rendues_converties)
+
+# 6. Clés converties qui correspondent à des analyses attendues
+cles_converties_attendues <- intersect(cles_attendues, cles_rendues_converties)
+
+# 7. Ensemble des analyses valides converties ou non
+cles_analyses_valides <- union(cles_rendues_originales, cles_rendues_converties)
+
+# 8. Clés manquantes apres conversion
+cles_manquantes_apres_conversion <- setdiff(cles_attendues, cles_analyses_valides)
+
+# 9. Extraire les lignes correspondantes
+Rapport$analyses_converties <- conversion_possibles %>%
+  dplyr::filter(cle %in% cles_comblees_par_conversion)%>%
+  dplyr::mutate(conversion=paste0("unité convertie de ", SymUniteIn," en ",SymUniteOut))%>%
+  dplyr::select(cdstationmesureinterne,
+         LbStationMesureEauxSurface,
+         cdsupport,
+         LbSupport,
+         cdfractionanalysee,
+         LbFraction,
+         codeprel,
+         RefAnaProd,
+         dateprel,
+         heureprel,
+         cdparametre,
+         LbParametre,
+         conversion
+         )
+
+# 10. On conserve :
+# a) les analyses d'origine qui ne sont pas dans la liste des analyses converties et attendues
+# b) les analyses converties et attendues
+
+# a) les analyses d'origine qui ne sont pas dans la liste des analyses converties et attendues
+analyses_origine_non_con<-Analyses %>%
+  subset(!(cle%in%Analyses_completes[Analyses_completes$cle%in%cles_comblees_par_conversion,]$cle_origine))
+
+# b) les analyses converties et attendues
+Analyses_filtrees <- Analyses_completes %>%
+  dplyr::filter(
+    cle %in%    cles_comblees_par_conversion # cles issues de la conversion et attendues
+     )
+
+Analyses<- dplyr::bind_rows(analyses_origine_non_con, Analyses_filtrees)%>%
+  dplyr::select(-cle_origine)
+
+##### Stations commandées et réalisées #####
+
+Rapport$stations_commandees_analysees <- Analyses %>%
+  subset(
+    cdstationmesureinterne %in% analyses_attendues$res_stm_cdstationmesureinterne &
+      cdrqana != "0"
+  ) %>%
+  dplyr::group_by(cdstationmesureinterne, station, dateprel) %>%
+  dplyr::summarise(nb_donnees = dplyr::n())
+
+##### Stations non commandées et réalisées #####                                                                                                                  )
+Rapport$stations_non_commandees_analysees <- Analyses %>%
+  subset(
+    !(
+      cdstationmesureinterne %in% analyses_attendues$res_stm_cdstationmesureinterne
+    )
+  ) %>%
+  dplyr::group_by(cdstationmesureinterne, station, dateprel) %>%
+  dplyr::summarise(nb_donnees = dplyr::n())
+
+##### Stations commandées et non réalisées #####                                                                                                                  )
+analyses_attendues$station <- func_ajoute_nom_sandre(connexion,
+                                                     code = analyses_attendues$res_stm_cdstationmesureinterne,
+                                                     out = "nom_station")
+
+Rapport$stations_manquantes <- analyses_attendues %>%
+  subset(!(
+    res_stm_cdstationmesureinterne %in% Analyses$cdstationmesureinterne
+  )) %>%
+  dplyr::group_by(res_stm_cdstationmesureinterne, station) %>%
+  dplyr::summarise(nb_donnees = dplyr::n())
+
+
+
+
+##### Analyses hors bon de commande (analyses en +) #####
+##### Analyses hors bon de commande (corrigé avec conversion) #####
+Rapport$analyses_hors_bon_de_commande <- Analyses %>%
+  dplyr::filter(
+    !(cle %in% cles_analyses_valides) &
+      !(cdstationmesureinterne %in% Rapport$stations_manquantes$res_stm_cdstationmesureinterne)
+  ) %>%
+  dplyr::select(
+    "cdstationmesureinterne",
+    "station",
+    "dateprel",
+    "heureprel",
+    "profondeurpre",
+    "ZoneVerticaleProspectee",
+    "cdparametre",
+    "nomparametre",
+    "insitu",
+    "nomfraction",
+    "cdrqana",
+    "rsana",
+    "unite",
+    "lqana",
+    "commentairesana",
+    "cdpreleveur",
+    "nompreleveur",
+    "cdlaboratoire",
+    "nomlabo",
+    "cdrdd",
+    "nomrdd"
+  ) %>%
+  unique()
+
+
+
+
+##### Analyses en doublon #####
+doublons <- Analyses  %>%
+  dplyr::group_by(cle, dateprel) %>%
+  dplyr::summarise(nb = dplyr::n()) %>%
+  subset(nb > 1)
+
+Rapport$analyses_en_doublon <- Analyses  %>%
+  dplyr::inner_join(doublons, by = c("cle", "dateprel")) %>%
+  dplyr::select(
+    "cdstationmesureinterne",
+    "station",
+    "dateprel",
+    "heureprel",
+    "dateana",
+    "heureana",
+    "profondeurpre",
+    "ZoneVerticaleProspectee",
+    "cdparametre",
+    "nomparametre",
+    "insitu",
+    "nomfraction",
+    "cdrqana",
+    "rsana",
+    "unite",
+    "lqana",
+    "commentairesana",
+    "cdpreleveur",
+    "nompreleveur",
+    "cdlaboratoire",
+    "nomlabo",
+    "cdrdd",
+    "nomrdd"
+  ) %>% unique()
+
+##### Analyses manquantes #####
+nb_analyses_attendues <- analyses_attendues %>%
+  subset(
+    !res_stm_cdstationmesureinterne %in%
+      Rapport$stations_manquantes$res_stm_cdstationmesureinterne
+  ) %>%
+  unique %>%
+  dplyr::group_by(cle) %>%
+  dplyr::summarise(nb_attendu = dplyr::n()) %>%
+  dplyr::ungroup()
+
+nb_analyses_rendues <- Analyses %>%
+  subset(cdrqana != "0") %>%
+  dplyr::select(cle, dateprel) %>%
+  unique %>%
+  dplyr::group_by(cle) %>%
+  dplyr::summarise(nb_rendu = dplyr::n()) %>%
+  dplyr::ungroup()
+nb_analyses_rendues$nb_rendu <-
+  ifelse(is.na(nb_analyses_rendues$nb_rendu),
+         0,
+         nb_analyses_rendues$nb_rendu)
+
+
+delta_analyses <- dplyr::left_join(nb_analyses_attendues,
+                                   nb_analyses_rendues,
+                                   by = "cle") %>%
+  dplyr::mutate(delta = nb_attendu - ifelse(is.na(nb_rendu), 0, nb_rendu)) %>%
+  subset(delta > 0)
+
+extraire_lignes <- function(df, delta_analyses) {
+  # Calculer le nombre d'occurrences de chaque clé dans le data.frame d'analyses
+  df$occurrences <- ave(df$cle, df$cle, FUN = length)
+
+  # Fusionner avec le data.frame delta pour récupérer les nombres d'occurrences souhaités
+  df <- merge(df, delta_analyses, by = "cle", all = TRUE)
+
+  # Extraire les lignes avec les clés et les nombres d'occurrences souhaités
+  df <- subset(df, occurrences <= delta)
+
+  # Retirer la colonne "occurrences" ajoutée précédemment
+  df$occurrences <- NULL
+
+  # Retourner le data.frame résultant
+  return(df)
+}
+
+
+
+Rapport$analyses_manquantes <-
+  extraire_lignes(analyses_attendues, delta_analyses) %>%
+  dplyr::select(
+    "res_stm_cdstationmesureinterne",
+    "station",
+    "rea_dateprel_prev",
+    "rea_profondeurpre",
+    "rea_par_cdparametre",
+    "nomparametre",
+    "rea_cdinsituana",
+    "insitu",
+    "nomfraction",
+    "rea_cdpreleveur",
+    "nompreleveur",
+    "rea_cdlaboratoire",
+    "nomlabo",
+    "rea_rdd_cdrdd"
+  ) %>% unique() %>%
+  subset(
+    !res_stm_cdstationmesureinterne %in%
+      Rapport$stations_manquantes$res_stm_cdstationmesureinterne
+  )
+
+
+##### Test vraisemblance des résultats d'analyses #####
 Analyses$cle_frac_unit <- paste0(
   Analyses$cdparametre,
   "_",
@@ -919,6 +1368,8 @@ verif <- Analyses %>%
   dplyr::left_join(table_stat_analyses, by = "cle_staq_frac_unit") %>%
   dplyr::left_join(table_stat_analyses_toutes_staq, by = "cle_frac_unit") %>%
   subset(cdrqana == "1")
+
+##### ajout de la qualification à la table Analyses #####
 
 ##### qualif par station #####
 verif$classement_par_station <- 99
@@ -1153,6 +1604,8 @@ verif$nomclassement <- verif$cdqualana %>%
     "4" ~ "non qualifié"
   )
 
+
+
 # export des resultats
 
 Rapport$resultats_a_confirmer <- verif %>%
@@ -1224,207 +1677,6 @@ Analyses <-
     relationship = "many-to-many"
   )
 
-
-##### Comparaison bon de commande - réalisé #####
-
-analyses_attendues$cle <-
-  paste0(
-    analyses_attendues$res_stm_cdstationmesureinterne,
-    "_",
-    analyses_attendues$rea_cdfractionanalysee,
-    "_",
-    analyses_attendues$rea_par_cdparametre,
-    "_",
-    analyses_attendues$rea_cdunitemesure,
-    "_",
-    analyses_attendues$rea_cdinsituana
-  )
-
-Analyses$cle <-
-  paste0(
-    Analyses$cdstationmesureinterne,
-    "_",
-    Analyses$cdfractionanalysee,
-    "_",
-    Analyses$cdparametre,
-    "_",
-    Analyses$cdunitemesure,
-    "_",
-    Analyses$cdinsituana
-  )
-
-
-
-##### Stations commandées et réalisées #####
-
-Rapport$stations_commandees_analysees <- Analyses %>%
-  subset(
-    cdstationmesureinterne %in% analyses_attendues$res_stm_cdstationmesureinterne &
-      cdrqana != "0"
-  ) %>%
-  dplyr::group_by(cdstationmesureinterne, station, dateprel) %>%
-  dplyr::summarise(nb_donnees = dplyr::n())
-
-##### Stations non commandées et réalisées #####                                                                                                                  )
-Rapport$stations_non_commandees_analysees <- Analyses %>%
-  subset(
-    !(
-      cdstationmesureinterne %in% analyses_attendues$res_stm_cdstationmesureinterne
-    )
-  ) %>%
-  dplyr::group_by(cdstationmesureinterne, station, dateprel) %>%
-  dplyr::summarise(nb_donnees = dplyr::n())
-
-##### Stations commandées et non réalisées #####                                                                                                                  )
-analyses_attendues$station <- func_ajoute_nom_sandre(connexion,
-                                                     code = analyses_attendues$res_stm_cdstationmesureinterne,
-                                                     out = "nom_station")
-
-Rapport$stations_manquantes <- analyses_attendues %>%
-  subset(!(
-    res_stm_cdstationmesureinterne %in% Analyses$cdstationmesureinterne
-  )) %>%
-  dplyr::group_by(res_stm_cdstationmesureinterne, station) %>%
-  dplyr::summarise(nb_donnees = dplyr::n())
-
-
-##### Analyses hors bon de commande (analyses en +) #####
-Rapport$analyses_hors_bon_de_commande <- Analyses %>%
-  subset((!(cle %in% analyses_attendues$cle)) &
-           (
-             !cdstationmesureinterne %in% Rapport$stations_manquantes$res_stm_cdstationmesureinterne
-           )
-  ) %>%
-  dplyr::select(
-    "cdstationmesureinterne",
-    "station",
-    "dateprel",
-    "heureprel",
-    "profondeurpre",
-    "ZoneVerticaleProspectee",
-    "cdparametre",
-    "nomparametre",
-    "insitu",
-    "nomfraction",
-    "cdrqana",
-    "rsana",
-    "unite",
-    "lqana",
-    "commentairesana",
-    "cdpreleveur",
-    "nompreleveur",
-    "cdlaboratoire",
-    "nomlabo",
-    "cdrdd",
-    "nomrdd"
-  ) %>% unique()
-
-##### Analyses en doublon #####
-doublons <- Analyses %>%
-  dplyr::group_by(cle, dateprel) %>%
-  dplyr::summarise(nb = dplyr::n()) %>%
-  subset(nb > 1)
-
-Rapport$analyses_en_doublon <- Analyses %>%
-  dplyr::inner_join(doublons, by = c("cle", "dateprel")) %>%
-  dplyr::select(
-    "cdstationmesureinterne",
-    "station",
-    "dateprel",
-    "heureprel",
-    "dateana",
-    "heureana",
-    "profondeurpre",
-    "ZoneVerticaleProspectee",
-    "cdparametre",
-    "nomparametre",
-    "insitu",
-    "nomfraction",
-    "cdrqana",
-    "rsana",
-    "unite",
-    "lqana",
-    "commentairesana",
-    "cdpreleveur",
-    "nompreleveur",
-    "cdlaboratoire",
-    "nomlabo",
-    "cdrdd",
-    "nomrdd"
-  ) %>% unique()
-
-##### Analyses manquantes #####
-nb_analyses_attendues <- analyses_attendues %>%
-  subset(
-    !res_stm_cdstationmesureinterne %in%
-      Rapport$stations_manquantes$res_stm_cdstationmesureinterne
-  ) %>%
-  unique %>%
-  dplyr::group_by(cle) %>%
-  dplyr::summarise(nb_attendu = dplyr::n()) %>%
-  dplyr::ungroup()
-
-nb_analyses_rendues <- Analyses %>%
-  subset(cdrqana != "0") %>%
-  dplyr::select(cle, dateprel) %>%
-  unique %>%
-  dplyr::group_by(cle) %>%
-  dplyr::summarise(nb_rendu = dplyr::n()) %>%
-  dplyr::ungroup()
-nb_analyses_rendues$nb_rendu <-
-  ifelse(is.na(nb_analyses_rendues$nb_rendu),
-         0,
-         nb_analyses_rendues$nb_rendu)
-
-
-delta_analyses <- dplyr::left_join(nb_analyses_attendues,
-                                   nb_analyses_rendues,
-                                   by = "cle") %>%
-  dplyr::mutate(delta = nb_attendu - ifelse(is.na(nb_rendu), 0, nb_rendu)) %>%
-  subset(delta > 0)
-
-extraire_lignes <- function(df, delta_analyses) {
-  # Calculer le nombre d'occurrences de chaque clé dans le data.frame d'analyses
-  df$occurrences <- ave(df$cle, df$cle, FUN = length)
-
-  # Fusionner avec le data.frame delta pour récupérer les nombres d'occurrences souhaités
-  df <- merge(df, delta_analyses, by = "cle", all = TRUE)
-
-  # Extraire les lignes avec les clés et les nombres d'occurrences souhaités
-  df <- subset(df, occurrences <= delta)
-
-  # Retirer la colonne "occurrences" ajoutée précédemment
-  df$occurrences <- NULL
-
-  # Retourner le data.frame résultant
-  return(df)
-}
-
-
-
-
-Rapport$analyses_manquantes <-
-  extraire_lignes(analyses_attendues, delta_analyses) %>%
-  dplyr::select(
-    "res_stm_cdstationmesureinterne",
-    "station",
-    "rea_dateprel_prev",
-    "rea_profondeurpre",
-    "rea_par_cdparametre",
-    "nomparametre",
-    "rea_cdinsituana",
-    "insitu",
-    "nomfraction",
-    "rea_cdpreleveur",
-    "nompreleveur",
-    "rea_cdlaboratoire",
-    "nomlabo",
-    "rea_rdd_cdrdd"
-  ) %>% unique() %>%
-  subset(
-    !res_stm_cdstationmesureinterne %in%
-      Rapport$stations_manquantes$res_stm_cdstationmesureinterne
-  )
 
 ##### Vérification dispositif de collecte #####
 Rapport$reseaux_de_mesures <- Analyses %>%

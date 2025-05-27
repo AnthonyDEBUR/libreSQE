@@ -1,4 +1,8 @@
 # temporaire - génère BDC 2025
+
+# prévoir dans le tableau de synthèse de pouvoir avoir l'info sur les coûts
+# de prélèvement d'une part et les coûts d'analyse d'autre aprt car demandé par AELB
+
 library(LibreSQE)
 
 id_marche<-23
