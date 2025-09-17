@@ -17,7 +17,7 @@ func_charge_ref_sandre_lieux_qual <- function(date_maj = "1950-01-01")
   # si date de dernière maj > 3 mois alors on recharge tout le référentiel (pour palier les défauts du SANDRE)
   if(Sys.Date()-as.Date(date_maj)>90){
     # telechargement du referentiel fraction sandre
-    downloader::download(
+    download.file(
       paste0(
         ""
       ),
@@ -27,7 +27,7 @@ func_charge_ref_sandre_lieux_qual <- function(date_maj = "1950-01-01")
     )
   } else {
     # telechargement du referentiel fraction sandre
-    downloader::download(
+    download.file(
       paste0(
         "https://api.sandre.eaufrance.fr/referentiels/v1/stq.csv?outputSchema=SANDREv4&compress=true&derniereDateDeMAJ=",
         date_maj

@@ -25,6 +25,11 @@ library(readr) # pour lire csv conversion unites
 #   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-03\\QUESU3_EPTB_VILAINE-CAB_2025-03-13_SQE2025_EPH_Calend_3_0400003263.xml"
 # bon_de_commande_id <- 2587
 
+# EPH Calendaire 4
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-04\\QUESU3_EPTB_VILAINE-CAB_2025-04-30_SQE2025_EPH_calend_4_0400003263.xml"
+# bon_de_commande_id <- 2588
+
 ##### UGVA (04000003185) #####
 # UGVA Calendaire 1
 # fichier <-
@@ -36,10 +41,45 @@ library(readr) # pour lire csv conversion unites
 #   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-03\\QUESU3_EPTB_VILAINE-CAB_2025-03-19__UGVA_calend_2_0400003185.xml"
 # bon_de_commande_id <- 2598
 
-# UGVA Calendaire 3
+# UGVA Calendaire 3 (avril)
 # fichier <-
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-04\\QUESU3_EPTB_VILAINE-CAB_2025-01-23_SQE2025_UGVA_calend_1_0400003185.xml"
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-04\\QUESU3_EPTB_VILAINE-CAB_2025-04-17__UGVA_calend_3_0400003185.xml"
 # bon_de_commande_id <- 2599
+
+# UGVA Calendaire 4 (mai)
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-05\\QUESU3_EPTB_VILAINE-CAB_2025-05-28__UGVA_calend_4_0400003185.xml"
+# bon_de_commande_id <- 2600
+
+# UGVA Calendaire 5 (juillet)
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-07\\QUESU3_EPTB_VILAINE-CAB_2025-07-02__UGVA_calend_5_0400003185.xml"
+# bon_de_commande_id <- 2601
+
+# UGVA Calendaire 6 (aout)
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-08\\QUESU3_EPTB_VILAINE-CAB_2025-01-23_SQE2025_UGVA_calend_1_0400003185.xml"
+# bon_de_commande_id <- 2602
+
+# UGVA Calendaire 7 (septembre)
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-09\\QUESU3_EPTB_VILAINE-CAB_2025-01-23_SQE2025_UGVA_calend_1_0400003185.xml"
+# bon_de_commande_id <- 2602
+
+# UGVA Calendaire 8 (octobre)
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-10\\QUESU3_EPTB_VILAINE-CAB_2025-01-23_SQE2025_UGVA_calend_1_0400003185.xml"
+# bon_de_commande_id <- 2602
+
+# UGVA Calendaire 9 (novembre)
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-11\\QUESU3_EPTB_VILAINE-CAB_2025-01-23_SQE2025_UGVA_calend_1_0400003185.xml"
+# bon_de_commande_id <- 2602
+
+# UGVA Calendaire 10 (décembre)
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-12\\QUESU3_EPTB_VILAINE-CAB_2025-01-23_SQE2025_UGVA_calend_1_0400003185.xml"
+# bon_de_commande_id <- 2602
 
 ##### UGVE (04000003223) #####
 # UGVE Calendaire 1
@@ -62,6 +102,46 @@ library(readr) # pour lire csv conversion unites
 #   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-03\\QUESU3_EPTB_VILAINE-CAB_2025-03-25_SQE2025_UGVE_calend_3_0400003223.xml"
 # bon_de_commande_id <- 2634
 
+# UGVE Calendaire 4
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-04\\QUESU3_EPTB_VILAINE-CAB_2025-04-24_SQE2025_UGVE_calend_4_0400003223.xml"
+# bon_de_commande_id <- 2648
+
+# UGVE Calendaire 5 - part 1
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-05\\QUESU3_EPTB_VILAINE-CAB_2025-05-26_SQE2025_UGVE_calend_5_0400003223.xml"
+# bon_de_commande_id <- 2635
+
+# UGVE Calendaire 5 - part 2
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-05\\QUESU3_EPTB_VILAINE-CAB_2025-05-27_SQE2025_UGVE_calend_5_0400003223.xml"
+# bon_de_commande_id <- 2635
+
+# UGVE Calendaire 5 - part 3
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-05\\QUESU3_EPTB_VILAINE-CAB_2025-05-28_SQE2025_UGVE_calend_5_0400003223.xml"
+# bon_de_commande_id <- 2635
+
+# UGVE Calendaire 6 - part 1
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-06\\QUESU3_EPTB_VILAINE-CAB_2025-06-24_SQE2025_UGVE_calend_6_0400003223.xml"
+# bon_de_commande_id <- 2649
+
+# UGVE Calendaire 6 - part 2
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-06\\QUESU3_EPTB_VILAINE-CAB_2025-06-26_SQE2025_UGVE_calend_6_0400003223.xml"
+# bon_de_commande_id <- 2649
+
+# UGVE Calendaire 7
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-07\\QUESU3_EPTB_VILAINE-CAB_2025-07-24_SQE2025_UGVE_calend_7_0400003223.xml"
+# bon_de_commande_id <- 2636
+
+# UGVE Calendaire 8
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-08\\QUESU3_EPTB_VILAINE-CAB_2025-07-24_SQE2025_UGVE_calend_7_0400003223.xml"
+# bon_de_commande_id <- 2650
+
 ##### UGVE Pluie externalisée #####
 # UGVE pluie externalisé 0 - part 1 (prélevé et analysé à tord par CARSO en mars, non facturé)
 # fichier <-
@@ -73,9 +153,9 @@ library(readr) # pour lire csv conversion unites
 #   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-03\\QUESU3_EPTB_VILAINE-CAB_2025-03-25_SQE2025_UGVE_pluie_externalisée_1_0400003223.xml"
 # bon_de_commande_id <- 2653
 
-# UGVE pluie externalisé 1 (prélevé en mai)
+# UGVE pluie externalisé 1 (prélevé en juillet)
 # fichier <-
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-05\\QUESU3_EPTB_VILAINE-CAB_2025-03-24_SQE2025_UGVE_pluie_externalisée_1_0400003223.xml"
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-07\\QUESU3_EPTB_VILAINE-CAB_2025-07-21_SQE2025_UGVE_pluie_externalisée_1_0400003223.xml"
 # bon_de_commande_id <- 2653
 
 
@@ -96,7 +176,55 @@ library(readr) # pour lire csv conversion unites
 #   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-03\\QUESU3_EPTB_VILAINE-CAB_2025-03-24_SQE2025_UGVE-CAPTAGES_calend_3_0400003223.xml"
 # bon_de_commande_id <- 2662
 
+# UGVE Captages 4
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-04\\QUESU3_EPTB_VILAINE-CAB_2025-04-23_SQE2025_UGVE-CAPTAGES_calend_4_0400003223.xml"
+# bon_de_commande_id <- 2663
 
+# UGVE Captages 5 - part 1
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-05\\QUESU3_EPTB_VILAINE-CAB_2025-05-26_SQE2025_UGVE-CAPTAGES_calend_5_0400003223.xml"
+# bon_de_commande_id <- 2664
+
+# UGVE Captages 5 - part 2
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-05\\QUESU3_EPTB_VILAINE-CAB_2025-05-28_SQE2025_UGVE-CAPTAGES_calend_5_0400003223.xml"
+# bon_de_commande_id <- 2664
+
+# UGVE Captages 6
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-06\\QUESU3_EPTB_VILAINE-CAB_2025-06-26_SQE2025_UGVE-CAPTAGES_calend_6_0400003223.xml"
+# bon_de_commande_id <- 2665
+
+# UGVE Captages 7
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-07\\QUESU3_EPTB_VILAINE-CAB_2025-07-22_SQE2025_UGVE-CAPTAGES_calend_7_0400003223.xml"
+# bon_de_commande_id <- 2666
+
+# UGVE Captages 8
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-08\\QUESU3_EPTB_VILAINE-CAB_2025-06-26_SQE2025_UGVE-CAPTAGES_calend_6_0400003223.xml"
+# bon_de_commande_id <- 2667
+
+# UGVE Captages 9
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-09\\QUESU3_EPTB_VILAINE-CAB_2025-06-26_SQE2025_UGVE-CAPTAGES_calend_6_0400003223.xml"
+# bon_de_commande_id <- 2668
+
+# UGVE Captages 10
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-10\\QUESU3_EPTB_VILAINE-CAB_2025-06-26_SQE2025_UGVE-CAPTAGES_calend_6_0400003223.xml"
+# bon_de_commande_id <- 2669
+
+# UGVE Captages 11
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-11\\QUESU3_EPTB_VILAINE-CAB_2025-06-26_SQE2025_UGVE-CAPTAGES_calend_6_0400003223.xml"
+# bon_de_commande_id <- 2670
+
+# UGVE Captages 12
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-12\\QUESU3_EPTB_VILAINE-CAB_2025-06-26_SQE2025_UGVE-CAPTAGES_calend_6_0400003223.xml"
+# bon_de_commande_id <- 2671
 
 ##### UGVO (04000003224) #####
 # UGVO Calendaire 1
@@ -114,6 +242,70 @@ library(readr) # pour lire csv conversion unites
 #   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-03\\QUESU3_EPTB_VILAINE-CAB_2025-03-26_SQE2025_UGVO_calend_3_0400003224.xml"
 # bon_de_commande_id <- 2619
 
+# UGVO Calendaire 4
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-04\\QUESU3_EPTB_VILAINE-CAB_2025-04-30_SQE2025_UGVO_calend_4_0400003224.xml"
+# bon_de_commande_id <- 2620
+
+# UGVO Calendaire 5 - partie 1
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-05\\QUESU3_EPTB_VILAINE-CAB_2025-05-19_SQE2025_UGVO_calend_5_0400003224.xml"
+# bon_de_commande_id <- 2621
+
+# UGVO Calendaire 5 - partie 2
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-05\\QUESU3_EPTB_VILAINE-CAB_2025-05-21_SQE2025_UGVO_calend_5_0400003224.xml"
+# bon_de_commande_id <- 2621
+
+# UGVO Calendaire 6 - part 1
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-06\\QUESU3_EPTB_VILAINE-CAB_2025-06-12_SQE2025_UGVO_calend_6_0400003224.xml"
+# bon_de_commande_id <- 2622
+
+# UGVO Calendaire 6 - part 2
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-06\\QUESU3_EPTB_VILAINE-CAB_2025-06-13_SQE2025_UGVO_calend_6_0400003224.xml"
+# bon_de_commande_id <- 2622
+
+# UGVO Calendaire 6 - part 3
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-06\\QUESU3_EPTB_VILAINE-CAB_2025-06-18_SQE2025_UGVO_calend_6_0400003224.xml"
+# bon_de_commande_id <- 2622
+
+# UGVO Calendaire 7 - part 1
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-07\\QUESU3_EPTB_VILAINE-CAB_2025-07-07_SQE2025_UGVO_calend_7_0400003224.xml"
+# bon_de_commande_id <- 2623
+
+# UGVO Calendaire 7 - part 2
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-07\\QUESU3_EPTB_VILAINE-CAB_2025-07-23_SQE2025_UGVO_calend_7_0400003224.xml"
+# bon_de_commande_id <- 2623
+
+# UGVO Calendaire 8
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-08\\QUESU3_EPTB_VILAINE-CAB_2025-03-26_SQE2025_UGVO_calend_3_0400003224.xml"
+# bon_de_commande_id <- 2624
+
+# UGVO Calendaire 9
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-09\\QUESU3_EPTB_VILAINE-CAB_2025-03-26_SQE2025_UGVO_calend_3_0400003224.xml"
+# bon_de_commande_id <- 2625
+
+# UGVO Calendaire 10
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-10\\QUESU3_EPTB_VILAINE-CAB_2025-03-26_SQE2025_UGVO_calend_3_0400003224.xml"
+# bon_de_commande_id <- 2626
+
+# UGVO Calendaire 11
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-11\\QUESU3_EPTB_VILAINE-CAB_2025-03-26_SQE2025_UGVO_calend_3_0400003224.xml"
+# bon_de_commande_id <- 2627
+
+# UGVO Calendaire 12
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-12\\QUESU3_EPTB_VILAINE-CAB_2025-03-26_SQE2025_UGVO_calend_3_0400003224.xml"
+# bon_de_commande_id <- 2628
 
 ##### SCDI Calendaire (04000003033) #####
 # SCDI Calendaire 1
@@ -126,44 +318,54 @@ library(readr) # pour lire csv conversion unites
 #   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-02\\QUESU3_SMBV_CHERE_DON-CAB_2025-02-20_SQE2025_SCDI_calend_2_0400003033.xml"
 # bon_de_commande_id <- 2608
 
-# SCDI Calendaire 3
+# SCDI Calendaire 3 part 1
 # fichier <-
 #   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-03\\QUESU3_SMBV_CHERE_DON-CAB_2025-03-18_SQE2025_SCDI_calend_3_0400003033.xml"
 # bon_de_commande_id <- 2609
 
+# SCDI Calendaire 3 part 2
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-03\\QUESU3_SMBV_CHERE_DON-CAB_2025-03-27_SQE2025_SCDI_calend_3_0400003033.xml"
+# bon_de_commande_id <- 2609
+
 # SCDI Calendaire 4
 # fichier <-
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-03\\QUESU3_SMBV_CHERE_DON-CAB_2025-03-18_SQE2025_SCDI_calend_3_0400003033.xml"
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-04\\QUESU3_SMBV_CHERE_DON-CAB_2025-04-29_SQE2025_SCDI_calend_4_0400003033.xml"
 # bon_de_commande_id <- 2610
 
 # SCDI Calendaire 5
 # fichier <-
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-03\\QUESU3_SMBV_CHERE_DON-CAB_2025-03-18_SQE2025_SCDI_calend_3_0400003033.xml"
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-05\\QUESU3_SMBV_CHERE_DON-CAB_2025-05-22_SQE2025_SCDI_calend_5_0400003033.xml"
 # bon_de_commande_id <- 2611
 
-# SCDI Calendaire 6
+# SCDI Calendaire 6 - partie 1
 # fichier <-
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-03\\QUESU3_SMBV_CHERE_DON-CAB_2025-03-18_SQE2025_SCDI_calend_3_0400003033.xml"
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-06\\QUESU3_SMBV_CHERE_DON-CAB_2025-06-24_SQE2025_SCDI_calend_6_0400003033.xml"
+# bon_de_commande_id <- 2612
+
+# SCDI Calendaire 6 - partie 2
+# fichier <-
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-06\\QUESU3_SMBV_CHERE_DON-CAB_2025-06-30_SQE2025_SCDI_calend_6_0400003033.xml"
 # bon_de_commande_id <- 2612
 
 # SCDI Calendaire 7
 # fichier <-
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-03\\QUESU3_SMBV_CHERE_DON-CAB_2025-03-18_SQE2025_SCDI_calend_3_0400003033.xml"
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-07\\QUESU3_SMBV_CHERE_DON-CAB_2025-03-18_SQE2025_SCDI_calend_3_0400003033.xml"
 # bon_de_commande_id <- 2613
 
 # SCDI Calendaire 8
 # fichier <-
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-03\\QUESU3_SMBV_CHERE_DON-CAB_2025-03-18_SQE2025_SCDI_calend_3_0400003033.xml"
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-08\\QUESU3_SMBV_CHERE_DON-CAB_2025-03-18_SQE2025_SCDI_calend_3_0400003033.xml"
 # bon_de_commande_id <- 2614
 
 # SCDI Calendaire 9
 # fichier <-
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-03\\QUESU3_SMBV_CHERE_DON-CAB_2025-03-18_SQE2025_SCDI_calend_3_0400003033.xml"
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-09\\QUESU3_SMBV_CHERE_DON-CAB_2025-03-18_SQE2025_SCDI_calend_3_0400003033.xml"
 # bon_de_commande_id <- 2615
 
 # SCDI Calendaire 10
 # fichier <-
-#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-03\\QUESU3_SMBV_CHERE_DON-CAB_2025-03-18_SQE2025_SCDI_calend_3_0400003033.xml"
+#   "C:\\Users\\anthony.deburghrave\\OneDrive - EPTB Vilaine\\Documents\\suivis EPTB\\2025\\7_livrables\\2025-10\\QUESU3_SMBV_CHERE_DON-CAB_2025-03-18_SQE2025_SCDI_calend_3_0400003033.xml"
 # bon_de_commande_id <- 2616
 
 

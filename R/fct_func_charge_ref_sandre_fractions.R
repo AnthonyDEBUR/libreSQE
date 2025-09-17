@@ -17,7 +17,7 @@ func_charge_ref_sandre_fractions <- function(date_maj = "1950-01-01")
 
 
   # telechargement du referentiel fraction sandre
-  downloader::download(
+  download.file(
     paste0(
       "https://api.sandre.eaufrance.fr/referentiels/v1/fan.csv?outputSchema=SANDREv4&compress=true&derniereDateDeMAJ=",
       date_maj

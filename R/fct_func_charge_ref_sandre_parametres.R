@@ -12,15 +12,15 @@ func_charge_referentiel_SANDRE_parametres <-function(date_maj = "1950-01-01")
 
     param.xml.gz <- tempfile()
 
-    downloader::download(
-      paste0(
-        "https://api.sandre.eaufrance.fr/referentiels/v1/par.xml?outputSchema=SANDREv4&compress=true&derniereDateDeMAJ=",
-        date_maj
-      ),
-      param.xml.gz,
-      mode = "wb",
-      cacheOK = T
+
+    # Téléchargement du fichier XML compressé
+    url <- paste0(
+      "https://api.sandre.eaufrance.fr/referentiels/v1/par.xml?outputSchema=SANDREv4&compress=true&derniereDateDeMAJ=",
+      date_maj
     )
+
+   download.file(url, destfile = param.xml.gz, mode = "wb", cacheOK=TRUE)
+
     file <- xml2::read_xml(param.xml.gz)
     file.remove(param.xml.gz)
 

@@ -19,7 +19,7 @@ VilleIntervenant<-DepIntervenant<-CPIntervenant<-isa_datemaj<-RueIntervenant<-NU
   # si date de dernière maj > 3 mois alors on recherge tout el référentiel (pour palier les défauts du SANDRE)
   if(Sys.Date()-as.Date(date_maj)>90){
     # telechargement du referentiel fraction sandre
-    downloader::download(
+    download.file(
       paste0(
         "https://api.sandre.eaufrance.fr/referentiels/v1/int.csv?outputSchema=SANDREv2&compress=true"
       ),
@@ -27,7 +27,7 @@ VilleIntervenant<-DepIntervenant<-CPIntervenant<-isa_datemaj<-RueIntervenant<-NU
       mode = "wb",
       cacheOK = T
     )} else {
-      downloader::download(
+      download.file(
         paste0(
           "https://api.sandre.eaufrance.fr/referentiels/v1/int.csv?outputSchema=SANDREv2&compress=true&derniereDateDeMAJ=",
           date_maj),

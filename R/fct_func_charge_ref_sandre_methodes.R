@@ -14,7 +14,7 @@ func_charge_ref_sandre_methodes <- function(date_maj = "1950-01-01")
   methodes.csv.gz <- tempfile()
 
   # telechargement du referentiel unites sandre
-  downloader::download(
+  download.file(
     paste0(
       "https://api.sandre.eaufrance.fr/referentiels/v1/met.csv?outputSchema=SANDREv4&compress=true&derniereDateDeMAJ=",
       date_maj
