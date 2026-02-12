@@ -26,6 +26,7 @@ if(!(is.null(stations_a_traiter) |
      is.factor(stations_a_traiter))){stop("func_importe_quesu : stations_a_traiter
                                           doit être de type character ou factor")}
 
+
   n_lines <- 50000  # nombre de lignes à traiter à chaque itération
   file_in <-
     file(fichier, "r")  # ouverture du fichier en lecture
@@ -192,6 +193,9 @@ if(!(is.null(stations_a_traiter) |
     lines <- gsub("</StationMesureEauxSurface>", "", lines)
     lines <-
       gsub("</ResPC>", "</StationMesureEauxSurface></ResPC>", lines)
+
+    # on supprime toutes les balises au format <DateMajIntervenant/> qui correspondent à des champs vides
+    lines <- gsub("<([A-Za-z0-9_]+)\\s*/>", "", lines)
 
     # on fusionne les lignes en un seul bloc de character
     bloc <- c(bloc, lines)
