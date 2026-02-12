@@ -10,9 +10,9 @@ library(readr) # pour lire csv conversion unites
 #####Fichier a tester #####
 
 # test Labocéa
-# fichier <-
-#   file.choose()
-# bon_de_commande_id <- 2585
+fichier <-
+  file.choose()
+bon_de_commande_id <- 2585
 
 
 ##### EPH (0400003263) #####

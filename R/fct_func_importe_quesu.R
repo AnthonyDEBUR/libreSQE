@@ -194,13 +194,10 @@ if(!(is.null(stations_a_traiter) |
     lines <-
       gsub("</ResPC>", "</StationMesureEauxSurface></ResPC>", lines)
 
-    # on supprime toutes les balises au format <DateMajIntervenant/> qui correspondent à des champs vides
-    lines <- gsub("<([A-Za-z0-9_]+)\\s*/>", "", lines)
-
     # on fusionne les lignes en un seul bloc de character
     bloc <- c(bloc, lines)
 
-    ##### si on est dans le premier passage, on recherche le scenario SANDRE #####
+     ##### si on est dans le premier passage, on recherche le scenario SANDRE #####
     if (first_passage) {
       # on extrait le bloc à traiter
       indice_debut <- grep("<CodeScenario>", bloc)[1]
@@ -238,6 +235,8 @@ if(!(is.null(stations_a_traiter) |
       indice_fin <- grep("</ResPC>", bloc)[1]
 
       bloc_station <- bloc[indice_debut:indice_fin]
+      # on supprime les balises au format <ComResultatAna/> qui ne contiennent pas le signe =
+      bloc_station <- gsub("<[^=]+?/>", "", bloc_station)
 
       # traitement du bloc comme un fichier xml
       lit_bloc <-
