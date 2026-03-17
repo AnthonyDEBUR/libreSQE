@@ -54,8 +54,18 @@ func_charge_prog_annuelle <-
       names_to = "mois", values_to = "nb"
     ) %>% dplyr::filter(!is.na(nb) & nb > 0)
 
-    cal_sans_dates <- calendrier_long %>% dplyr::filter(programme %in% programmes_sans_dates)
-    cal_avec_dates <- calendrier_long %>% dplyr::filter(!programme %in% programmes_sans_dates)
+    # Ajouter le code interne station dans le calendrier (pour filtrer sans_objet)
+    calendrier_long <- dplyr::left_join(
+      calendrier_long,
+      programme_annuel %>% dplyr::select(code_interne_station, type_station),
+      by = c("type_station" = "type_station")
+    )
+
+    cal_sans_dates <- calendrier_long %>%
+      filter(code_interne_station %in% c("sans_objet","sans objet","", NA))
+
+    cal_avec_dates <- calendrier_long %>%
+      filter(!code_interne_station %in% c("sans_objet","sans objet","", NA))
 
     # Prestations avec dates : nb ENTIER 1..31
     if (nrow(cal_avec_dates) > 0) {

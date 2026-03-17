@@ -10,9 +10,9 @@ library(readr) # pour lire csv conversion unites
 #####Fichier a tester #####
 
 # test Labocéa
-fichier <-
-  file.choose()
-bon_de_commande_id <- 2585
+# fichier <-
+#   file.choose()
+# bon_de_commande_id <- 2585
 
 
 ##### EPH (0400003263) #####
@@ -1243,8 +1243,13 @@ if (nrow(analyses_a_tester) > 0) {
       analyses_a_tester %>% dplyr::rename(O2 = p1311,
                                           satO2 = p1312,
                                           temperature = p1301)
+
     analyses_a_tester$testO2 <- analyses_a_tester$testO2 %>%
-      dplyr::case_match("1" ~ "correcte", "2" ~ "incertain", "3" ~ "incorrect")
+      dplyr::recode_values(
+        "1" ~ "correcte",
+        "2" ~ "incertain",
+        "3" ~ "incorrect"
+      )
 
     analyses_a_tester$test_satO2_attendu <-
       round(analyses_a_tester$test_satO2_attendu, 1)
@@ -1364,11 +1369,14 @@ if (nrow(analyses_a_tester) > 0)
         incertitude_Ptot = incer1350,
         incertitude_PO4 = incer1433
       )
+
     analyses_a_tester$testPtot_PO4 <-
       analyses_a_tester$testPtot_PO4 %>%
-      dplyr::case_match("1" ~ "correcte",
-                        "2" ~ "dans marge incertitude",
-                        "3" ~ "incorrect")
+      dplyr::recode_values(
+        "1" ~ "correcte",
+        "2" ~ "dans marge incertitude",
+        "3" ~ "incorrect"
+      )
 
     Rapport$coherence_Ptot_PO4 <-
       analyses_a_tester %>% subset(testPtot_PO4 != "correcte")
@@ -1955,7 +1963,7 @@ verif$cdqualana <-
 
 verif$cdqualana <- as.character(verif$cdqualana)
 verif$nomclassement <- verif$cdqualana %>%
-  dplyr::case_match(
+  dplyr::recode_values(
     "0" ~ "non definissable",
     "1" ~ "correct",
     "2" ~ "incorrect",
