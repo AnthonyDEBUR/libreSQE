@@ -1,6 +1,5 @@
 #' func_charge_prog_annuelle
 #'
-#' Fonction complète corrigée (2026-03 – version Copilot)
 #'
 func_charge_prog_annuelle <-
   function(fichier_prog, connexion, mar_id, annee,
@@ -45,7 +44,7 @@ func_charge_prog_annuelle <-
       programme_annuel$code_sandre_station[need_fallback]
 
     # Éléments FK référentiels
-    per_ref <- DBI::dbGetQuery(conn, sql("SELECT per_nom FROM {`'refer'`}.tr_perimetre_per;"))
+    per_ref <- DBI::dbGetQuery(conn, sql("SELECT per_nom FROM {`refer`}.tr_perimetre_per;"))
     per_file <- unique(trimws(programme_annuel$perimetre_facturation))
     per_missing <- setdiff(per_file, per_ref$per_nom)
     if (strict_referentiel && length(per_missing)) {
@@ -53,7 +52,7 @@ func_charge_prog_annuelle <-
     }
 
     sta_ref <- DBI::dbGetQuery(conn, sql(
-      "SELECT stm_cdstationmesureinterne FROM {`'refer'`}.tr_stationmesure_stm;"
+      "SELECT stm_cdstationmesureinterne FROM {`refer`}.tr_stationmesure_stm;"
     ))
     sta_file <- unique(programme_annuel$code_interne_station[!is.na(programme_annuel$code_interne_station)])
     sta_missing <- setdiff(sta_file, sta_ref$stm_cdstationmesureinterne)
@@ -161,7 +160,7 @@ func_charge_prog_annuelle <-
     # Récupération des prestations du marché
     prestations <- DBI::dbGetQuery(conn, sql(
       "SELECT prs_id, prs_label_prestation
-  FROM `sqe`.t_prestation_prs
+  FROM {`sqe`}.t_prestation_prs
   WHERE prs_mar_id = {mar_id};"
     ))
 
@@ -296,7 +295,7 @@ func_charge_prog_annuelle <-
 
     # Relecture bco_id
     liste_bdc <- DBI::dbGetQuery(conn, sql(
-      "SELECT bco_id, bco_refcommande FROM {`'sqe'`}.t_boncommande_bco WHERE bco_mar_id = {mar_id};"
+      "SELECT bco_id, bco_refcommande FROM {`sqe`}.t_boncommande_bco WHERE bco_mar_id = {mar_id};"
     ))
     ref_all <- unique(c(prog_avec$bco_refcommande, prog_sans$bco_refcommande))
     miss <- setdiff(ref_all, liste_bdc$bco_refcommande)
@@ -351,12 +350,12 @@ func_charge_prog_annuelle <-
         "SELECT ppt_prs_id, ppt_par_cdparametre, ppt_fra_codefraction, ppt_uni_codesandreunite,
                 ppt_met_codesandremethode, ppt_pre_id, ppt_analyseinsitu, ppt_limitedetec,
                 ppt_limitequantif, ppt_incertitude, ppt_accreditation
-         FROM {`'sqe'`}.t_parametreprogrammetype_ppt WHERE ppt_mar_id = {mar_id};"
+         FROM {`sqe`}.t_parametreprogrammetype_ppt WHERE ppt_mar_id = {mar_id};"
       ))
       tmp_rea <- left_join(tmp_rea, ppt, by=c("cal_prs_id"="ppt_prs_id"), multiple="all")
 
       # Prestataires
-      prest <- DBI::dbGetQuery(conn, sql("SELECT pre_id, pre_siret FROM {`'refer'`}.tr_prestataire_pre;"))
+      prest <- DBI::dbGetQuery(conn, sql("SELECT pre_id, pre_siret FROM {`refer`}.tr_prestataire_pre;"))
       tmp_rea <- left_join(tmp_rea, prest, by=c("ppt_pre_id"="pre_id"))
 
       # Finalisation
