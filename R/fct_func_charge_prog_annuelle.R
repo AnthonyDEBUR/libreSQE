@@ -2,7 +2,10 @@
 #'
 #'
 func_charge_prog_annuelle <-
-  function(fichier_prog, connexion, mar_id, annee,
+  function(fichier_prog,
+           connexion,
+           mar_id,
+           annee,
            frequence_bdc = "mensuelle", prefixe = "",
            strict_referentiel = TRUE) {
 
@@ -30,18 +33,6 @@ func_charge_prog_annuelle <-
     func_lit_le_fichier(fichier_prog, "programme_annuel")
     programme_annuel <- repair_names_quiet(programme_annuel)
 
-    # Nettoyage code_sandre_station
-    placeholders <- c("sans_objet","sans objet","transport","TRANSPORT","", NA)
-    programme_annuel$code_sandre_station <- trimws(programme_annuel$code_sandre_station)
-    programme_annuel$code_sandre_station[
-      programme_annuel$code_sandre_station %in% placeholders
-    ] <- NA_character_
-
-    # Fallback code interne
-    programme_annuel$code_interne_station <- trimws(programme_annuel$code_interne_station)
-    need_fallback <- is.na(programme_annuel$code_interne_station) | programme_annuel$code_interne_station == ""
-    programme_annuel$code_interne_station[need_fallback] <-
-      programme_annuel$code_sandre_station[need_fallback]
 
     # Éléments FK référentiels
     per_ref <- DBI::dbGetQuery(conn, sql("SELECT per_nom FROM refer.tr_perimetre_per;"))
@@ -69,9 +60,9 @@ func_charge_prog_annuelle <-
         pga_cal_typestation            = type_station,
         pga_stm_cdstationmesureauxsurface = code_sandre_station,
         pga_stm_cdstationmesureinterne    = code_interne_station
-      ) %>%
-      mutate(pga_stm_cdstationmesureauxsurface = NA_character_) %>%
-      select(
+      )   %>%
+     # dplyr::mutate(pga_stm_cdstationmesureauxsurface = NA_character_) %>%
+      dplyr::select(
         pga_cal_refannee, pga_mar_id, pga_per_nom, pga_cal_typestation,
         pga_stm_cdstationmesureauxsurface,
         pga_stm_cdstationmesureinterne
@@ -89,33 +80,24 @@ func_charge_prog_annuelle <-
       names_to = "mois", values_to = "nb"
     ) %>% filter(!is.na(nb) & nb > 0)
 
-    ### AJOUT EV 2026-03 — joindre le code interne station
-    calendrier_long <- left_join(
+    ### joindre le code interne station
+    calendrier_long <- right_join(
       calendrier_long,
       programme_annuel %>%
         select(pga_cal_typestation, pga_stm_cdstationmesureinterne),
-      by = c("type_station" = "pga_cal_typestation")
+      by = c("type_station" = "pga_cal_typestation"),
+      relationship = "many-to-many"
     ) %>%
       rename(code_interne_station = pga_stm_cdstationmesureinterne)
-    ### FIN AJOUT
 
     # Séparer avec / sans dates selon la station (et non selon le programme)
     cal_sans_dates <- calendrier_long %>%
-      filter(code_interne_station %in% c("sans_objet","sans objet","", NA))
+      filter(code_interne_station %in% c("sans_objet","sans objet","", NA))%>%
+      distinct()
 
     cal_avec_dates <- calendrier_long %>%
-      filter(!code_interne_station %in% c("sans_objet","sans objet","", NA))
-
-    cal_avec_dates <- cal_avec_dates %>%
-      distinct(
-        cal_typestation,
-        programme,
-        cal_date,
-        cal_prs_id,
-        cal_rattachement_bdc,
-        code_interne_station,
-        .keep_all = TRUE
-      )
+      filter(!code_interne_station %in% c("sans_objet","sans objet","", NA)) %>%
+      distinct()
 
 
     # Vérification nb 1..31
@@ -152,7 +134,7 @@ func_charge_prog_annuelle <-
         select(-nb, -num_mois, -jour)
     }
 
-    # Ajout ref + renoms
+ # Ajout ref + renoms
     if (nrow(cal_sans_dates) > 0) {
       cal_sans_dates$cal_refannee <- annee
       cal_sans_dates$cal_mar_id   <- mar_id
@@ -218,6 +200,34 @@ func_charge_prog_annuelle <-
         "t_calendrierprog_cal", "sqe", connexion
       )
     }
+
+
+    # Traitement des lignes sans dates
+    if (nrow(cal_sans_dates) > 0) {
+
+      # Jointure normale
+      tmp <- left_join(
+        cal_sans_dates,
+        prestations,
+        by = c("programme" = "prs_label_prestation")
+      )
+
+      # Identifier les programmes absents du marché
+      absent <- tmp$programme[is.na(tmp$prs_id)]
+
+      # Exclure les programmes sans analyses
+      absent_reels <- setdiff(absent, prog_sans_analyses)
+
+      # S'il reste des absents = vrai problème
+      if (length(absent_reels) > 0) {
+        stop("Programme(s) inconnus dans cal_sans_dates : ",
+             paste(absent_reels, collapse = ", "))
+      }
+
+      # Renommer
+      cal_sans_dates <- rename(tmp, cal_prs_id = prs_id)
+    }
+
     if (nrow(cal_sans_dates) > 0) {
       stub_cal <- cal_sans_dates %>%
         group_by(cal_refannee, cal_mar_id, cal_typestation, cal_prs_id, cal_rattachement_bdc) %>%
@@ -236,7 +246,9 @@ func_charge_prog_annuelle <-
     # Insertion programme annuel
     func_enregistre_dataframe_bdd(
       programme_annuel,
-      "t_progannuelle_pga", "sqe", connexion
+      "t_progannuelle_pga",
+      "sqe",
+      connexion
     )
 
 
@@ -252,15 +264,19 @@ func_charge_prog_annuelle <-
     prog_avec <- left_join(
       programme_annuel_clean,
       cal_avec_dates,
-      by = c("pga_cal_typestation" = "cal_typestation"),
-      multiple = "all"
+      by = c("pga_cal_typestation" = "cal_typestation",
+             "pga_stm_cdstationmesureinterne"="code_interne_station"),
+      multiple = "all",
+      relationship = "many-to-many"
     )
 
     prog_sans <- left_join(
       programme_annuel_clean,
       cal_sans_dates,
-      by = c("pga_cal_typestation" = "cal_typestation"),
-      multiple = "all"
+      by = c("pga_cal_typestation" = "cal_typestation",
+             "pga_stm_cdstationmesureinterne"="code_interne_station"),
+      multiple = "all",
+      relationship = "many-to-many"
     )
 
     recode_mois <- function(x) as.numeric(dplyr::recode_factor(
@@ -300,12 +316,16 @@ func_charge_prog_annuelle <-
       df
     }
     prog_avec <- make_ref(prog_avec)
-    prog_sans <- make_ref(prog_sans)
+    prog_sans <- make_ref(prog_sans) # bug : va créer un bdc avec NA
 
-    bco <- bind_rows(
-      prog_avec %>% select(pga_per_nom, bco_refcommande),
-      prog_sans %>% select(pga_per_nom, bco_refcommande)
-    ) %>% unique()
+    # bco <- bind_rows(
+    #   prog_avec %>% select(pga_per_nom, bco_refcommande),
+    #   prog_sans %>% select(pga_per_nom, bco_refcommande)
+    # ) %>% unique()
+
+    bco <- prog_avec %>%
+      select(pga_per_nom, bco_refcommande) %>%
+      unique()
 
     if (nrow(bco)>0) {
       bco$bco_stp_nom <- "1-projet"
@@ -323,22 +343,31 @@ func_charge_prog_annuelle <-
     if (length(miss)) stop("BDC non retrouvés : ", paste(miss, collapse=" ; "))
 
     # BCQ
-    bcq_avec <- NULL; bcq_sans <- NULL
+    bcq_avec <- NULL
+    bcq_sans <- NULL
     if (nrow(prog_avec)) {
       bcq_avec <- prog_avec %>%
-        group_by(bco_refcommande, cal_prs_id) %>% count(name="bcq_nbprestacom") %>% ungroup() %>%
-        left_join(liste_bdc, by="bco_refcommande") %>%
-        select(-bco_refcommande) %>% rename(bcq_bco_id=bco_id, bcq_prs_id=cal_prs_id)
+        group_by(bco_refcommande, cal_prs_id) %>%
+        count(name="bcq_nbprestacom") %>%
+        ungroup() %>%
+        left_join(liste_bdc,
+                  by="bco_refcommande",
+                  relationship = "many-to-many") %>%
+        select(-bco_refcommande) %>%
+        rename(bcq_bco_id=bco_id, bcq_prs_id=cal_prs_id)
     }
     if (nrow(prog_sans)) {
       bcq_sans <- prog_sans %>%
         group_by(bco_refcommande, cal_prs_id) %>%
         summarise(bcq_nbprestacom=sum(nb), .groups="drop") %>%
-        left_join(liste_bdc, by="bco_refcommande") %>%
-        select(-bco_refcommande) %>% rename(bcq_bco_id=bco_id, bcq_prs_id=cal_prs_id)
+        left_join(liste_bdc,
+                  by="bco_refcommande",
+                  relationship = "many-to-many") %>%
+        select(-bco_refcommande) %>%
+        rename(bcq_bco_id=bco_id, bcq_prs_id=cal_prs_id)
     }
-    bcq_all <- bind_rows(bcq_avec, bcq_sans)
-
+    # bcq_all <- bind_rows(bcq_avec, bcq_sans)
+    bcq_all <- bcq_avec
 
 
     if (nrow(bcq_all)) func_enregistre_dataframe_bdd(bcq_all, "t_boncommande_quantitatif_bcq", "sqe", connexion)
