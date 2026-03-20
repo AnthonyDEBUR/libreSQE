@@ -69,6 +69,7 @@ liste_bdc<-data.frame(id=bdc$bco_id, nom=bdc$bco_refcommande, bdc$fichier)%>%uni
 liste_bdc<-liste_bdc[!grepl("_NA_", liste_bdc$nom),]
 
 tableau_synthese<-data.frame(rep(character(),8))
+i<-1
 
 # genere les bdc
 for(i in 1:nrow(liste_bdc))

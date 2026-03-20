@@ -106,6 +106,18 @@ func_charge_prog_annuelle <-
     cal_avec_dates <- calendrier_long %>%
       filter(!code_interne_station %in% c("sans_objet","sans objet","", NA))
 
+    cal_avec_dates <- cal_avec_dates %>%
+      distinct(
+        cal_typestation,
+        programme,
+        cal_date,
+        cal_prs_id,
+        cal_rattachement_bdc,
+        code_interne_station,
+        .keep_all = TRUE
+      )
+
+
     # Vérification nb 1..31
     if (nrow(cal_avec_dates) > 0) {
       if (any(cal_avec_dates$nb %% 1 != 0))
@@ -227,17 +239,26 @@ func_charge_prog_annuelle <-
       "t_progannuelle_pga", "sqe", connexion
     )
 
+
+
+
     # ────────
     # 3) BDC / BCQ / BCP / REA
     # ────────
 
+    programme_annuel_clean <- programme_annuel %>%
+      filter(!pga_stm_cdstationmesureinterne %in% c("sans_objet", "sans objet", "", NA))
+
     prog_avec <- left_join(
-      programme_annuel, cal_avec_dates,
+      programme_annuel_clean,
+      cal_avec_dates,
       by = c("pga_cal_typestation" = "cal_typestation"),
       multiple = "all"
     )
+
     prog_sans <- left_join(
-      programme_annuel, cal_sans_dates,
+      programme_annuel_clean,
+      cal_sans_dates,
       by = c("pga_cal_typestation" = "cal_typestation"),
       multiple = "all"
     )
@@ -317,6 +338,9 @@ func_charge_prog_annuelle <-
         select(-bco_refcommande) %>% rename(bcq_bco_id=bco_id, bcq_prs_id=cal_prs_id)
     }
     bcq_all <- bind_rows(bcq_avec, bcq_sans)
+
+
+
     if (nrow(bcq_all)) func_enregistre_dataframe_bdd(bcq_all, "t_boncommande_quantitatif_bcq", "sqe", connexion)
 
     # BCP — uniquement prestations avec dates
@@ -328,6 +352,12 @@ func_charge_prog_annuelle <-
         bco_id, cal_prs_id, cal_date, pga_stm_cdstationmesureinterne
       )
       names(data_bcp) <- c("bcp_bco_id","bcp_prs_id","bcp_dateinterv","bcp_stm_cdstationmesureinterne")
+
+      data_bcp <- data_bcp %>%
+        filter(!is.na(bcp_prs_id)) %>%                          # élimine prestations nulles
+        filter(!bcp_stm_cdstationmesureinterne %in%
+                 c("sans_objet", "sans objet", "", NA)) %>%      # élimine les stations sans_objet
+        distinct()
 
       func_enregistre_dataframe_bdd(data_bcp, "t_boncommande_pgm_bcp", "sqe", connexion)
     }
@@ -379,6 +409,11 @@ func_charge_prog_annuelle <-
         rea_incertitudeprev, rea_lqprev, rea_ldprev, rea_cdinsituana,
         res_bco_id
       )
+
+      tmp_rea <- tmp_rea %>%
+        filter(!is.na(cal_prs_id)) %>%
+        filter(!res_stm_cdstationmesureinterne %in%
+                 c("sans_objet", "sans objet", "", NA))
 
       func_enregistre_dataframe_bdd(tmp_rea, "t_resultatanalyse_rea", "sqe", connexion)
     }
