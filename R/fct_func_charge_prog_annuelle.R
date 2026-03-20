@@ -334,13 +334,12 @@ func_charge_prog_annuelle <-
       func_enregistre_dataframe_bdd(bco, "t_boncommande_bco", "sqe", connexion)
     }
 
-    # Relecture bco_id
-    liste_bdc <- DBI::dbGetQuery(conn, sql(
-      "SELECT bco_id, bco_refcommande FROM sqe.t_boncommande_bco WHERE bco_mar_id = {mar_id};"
+    liste_bdc <- DBI::dbGetQuery(conn,
+                                 sql(
+      "SELECT *
+  FROM sqe.t_boncommande_bco
+  WHERE bco_mar_id = {mar_id};"
     ))
-    ref_all <- unique(c(prog_avec$bco_refcommande, prog_sans$bco_refcommande))
-    miss <- setdiff(ref_all, liste_bdc$bco_refcommande)
-    if (length(miss)) stop("BDC non retrouvés : ", paste(miss, collapse=" ; "))
 
     # BCQ
     bcq_avec <- NULL
@@ -353,8 +352,13 @@ func_charge_prog_annuelle <-
         left_join(liste_bdc,
                   by="bco_refcommande",
                   relationship = "many-to-many") %>%
-        select(-bco_refcommande) %>%
-        rename(bcq_bco_id=bco_id, bcq_prs_id=cal_prs_id)
+        select(-bco_refcommande,
+               -bco_mar_id,
+               -bco_per_nom,
+               -bco_stp_nom,
+               -bco_commentaires ) %>%
+        rename(bcq_bco_id=bco_id,
+               bcq_prs_id=cal_prs_id)
     }
     if (nrow(prog_sans)) {
       bcq_sans <- prog_sans %>%
@@ -363,7 +367,11 @@ func_charge_prog_annuelle <-
         left_join(liste_bdc,
                   by="bco_refcommande",
                   relationship = "many-to-many") %>%
-        select(-bco_refcommande) %>%
+        select(-bco_refcommande,
+               -bco_mar_id,
+               -bco_per_nom,
+               -bco_stp_nom,
+               -bco_commentaires ) %>%
         rename(bcq_bco_id=bco_id, bcq_prs_id=cal_prs_id)
     }
     # bcq_all <- bind_rows(bcq_avec, bcq_sans)
@@ -377,10 +385,17 @@ func_charge_prog_annuelle <-
       prog_avec <- left_join(prog_avec, liste_bdc, by="bco_refcommande")
       if (any(is.na(prog_avec$bco_id))) stop("BCP : bco_id manquant")
 
-      data_bcp <- prog_avec %>% select(
-        bco_id, cal_prs_id, cal_date, pga_stm_cdstationmesureinterne
+      data_bcp <- prog_avec %>%
+        select(
+        bco_id,
+        cal_prs_id,
+        cal_date,
+        pga_stm_cdstationmesureinterne
       )
-      names(data_bcp) <- c("bcp_bco_id","bcp_prs_id","bcp_dateinterv","bcp_stm_cdstationmesureinterne")
+      names(data_bcp) <- c("bcp_bco_id",
+                           "bcp_prs_id",
+                           "bcp_dateinterv",
+                           "bcp_stm_cdstationmesureinterne")
 
       data_bcp <- data_bcp %>%
         filter(!is.na(bcp_prs_id)) %>%                          # élimine prestations nulles
@@ -395,11 +410,18 @@ func_charge_prog_annuelle <-
     if (nrow(prog_avec)) {
       prog_avec$res_codeprel <- paste0(prog_avec$bco_id,"*",prog_avec$cal_date,"*",prog_avec$pga_stm_cdstationmesureinterne)
 
-      tmp_rea <- prog_avec %>% select(
-        pga_stm_cdstationmesureinterne, res_codeprel, cal_date, bco_id, cal_prs_id
-      )
-      names(tmp_rea) <- c("res_stm_cdstationmesureinterne","res_codeprel","rea_dateprel_prev",
-                          "res_bco_id","cal_prs_id")
+      tmp_rea <- prog_avec %>%
+        select(pga_stm_cdstationmesureinterne,
+               res_codeprel,
+               cal_date,
+               bco_id,
+               cal_prs_id)
+
+      names(tmp_rea) <- c("res_stm_cdstationmesureinterne",
+                          "res_codeprel",
+                          "rea_dateprel_prev",
+                          "res_bco_id",
+                          "cal_prs_id")
 
       if (any(is.na(tmp_rea$res_bco_id)))
         stop("REA : bco_id manquant pour certaines lignes")
@@ -411,7 +433,11 @@ func_charge_prog_annuelle <-
                 ppt_limitequantif, ppt_incertitude, ppt_accreditation
          FROM sqe.t_parametreprogrammetype_ppt WHERE ppt_mar_id = {mar_id};"
       ))
-      tmp_rea <- left_join(tmp_rea, ppt, by=c("cal_prs_id"="ppt_prs_id"), multiple="all")
+      tmp_rea <- left_join(tmp_rea,
+                           ppt,
+                           by=c("cal_prs_id"="ppt_prs_id"),
+                           multiple="all",
+                           relationship = "many-to-many")
 
       # Prestataires
       prest <- DBI::dbGetQuery(conn, sql("SELECT pre_id, pre_siret FROM refer.tr_prestataire_pre;"))
@@ -440,7 +466,7 @@ func_charge_prog_annuelle <-
       )
 
       tmp_rea <- tmp_rea %>%
-        filter(!is.na(cal_prs_id)) %>%
+        # filter(!is.na(cal_prs_id)) %>%
         filter(!res_stm_cdstationmesureinterne %in%
                  c("sans_objet", "sans objet", "", NA))
 
