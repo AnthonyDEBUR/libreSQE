@@ -63,14 +63,48 @@ func_charge_marche <- function(fichier_prog, connexion, mar_id) {
     ))
   }
 
-  verif <- spec_run_ana %>% dplyr::group_by(run_analytique) %>%
-    dplyr::summarise(n = dplyr::n(), .groups = "drop")
-  if (any(verif$n > 1)) {
-    stop(paste0(
-      "Doublons RUN (plusieurs couples méthode/SIRET pour un même nom) : ",
-      paste(verif$run_analytique[verif$n > 1], collapse = " - ")
-    ))
+  # verif <- spec_run_ana %>% dplyr::group_by(run_analytique) %>%
+  #   dplyr::summarise(n = dplyr::n(), .groups = "drop")
+  # if (any(verif$n > 1)) {
+  #   stop(paste0(
+  #     "Doublons RUN (plusieurs couples méthode/SIRET pour un même nom) : ",
+  #     paste(verif$run_analytique[verif$n > 1], collapse = " - ")
+  #   ))
+  # }
+
+  verif <- spec_run_ana %>%
+    dplyr::mutate(ligne = dplyr::row_number()) %>%
+    dplyr::group_by(run_analytique) %>%
+    dplyr::summarise(
+      combinaisons = list(unique(paste0(
+        "Méthode=", code_methode_sandre,
+        " | SIRET=", siret_prestataire_analyse,
+        " | lignes=", ligne
+      ))),
+      n_combinaisons = length(combinaisons[[1]]),
+      .groups = "drop"
+    ) %>%
+    dplyr::filter(n_combinaisons > 1)
+
+  if (nrow(verif) > 0) {
+
+    detail_msg <- paste0(
+      purrr::map2_chr(verif$run_analytique, verif$combinaisons, function(run, combi) {
+        paste0(
+          "RUN : ", run, "\n",
+          "Combinaisons trouvées :\n",
+          paste(combi, collapse = "\n")
+        )
+      }),
+      collapse = "\n\n"
+    )
+
+    stop(
+      "Doublons RUN détectés (un RUN doit avoir un seul couple méthode/SIRET)\n\n",
+      detail_msg
+    )
   }
+
   rm(verif)
 
   # 3.2 Compléter cout_run_analytiques
